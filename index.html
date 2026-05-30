@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Perangkat Ajar Pintar - Tema Pendidikan</title>
+    <title>ModGen - Digitalisasi Pembelajaran</title>
     
     <!-- Google Fonts: Poppins & Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -162,6 +162,11 @@
         .page-break { page-break-before: always; }
         .avoid-break { page-break-inside: avoid; }
         
+        .landscape-mode {
+            max-width: 297mm !important;
+            min-height: 210mm !important;
+        }
+
         .loader { border: 3px solid #e2e8f0; border-top: 3px solid var(--primary); border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; display: inline-block; vertical-align: middle; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
@@ -426,7 +431,7 @@
 
                                 <div class="grid grid-cols-2 gap-5">
                                     <div>
-                                        <label class="form-label">Tanggal Pembuatan</label>
+                                        <label class="form-label">Titimangsa (Tgl Buat)</label>
                                         <input type="date" id="tglBuat" required class="form-input text-sm cursor-pointer">
                                     </div>
                                     <div>
@@ -532,9 +537,15 @@
                                 <label class="form-label">Mata Pelajaran</label>
                                 <select id="mapel-atp" class="form-input mapel-dynamic-select cursor-pointer"></select>
                             </div>
-                            <div>
-                                <label class="form-label">Fase / Kelas</label>
-                                <input type="text" id="kelas-atp" class="form-input" placeholder="Contoh: Fase D / Kelas VIII" value="Fase C / Kelas V">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="form-label">Fase / Kelas</label>
+                                    <input type="text" id="kelas-atp" class="form-input" placeholder="Contoh: Fase D / Kelas VIII" value="Fase C / Kelas V">
+                                </div>
+                                <div>
+                                    <label class="form-label">Titimangsa TTD</label>
+                                    <input type="date" id="tgl-atp" required class="form-input cursor-pointer">
+                                </div>
                             </div>
                             <div class="bg-lightbg rounded-xl p-5 border border-gray-200">
                                 <label class="form-label mb-3">Pustaka Rujukan (Buku Teks)</label>
@@ -559,7 +570,7 @@
                                 <label class="form-label">Mata Pelajaran</label>
                                 <select id="mapel-prota" class="form-input mapel-dynamic-select cursor-pointer"></select>
                             </div>
-                            <div class="grid grid-cols-2 gap-4">
+                            <div class="grid grid-cols-3 gap-4">
                                 <div>
                                     <label class="form-label">Kelas</label>
                                     <input type="text" id="kelas-prota" class="form-input" value="V (Lima)">
@@ -567,6 +578,10 @@
                                 <div>
                                     <label class="form-label">Tahun Pelajaran</label>
                                     <input type="text" id="tahun-prota" class="form-input" value="2024/2025">
+                                </div>
+                                <div>
+                                    <label class="form-label">Titimangsa TTD</label>
+                                    <input type="date" id="tgl-prota" required class="form-input cursor-pointer">
                                 </div>
                             </div>
                             <div class="bg-lightbg rounded-xl p-5 border border-gray-200">
@@ -1323,8 +1338,13 @@
             if(!dateStr) return '';
             return new Date(dateStr).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
         };
-        document.getElementById('tglBuat').value = new Date().toISOString().split('T')[0];
-        document.getElementById('tglPelaksanaan').value = new Date().toISOString().split('T')[0];
+        
+        // Inisialisasi Titimangsa Default
+        const todayStr = new Date().toISOString().split('T')[0];
+        document.getElementById('tglBuat').value = todayStr;
+        document.getElementById('tglPelaksanaan').value = todayStr;
+        document.getElementById('tgl-atp').value = todayStr;
+        document.getElementById('tgl-prota').value = todayStr;
 
         function startLoadingAI(title) {
             document.getElementById('empty-state').classList.add('hidden');
@@ -1332,14 +1352,25 @@
             document.getElementById('loading-state').classList.remove('hidden');
             setTxt('loading-title', title);
         }
-        function showSuccess(html) {
+
+        // Modifikasi showSuccess untuk mendukung mode Landscape di pratinjau kanvas
+        function showSuccess(html, isLandscape = false) {
             document.getElementById('pdf-content').innerHTML = html;
             document.getElementById('loading-state').classList.add('hidden');
-            document.getElementById('pdf-wrapper').classList.remove('hidden');
+            const pdfWrapper = document.getElementById('pdf-wrapper');
+            pdfWrapper.classList.remove('hidden');
+            
+            if (isLandscape) {
+                pdfWrapper.classList.add('landscape-mode');
+            } else {
+                pdfWrapper.classList.remove('landscape-mode');
+            }
+            
             document.getElementById('btn-download').style.display = 'flex';
             document.getElementById('btn-save-db').style.display = 'flex';
             showToast('Dokumen AI berhasil disusun!', 'success');
         }
+
         function showError(e) {
             console.error(e);
             showToast(e.message || 'Gagal menyusun dokumen.', 'error');
@@ -1418,7 +1449,7 @@
                 const kelas = document.getElementById('kelas-modul').value;
                 const materi = document.getElementById('materiPokok').value;
                 const tpVal = document.getElementById('tp').value;
-                const waktuPelaksanaanFormatted = formatDate(document.getElementById('tglPelaksanaan').value);
+                const waktuTitimangsaFormatted = formatDate(document.getElementById('tglBuat').value);
                 const alokasi = document.getElementById('alokasiWaktu').value;
                 const cakupan = document.getElementById('cakupan').value;
                 
@@ -1509,8 +1540,8 @@
                     lampiranHTML += `<div class="page-break"></div><h1 style="text-align: center; font-size: 14pt; margin-bottom: 20px; border-bottom: 2px solid #000; padding-bottom: 10px;">LAMPIRAN: LEMBAR SURVEI PESERTA DIDIK</h1><p>Nama Siswa : ......................................</p><p style="margin-bottom: 15px;">Petunjuk: Berikan tanda centang pada kolom yang paling menggambarkan perasaanmu saat belajar hari ini!</p><table style="width: 100%; border-collapse: collapse; font-size: 11pt;"><tr><th style="border: 1px solid #000; padding: 6px 8px; width: 60%;">Pernyataan Survei</th><th style="border: 1px solid #000; padding: 6px 8px; text-align: center;">Sedih :(</th><th style="border: 1px solid #000; padding: 6px 8px; text-align: center;">Senang :)</th></tr><tr><td style="border: 1px solid #000; padding: 6px 8px;">1. Saya mengerti materi pelajaran hari ini dengan baik.</td><td style="border: 1px solid #000; padding: 6px 8px; text-align: center;">( )</td><td style="border: 1px solid #000; padding: 6px 8px; text-align: center;">( )</td></tr><tr><td style="border: 1px solid #000; padding: 6px 8px;">2. Saya menyukai cara mengajar Bapak/Ibu guru hari ini.</td><td style="border: 1px solid #000; padding: 6px 8px; text-align: center;">( )</td><td style="border: 1px solid #000; padding: 6px 8px; text-align: center;">( )</td></tr><tr><td style="border: 1px solid #000; padding: 6px 8px;">3. Kegiatan berdiskusi hari ini sangat asyik dan bermanfaat.</td><td style="border: 1px solid #000; padding: 6px 8px; text-align: center;">( )</td><td style="border: 1px solid #000; padding: 6px 8px; text-align: center;">( )</td></tr></table>`;
                 }
 
-                const identikHtml = `<div style="font-family: 'Times New Roman', Times, serif; color: #000; line-height: 1.5; text-align: justify; padding: 0 10px;"><div style="text-align: center; margin-bottom: 30px;"><h1 style="font-size: 16pt; margin: 0; font-weight: bold; text-transform: uppercase;">MODUL AJAR</h1><h2 style="font-size: 14pt; margin: 5px 0 0 0; font-weight: bold; text-transform: uppercase;">MATA PELAJARAN ${mapel}</h2></div><h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid black; padding-bottom: 3px;">A. IDENTIFIKASI</h3><table style="width: 100%; border: none; margin-bottom: 25px; font-size: 11pt;"><tr><td style="width: 30%; border: none; padding: 3px 0;">Penyusun</td><td style="width: 70%; border: none; padding: 3px 0;">: ${sGlobal.guruName}</td></tr><tr><td style="border: none; padding: 3px 0;">Jenjang Sekolah</td><td style="border: none; padding: 3px 0;">: ${sGlobal.jenjang}</td></tr><tr><td style="border: none; padding: 3px 0;">Fase / Kelas</td><td style="border: none; padding: 3px 0;">: ${kelas}</td></tr><tr><td style="border: none; padding: 3px 0;">Mata Pelajaran</td><td style="border: none; padding: 3px 0;">: ${mapel}</td></tr><tr><td style="border: none; padding: 3px 0;">Alokasi Waktu</td><td style="border: none; padding: 3px 0;">: ${alokasi}</td></tr><tr><td style="border: none; padding: 3px 0;">Nama Sekolah</td><td style="border: none; padding: 3px 0;">: ${sGlobal.sekolahName}</td></tr></table><table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;"><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold; width: 30%;">Kesiapan Peserta Didik</td><td style="border: 1px solid #000; padding: 6px 8px;">${setKondisi}</td></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Karakteristik Materi</td><td style="border: 1px solid #000; padding: 6px 8px;">${dataAI.karakteristik || '-'}</td></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Dimensi Profil Pelajar Pancasila</td><td style="border: 1px solid #000; padding: 6px 8px;">${dataAI.dimensi_p5 || '-'}</td></tr></table><h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid black; padding-bottom: 3px;">B. DESAIN PEMBELAJARAN</h3><table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;"><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold; width: 30%;">Topik Pembelajaran</td><td style="border: 1px solid #000; padding: 6px 8px;">${materi}</td></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Target Peserta Didik</td><td style="border: 1px solid #000; padding: 6px 8px;">Reguler/Tipikal (Estimasi: ${setJml} Siswa)</td></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Tujuan Pembelajaran (TP)</td><td style="border: 1px solid #000; padding: 6px 8px; white-space: pre-wrap;">${tpVal}</td></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Praktik Pedagogis & Metode</td><td style="border: 1px solid #000; padding: 6px 8px;">${setMetode}</td></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Fasilitas & Lingkungan Belajar</td><td style="border: 1px solid #000; padding: 6px 8px;">${setSarana} <br><br><b>Rujukan:</b> ${sumberBelajarDeskripsi}</td></tr></table><h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid black; padding-bottom: 3px;">C. PENGALAMAN BELAJAR (KEGIATAN PEMBELAJARAN)</h3><table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;"><tr><th style="border: 1px solid #000; padding: 6px 8px; text-align: center; width: 20%;">Tahap Pembelajaran</th><th style="border: 1px solid #000; padding: 6px 8px; text-align: center; width: 15%;">Waktu</th><th style="border: 1px solid #000; padding: 6px 8px; text-align: center;">Rincian Langkah-Langkah Kegiatan</th></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold; text-align: center; vertical-align:top;">Pendahuluan</td><td style="border: 1px solid #000; padding: 6px 8px; text-align: center; vertical-align:top;">15 Menit</td><td style="border: 1px solid #000; padding: 6px 8px;">${dataAI.pendahuluan}</td></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold; text-align: center; vertical-align:top;">Kegiatan Inti</td><td style="border: 1px solid #000; padding: 6px 8px; text-align: center; vertical-align:top;">[Menyesuaikan]</td><td style="border: 1px solid #000; padding: 6px 8px;">${dataAI.inti}</td></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold; text-align: center; vertical-align:top;">Penutup</td><td style="border: 1px solid #000; padding: 6px 8px; text-align: center; vertical-align:top;">15 Menit</td><td style="border: 1px solid #000; padding: 6px 8px;">${dataAI.penutup}</td></tr></table><h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid black; padding-bottom: 3px;">D. ASESMEN PEMBELAJARAN</h3><table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;"><tr><th style="border: 1px solid #000; padding: 6px 8px; text-align: center;">Jenis Asesmen</th><th style="border: 1px solid #000; padding: 6px 8px; text-align: center;">Instrumen dan Pelaksanaan</th></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Asesmen Awal (Diagnostik)</td><td style="border: 1px solid #000; padding: 6px 8px;">${dataAI.asesmen_awal || '-'}</td></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Asesmen Proses (Formatif)</td><td style="border: 1px solid #000; padding: 6px 8px;">${dataAI.asesmen_proses || '-'}</td></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Asesmen Akhir (Sumatif)</td><td style="border: 1px solid #000; padding: 6px 8px;">${dataAI.asesmen_akhir || '-'}</td></tr></table><div style="display: flex; justify-content: space-between; text-align: center; margin-top: 50px; font-size: 11pt;" class="avoid-break"><div>Mengetahui,<br>Kepala Sekolah<br><br><br><br><b style="text-decoration: underline;">${sGlobal.kepsekName}</b><br>NIP. ${sGlobal.kepsekNIP !== '-' ? sGlobal.kepsekNIP : '..........................'}</div><div>${sGlobal.kota}, ${waktuPelaksanaanFormatted}<br>Guru Kelas / Mata Pelajaran<br><br><br><br><b style="text-decoration: underline;">${sGlobal.guruName}</b><br>NIP. ${sGlobal.guruNIP !== '-' ? sGlobal.guruNIP : '..........................'}</div></div>${lampiranHTML}</div>`;
-                showSuccess(identikHtml);
+                const identikHtml = `<div style="font-family: 'Times New Roman', Times, serif; color: #000; line-height: 1.5; text-align: justify; padding: 0 10px;"><div style="text-align: center; margin-bottom: 30px;"><h1 style="font-size: 16pt; margin: 0; font-weight: bold; text-transform: uppercase;">MODUL AJAR</h1><h2 style="font-size: 14pt; margin: 5px 0 0 0; font-weight: bold; text-transform: uppercase;">MATA PELAJARAN ${mapel}</h2></div><h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid black; padding-bottom: 3px;">A. IDENTIFIKASI</h3><table style="width: 100%; border: none; margin-bottom: 25px; font-size: 11pt;"><tr><td style="width: 30%; border: none; padding: 3px 0;">Penyusun</td><td style="width: 70%; border: none; padding: 3px 0;">: ${sGlobal.guruName}</td></tr><tr><td style="border: none; padding: 3px 0;">Jenjang Sekolah</td><td style="border: none; padding: 3px 0;">: ${sGlobal.jenjang}</td></tr><tr><td style="border: none; padding: 3px 0;">Fase / Kelas</td><td style="border: none; padding: 3px 0;">: ${kelas}</td></tr><tr><td style="border: none; padding: 3px 0;">Mata Pelajaran</td><td style="border: none; padding: 3px 0;">: ${mapel}</td></tr><tr><td style="border: none; padding: 3px 0;">Alokasi Waktu</td><td style="border: none; padding: 3px 0;">: ${alokasi}</td></tr><tr><td style="border: none; padding: 3px 0;">Nama Sekolah</td><td style="border: none; padding: 3px 0;">: ${sGlobal.sekolahName}</td></tr></table><table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;"><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold; width: 30%;">Kesiapan Peserta Didik</td><td style="border: 1px solid #000; padding: 6px 8px;">${setKondisi}</td></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Karakteristik Materi</td><td style="border: 1px solid #000; padding: 6px 8px;">${dataAI.karakteristik || '-'}</td></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Dimensi Profil Pelajar Pancasila</td><td style="border: 1px solid #000; padding: 6px 8px;">${dataAI.dimensi_p5 || '-'}</td></tr></table><h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid black; padding-bottom: 3px;">B. DESAIN PEMBELAJARAN</h3><table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;"><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold; width: 30%;">Topik Pembelajaran</td><td style="border: 1px solid #000; padding: 6px 8px;">${materi}</td></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Target Peserta Didik</td><td style="border: 1px solid #000; padding: 6px 8px;">Reguler/Tipikal (Estimasi: ${setJml} Siswa)</td></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Tujuan Pembelajaran (TP)</td><td style="border: 1px solid #000; padding: 6px 8px; white-space: pre-wrap;">${tpVal}</td></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Praktik Pedagogis & Metode</td><td style="border: 1px solid #000; padding: 6px 8px;">${setMetode}</td></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Fasilitas & Lingkungan Belajar</td><td style="border: 1px solid #000; padding: 6px 8px;">${setSarana} <br><br><b>Rujukan:</b> ${sumberBelajarDeskripsi}</td></tr></table><h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid black; padding-bottom: 3px;">C. PENGALAMAN BELAJAR (KEGIATAN PEMBELAJARAN)</h3><table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;"><tr><th style="border: 1px solid #000; padding: 6px 8px; text-align: center; width: 20%;">Tahap Pembelajaran</th><th style="border: 1px solid #000; padding: 6px 8px; text-align: center; width: 15%;">Waktu</th><th style="border: 1px solid #000; padding: 6px 8px; text-align: center;">Rincian Langkah-Langkah Kegiatan</th></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold; text-align: center; vertical-align:top;">Pendahuluan</td><td style="border: 1px solid #000; padding: 6px 8px; text-align: center; vertical-align:top;">15 Menit</td><td style="border: 1px solid #000; padding: 6px 8px;">${dataAI.pendahuluan}</td></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold; text-align: center; vertical-align:top;">Kegiatan Inti</td><td style="border: 1px solid #000; padding: 6px 8px; text-align: center; vertical-align:top;">[Menyesuaikan]</td><td style="border: 1px solid #000; padding: 6px 8px;">${dataAI.inti}</td></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold; text-align: center; vertical-align:top;">Penutup</td><td style="border: 1px solid #000; padding: 6px 8px; text-align: center; vertical-align:top;">15 Menit</td><td style="border: 1px solid #000; padding: 6px 8px;">${dataAI.penutup}</td></tr></table><h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid black; padding-bottom: 3px;">D. ASESMEN PEMBELAJARAN</h3><table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;"><tr><th style="border: 1px solid #000; padding: 6px 8px; text-align: center;">Jenis Asesmen</th><th style="border: 1px solid #000; padding: 6px 8px; text-align: center;">Instrumen dan Pelaksanaan</th></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Asesmen Awal (Diagnostik)</td><td style="border: 1px solid #000; padding: 6px 8px;">${dataAI.asesmen_awal || '-'}</td></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Asesmen Proses (Formatif)</td><td style="border: 1px solid #000; padding: 6px 8px;">${dataAI.asesmen_proses || '-'}</td></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Asesmen Akhir (Sumatif)</td><td style="border: 1px solid #000; padding: 6px 8px;">${dataAI.asesmen_akhir || '-'}</td></tr></table><div style="display: flex; justify-content: space-between; text-align: center; margin-top: 50px; font-size: 11pt;" class="avoid-break"><div>Mengetahui,<br>Kepala Sekolah<br><br><br><br><b style="text-decoration: underline;">${sGlobal.kepsekName}</b><br>NIP. ${sGlobal.kepsekNIP !== '-' ? sGlobal.kepsekNIP : '..........................'}</div><div>${sGlobal.kota}, ${waktuTitimangsaFormatted}<br>Guru Kelas / Mata Pelajaran<br><br><br><br><b style="text-decoration: underline;">${sGlobal.guruName}</b><br>NIP. ${sGlobal.guruNIP !== '-' ? sGlobal.guruNIP : '..........................'}</div></div>${lampiranHTML}</div>`;
+                showSuccess(identikHtml, false);
             } catch(e) { showError(e); } finally { btnGen.disabled = false; btnGen.innerHTML = originalBtnHtml; }
         });
 
@@ -1555,6 +1586,7 @@
                 const response = await fetchGeminiAPI(prompt);
                 const dataAI = JSON.parse(response.replace(/```json/gi, '').replace(/```/g, '').trim());
                 const sGlobal = getSettings();
+                const waktuTitimangsaFormatted = formatDate(document.getElementById('tgl-atp').value);
                 
                 let alurRows = '';
                 dataAI.alur.forEach(a => {
@@ -1566,8 +1598,10 @@
                     cpRows += `<tr><td style="border:1px solid #000; padding:6px; font-weight:bold; width:25%;">${c.elemen}</td><td style="border:1px solid #000; padding:6px;">${c.cp}</td></tr>`;
                 });
 
-                const html = `<div style="font-family: 'Times New Roman', Times, serif; color: #000; line-height: 1.5; text-align: justify;"><div style="text-align: center; margin-bottom: 30px;"><h1 style="font-size: 16pt; margin: 0; font-weight: bold; text-transform: uppercase;">ALUR DAN TUJUAN PEMBELAJARAN (ATP)</h1><h2 style="font-size: 14pt; margin: 5px 0 0 0; font-weight: bold; text-transform: uppercase;">KURIKULUM MERDEKA</h2></div><table style="width: 100%; border: none; margin-bottom: 25px; font-size: 11pt;"><tr><td style="width: 25%; border: none; padding: 3px 0;">Nama Sekolah</td><td style="width: 75%; border: none; padding: 3px 0;">: ${sGlobal.sekolahName}</td></tr><tr><td style="border: none; padding: 3px 0;">Nama Penyusun</td><td style="border: none; padding: 3px 0;">: ${sGlobal.guruName}</td></tr><tr><td style="border: none; padding: 3px 0;">Mata Pelajaran</td><td style="border: none; padding: 3px 0;">: ${mapel}</td></tr><tr><td style="border: none; padding: 3px 0;">Fase / Kelas</td><td style="border: none; padding: 3px 0;">: ${kelas}</td></tr></table><h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px;">A. Rasional Mata Pelajaran</h3><p style="margin-bottom: 20px;">${dataAI.rasional}</p><h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px;">B. Capaian Pembelajaran</h3><table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;">${cpRows}</table><h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px;">C. Alur Tujuan Pembelajaran</h3><table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;"><tr><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Elemen</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Tujuan Pembelajaran</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Topik/Materi</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Waktu</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Profil Pelajar Pancasila</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Glosarium</th></tr>${alurRows}</table></div>`;
-                showSuccess(html);
+                const ttdHtml = `<div style="display: flex; justify-content: space-between; text-align: center; margin-top: 50px; font-size: 11pt;" class="avoid-break"><div>Mengetahui,<br>Kepala Sekolah<br><br><br><br><b style="text-decoration: underline;">${sGlobal.kepsekName}</b><br>NIP. ${sGlobal.kepsekNIP !== '-' ? sGlobal.kepsekNIP : '..........................'}</div><div>${sGlobal.kota}, ${waktuTitimangsaFormatted}<br>Guru Kelas / Mata Pelajaran<br><br><br><br><b style="text-decoration: underline;">${sGlobal.guruName}</b><br>NIP. ${sGlobal.guruNIP !== '-' ? sGlobal.guruNIP : '..........................'}</div></div>`;
+
+                const html = `<div style="font-family: 'Times New Roman', Times, serif; color: #000; line-height: 1.5; text-align: justify;"><div style="text-align: center; margin-bottom: 30px;"><h1 style="font-size: 16pt; margin: 0; font-weight: bold; text-transform: uppercase;">ALUR DAN TUJUAN PEMBELAJARAN (ATP)</h1><h2 style="font-size: 14pt; margin: 5px 0 0 0; font-weight: bold; text-transform: uppercase;">KURIKULUM MERDEKA</h2></div><table style="width: 100%; border: none; margin-bottom: 25px; font-size: 11pt;"><tr><td style="width: 25%; border: none; padding: 3px 0;">Nama Sekolah</td><td style="width: 75%; border: none; padding: 3px 0;">: ${sGlobal.sekolahName}</td></tr><tr><td style="border: none; padding: 3px 0;">Nama Penyusun</td><td style="border: none; padding: 3px 0;">: ${sGlobal.guruName}</td></tr><tr><td style="border: none; padding: 3px 0;">Mata Pelajaran</td><td style="border: none; padding: 3px 0;">: ${mapel}</td></tr><tr><td style="border: none; padding: 3px 0;">Fase / Kelas</td><td style="border: none; padding: 3px 0;">: ${kelas}</td></tr></table><h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px;">A. Rasional Mata Pelajaran</h3><p style="margin-bottom: 20px;">${dataAI.rasional}</p><h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px;">B. Capaian Pembelajaran</h3><table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;">${cpRows}</table><h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px;">C. Alur Tujuan Pembelajaran</h3><table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;"><tr><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Elemen</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Tujuan Pembelajaran</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Topik/Materi</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Waktu</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Profil Pelajar Pancasila</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Glosarium</th></tr>${alurRows}</table>${ttdHtml}</div>`;
+                showSuccess(html, true);
             } catch(e) { showError(e); } finally { btnGen.disabled = false; btnGen.innerHTML = originalBtnHtml; }
         });
 
@@ -1618,6 +1652,7 @@
                 const response = await fetchGeminiAPI(prompt);
                 const dataAI = JSON.parse(response.replace(/```json/gi, '').replace(/```/g, '').trim());
                 const sGlobal = getSettings();
+                const waktuTitimangsaFormatted = formatDate(document.getElementById('tgl-prota').value);
                 
                 let protaRows = '';
                 dataAI.prota.forEach(p => { protaRows += `<tr><td style="border:1px solid #000; padding:6px; text-align:center;">${p.no}</td><td style="border:1px solid #000; padding:6px;">${p.tujuan}</td><td style="border:1px solid #000; padding:6px;">${p.materi}</td><td style="border:1px solid #000; padding:6px; text-align:center;">${p.waktu}</td></tr>`; });
@@ -1628,8 +1663,10 @@
                 let promesGenap = '';
                 dataAI.promes_genap.forEach(p => { promesGenap += `<tr><td style="border:1px solid #000; padding:6px;">${p.materi}</td><td style="border:1px solid #000; padding:6px; text-align:center;">${p.waktu}</td><td style="border:1px solid #000; padding:6px; text-align:center;">${p.januari || '-'}</td><td style="border:1px solid #000; padding:6px; text-align:center;">${p.februari || '-'}</td><td style="border:1px solid #000; padding:6px; text-align:center;">${p.maret || '-'}</td><td style="border:1px solid #000; padding:6px; text-align:center;">${p.april || '-'}</td><td style="border:1px solid #000; padding:6px; text-align:center;">${p.mei || '-'}</td><td style="border:1px solid #000; padding:6px; text-align:center;">${p.juni || '-'}</td></tr>`; });
 
-                const html = `<div style="font-family: 'Times New Roman', Times, serif; color: #000; line-height: 1.5; text-align: justify;"><h1 style="font-size: 14pt; font-weight: bold; text-align:center; text-transform:uppercase;">PROGRAM TAHUNAN</h1><table style="width: 100%; border: none; margin-bottom: 20px; font-size: 11pt;"><tr><td style="width: 25%; padding: 3px 0;">Satuan Pendidikan</td><td style="width: 75%; padding: 3px 0;">: ${sGlobal.sekolahName}</td></tr><tr><td style="padding: 3px 0;">Mata Pelajaran</td><td style="padding: 3px 0;">: ${mapel}</td></tr><tr><td style="padding: 3px 0;">Kelas</td><td style="padding: 3px 0;">: ${kelas}</td></tr><tr><td style="padding: 3px 0;">Tahun Pelajaran</td><td style="padding: 3px 0;">: ${tahun}</td></tr></table><table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;"><tr><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5; width:5%;">No</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5; width:45%;">Tujuan Pembelajaran</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5; width:35%;">Materi</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5; width:15%;">Waktu</th></tr>${protaRows}</table><div class="page-break"></div><h1 style="font-size: 14pt; font-weight: bold; text-align:center; text-transform:uppercase;">PROGRAM SEMESTER (GANJIL)</h1><table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;"><tr><th rowspan="2" style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Materi Pokok</th><th rowspan="2" style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Waktu</th><th colspan="6" style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Bulan</th></tr><tr><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Jul</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Ags</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Sep</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Okt</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Nov</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Des</th></tr>${promesGanjil}</table><div class="page-break"></div><h1 style="font-size: 14pt; font-weight: bold; text-align:center; text-transform:uppercase;">PROGRAM SEMESTER (GENAP)</h1><table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;"><tr><th rowspan="2" style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Materi Pokok</th><th rowspan="2" style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Waktu</th><th colspan="6" style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Bulan</th></tr><tr><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Jan</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Feb</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Mar</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Apr</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Mei</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Jun</th></tr>${promesGenap}</table></div>`;
-                showSuccess(html);
+                const ttdHtml = `<div style="display: flex; justify-content: space-between; text-align: center; margin-top: 50px; font-size: 11pt;" class="avoid-break"><div>Mengetahui,<br>Kepala Sekolah<br><br><br><br><b style="text-decoration: underline;">${sGlobal.kepsekName}</b><br>NIP. ${sGlobal.kepsekNIP !== '-' ? sGlobal.kepsekNIP : '..........................'}</div><div>${sGlobal.kota}, ${waktuTitimangsaFormatted}<br>Guru Kelas / Mata Pelajaran<br><br><br><br><b style="text-decoration: underline;">${sGlobal.guruName}</b><br>NIP. ${sGlobal.guruNIP !== '-' ? sGlobal.guruNIP : '..........................'}</div></div>`;
+
+                const html = `<div style="font-family: 'Times New Roman', Times, serif; color: #000; line-height: 1.5; text-align: justify;"><h1 style="font-size: 14pt; font-weight: bold; text-align:center; text-transform:uppercase;">PROGRAM TAHUNAN</h1><table style="width: 100%; border: none; margin-bottom: 20px; font-size: 11pt;"><tr><td style="width: 25%; padding: 3px 0;">Satuan Pendidikan</td><td style="width: 75%; padding: 3px 0;">: ${sGlobal.sekolahName}</td></tr><tr><td style="padding: 3px 0;">Mata Pelajaran</td><td style="padding: 3px 0;">: ${mapel}</td></tr><tr><td style="padding: 3px 0;">Kelas</td><td style="padding: 3px 0;">: ${kelas}</td></tr><tr><td style="padding: 3px 0;">Tahun Pelajaran</td><td style="padding: 3px 0;">: ${tahun}</td></tr></table><table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;"><tr><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5; width:5%;">No</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5; width:45%;">Tujuan Pembelajaran</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5; width:35%;">Materi</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5; width:15%;">Waktu</th></tr>${protaRows}</table><div class="page-break"></div><h1 style="font-size: 14pt; font-weight: bold; text-align:center; text-transform:uppercase;">PROGRAM SEMESTER (GANJIL)</h1><table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;"><tr><th rowspan="2" style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Materi Pokok</th><th rowspan="2" style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Waktu</th><th colspan="6" style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Bulan</th></tr><tr><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Jul</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Ags</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Sep</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Okt</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Nov</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Des</th></tr>${promesGanjil}</table><div class="page-break"></div><h1 style="font-size: 14pt; font-weight: bold; text-align:center; text-transform:uppercase;">PROGRAM SEMESTER (GENAP)</h1><table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;"><tr><th rowspan="2" style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Materi Pokok</th><th rowspan="2" style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Waktu</th><th colspan="6" style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Bulan</th></tr><tr><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Jan</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Feb</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Mar</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Apr</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Mei</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Jun</th></tr>${promesGenap}</table>${ttdHtml}</div>`;
+                showSuccess(html, true);
             } catch(e) { showError(e); } finally { btnGen.disabled = false; btnGen.innerHTML = originalBtnHtml; }
         });
 
@@ -1663,11 +1700,19 @@
             const el = document.getElementById('pdf-content');
             let activeTab = document.querySelector('.gen-tab-btn.bg-white')?.dataset.target;
             let pre = "Modul_Ajar_";
-            if (activeTab === 'form-atp') pre = "ATP_";
-            if (activeTab === 'form-prota') pre = "Prota_Promes_";
+            let orientation = 'portrait';
+            
+            if (activeTab === 'form-atp') { pre = "ATP_"; orientation = 'landscape'; }
+            if (activeTab === 'form-prota') { pre = "Prota_Promes_"; orientation = 'landscape'; }
+            
             let mapelName = "Dokumen";
             try { mapelName = document.querySelector(`#${activeTab} .mapel-dynamic-select`).value; } catch(e){}
-            html2pdf().set({ margin: [15, 15, 15, 15], filename: `${pre}${mapelName}.pdf` }).from(el).save();
+            
+            html2pdf().set({ 
+                margin: [15, 15, 15, 15], 
+                filename: `${pre}${mapelName}.pdf`,
+                jsPDF: { unit: 'mm', format: 'a4', orientation: orientation }
+            }).from(el).save();
         });
 
         async function loadArsip() {
@@ -1721,7 +1766,16 @@
                 document.getElementById('pdf-content').innerHTML = doc.content;
                 switchView('generator');
                 document.getElementById('empty-state').classList.add('hidden');
-                document.getElementById('pdf-wrapper').classList.remove('hidden');
+                
+                const pdfWrapper = document.getElementById('pdf-wrapper');
+                pdfWrapper.classList.remove('hidden');
+                
+                if(doc.jenis === 'ATP' || doc.jenis === 'PROTA') {
+                    pdfWrapper.classList.add('landscape-mode');
+                } else {
+                    pdfWrapper.classList.remove('landscape-mode');
+                }
+                
                 document.getElementById('btn-download').style.display = 'flex';
                 // Tidak perlu tombol simpan jika sedang melihat arsip
                 document.getElementById('btn-save-db').style.display = 'none';
