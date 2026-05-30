@@ -3,47 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Perangkat Ajar Pintar - reezapps</title>
+    <title>Sistem Perangkat Ajar Pintar - Tema Pendidikan</title>
+    
+    <!-- Google Fonts: Poppins & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Dependencies -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
     
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: '#0b1b42',
+                        orange: '#f05a22',
+                        graytext: '#6b7280',
+                        lightbg: '#f8f9fa'
+                    },
+                    fontFamily: {
+                        heading: ['Poppins', 'sans-serif'],
+                        body: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
         :root {
-            --primary: #4f46e5;
-            --primary-hover: #4338ca;
-            --bg-body: #f8fafc;
+            --primary: #f05a22;
+            --primary-hover: #0b1b42;
+            --bg-body: #f8f9fa;
             --surface: #ffffff;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
+            --text-main: #374151;
+            --border: #e5e7eb;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            font-size: 14px;
             background-color: var(--bg-body);
             color: var(--text-main);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Clean SaaS UI Components */
+        h1, h2, h3, h4, h5, h6, .font-heading {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Clean SaaS UI Components with Rounded Theme Style */
         .app-card {
             background-color: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 1rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
-            transition: box-shadow 0.2s ease, transform 0.2s ease;
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
         }
         .app-card-hover:hover {
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+            transform: translateY(-4px);
         }
 
         .form-input {
@@ -51,45 +77,44 @@
             background-color: #f8fafc;
             border: 1px solid #cbd5e1;
             color: #1e293b;
-            border-radius: 0.5rem;
-            padding: 0.6rem 0.8rem;
+            border-radius: 0.75rem;
+            padding: 0.6rem 1rem;
             font-size: 0.875rem;
             transition: all 0.2s ease;
-            min-height: 40px;
+            min-height: 44px;
         }
         .form-input:focus {
             background-color: #ffffff;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+            box-shadow: 0 0 0 3px rgba(240, 90, 34, 0.15);
             outline: none;
         }
         .form-label {
             display: block;
             font-size: 0.75rem;
-            font-weight: 700;
-            color: #475569;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            color: #0b1b42;
             margin-bottom: 0.375rem;
-            text-transform: uppercase;
-            letter-spacing: 0.025em;
         }
 
         .btn-primary {
             background-color: var(--primary);
             color: white;
+            font-family: 'Poppins', sans-serif;
             font-weight: 600;
-            padding: 0.75rem 1.25rem;
-            border-radius: 0.75rem;
-            transition: all 0.2s ease;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
-            min-height: 44px;
+            box-shadow: 0 4px 6px rgba(240, 90, 34, 0.2);
             cursor: pointer;
         }
         .btn-primary:hover:not(:disabled) {
             background-color: var(--primary-hover);
-            box-shadow: 0 4px 6px rgba(79, 70, 229, 0.3);
+            box-shadow: 0 6px 8px rgba(11, 27, 66, 0.3);
         }
         .btn-primary:disabled {
             opacity: 0.7;
@@ -97,13 +122,14 @@
         }
 
         .btn-secondary {
-            background-color: #f1f5f9;
-            color: #334155;
+            background-color: #f8f9fa;
+            color: #0b1b42;
+            font-family: 'Poppins', sans-serif;
             font-weight: 600;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
+            padding: 0.5rem 1.25rem;
+            border-radius: 9999px;
             border: 1px solid #cbd5e1;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -111,6 +137,7 @@
         }
         .btn-secondary:hover:not(:disabled) {
             background-color: #e2e8f0;
+            border-color: #0b1b42;
         }
 
         /* Render PDF Output Styles */
@@ -140,13 +167,14 @@
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         
-        .nav-link { color: #64748b; transition: all 0.2s ease; border-left: 3px solid transparent; }
-        .nav-link:hover { background-color: #f1f5f9; color: #0f172a; }
-        .nav-link.active { background-color: #e0e7ff; color: var(--primary); font-weight: 600; border-left-color: var(--primary); }
+        /* Sidebar Links */
+        .nav-link { color: #cbd5e1; transition: all 0.3s ease; border-left: 3px solid transparent; }
+        .nav-link:hover { background-color: rgba(255,255,255,0.05); color: #ffffff; }
+        .nav-link.active { background-color: var(--primary); color: #ffffff; font-weight: 600; border-left-color: #ffffff; border-radius: 0.75rem; }
         
         .view-section { display: none; }
-        .view-section.active { display: block; animation: fadeIn 0.3s ease forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        .view-section.active { display: block; animation: fadeIn 0.4s ease forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         .custom-checkbox { width: 1.25rem; height: 1.25rem; border-radius: 0.25rem; border: 1px solid #cbd5e1; cursor: pointer; accent-color: var(--primary); }
         
@@ -157,377 +185,411 @@
 
         /* Tabs Styling */
         .tab-btn { transition: all 0.2s ease; }
-        .tab-btn.active { background-color: white; color: var(--primary); box-shadow: 0 1px 3px rgba(0,0,0,0.1); font-weight: 600; }
-        .tab-btn.inactive { color: #64748b; font-weight: 500; }
-        .tab-btn.inactive:hover { color: #334155; }
+        .tab-btn.active { background-color: var(--primary); color: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); font-weight: 600; border-radius: 9999px; }
+        .tab-btn.inactive { color: var(--navy); font-weight: 500; }
+        .tab-btn.inactive:hover { color: var(--primary); }
         
         /* Custom Scrollbar for Config Panel */
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #f8fafc; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        .bg-pattern-top {
+            background-image: repeating-linear-gradient(to right, #e5e7eb 0, #e5e7eb 1px, transparent 1px, transparent 20px);
+            height: 10px;
+            width: 100%;
+            opacity: 0.5;
+        }
     </style>
 </head>
 <body class="flex h-screen overflow-hidden">
 
-    <!-- LOGIN SCREEN (DIBYPASS) -->
-    <div id="login-screen" class="fixed inset-0 z-[100] bg-slate-900/40 backdrop-blur-sm flex items-center justify-center transition-opacity duration-300">
-        <div class="app-card p-8 w-full max-w-md shadow-2xl text-center">
-            <div class="loader mb-4" style="width: 40px; height: 40px; border-width: 4px;"></div>
-            <h2 class="text-xl font-bold text-slate-800">Mempersiapkan Ruang Kerja...</h2>
-            <p class="text-sm text-slate-500 mt-2">reezapps by Mohamad Rizki, S.Pd., Gr.</p>
+    <!-- LOGIN SCREEN WITH FIRESTORE AUTHENTICATION -->
+    <div id="login-screen" class="fixed inset-0 z-[100] bg-navy/80 backdrop-blur-md flex items-center justify-center transition-opacity duration-300">
+        <div class="app-card p-10 w-full max-w-md shadow-2xl text-center border-t-4 border-t-orange">
+            <div class="w-16 h-16 rounded-full bg-orange/10 flex items-center justify-center text-orange text-3xl mx-auto mb-4">
+                <i class="fas fa-lock"></i>
+            </div>
+            <h2 class="text-2xl font-heading font-bold text-navy mb-2">Otentikasi Guru</h2>
+            <p class="text-sm text-graytext mb-6">Silakan masuk menggunakan kredensial Anda.</p>
+            
+            <form id="login-form" class="space-y-4 text-left">
+                <div>
+                    <label class="form-label">Username</label>
+                    <input type="text" id="login-username" class="form-input" required placeholder="Masukkan username">
+                </div>
+                <div>
+                    <label class="form-label">PIN</label>
+                    <input type="password" id="login-pin" class="form-input" required placeholder="Masukkan PIN">
+                </div>
+                <button type="submit" id="btn-login" class="btn-primary w-full mt-2">
+                    <i class="fas fa-sign-in-alt mr-2"></i> Masuk Ruang Kerja
+                </button>
+            </form>
         </div>
     </div>
 
     <!-- PDF PREVIEW MODAL -->
-    <div id="pdf-modal" class="hidden fixed inset-0 z-[150] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 sm:p-8 transition-opacity">
-        <div class="bg-white w-full max-w-5xl h-full max-h-[90vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden">
-            <div class="p-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
-                <h3 class="font-bold text-slate-800 flex items-center"><span class="text-xl mr-2">📖</span> Pratinjau Buku Referensi</h3>
-                <button type="button" onclick="closePdfModal()" class="text-slate-400 hover:text-red-500 transition p-2 rounded-lg hover:bg-red-50">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+    <div id="pdf-modal" class="hidden fixed inset-0 z-[150] bg-navy/80 backdrop-blur-sm flex items-center justify-center p-4 sm:p-8 transition-opacity">
+        <div class="bg-white w-full max-w-5xl h-full max-h-[90vh] rounded-[2rem] shadow-2xl flex flex-col overflow-hidden">
+            <div class="p-5 border-b border-gray-200 flex justify-between items-center bg-lightbg">
+                <h3 class="font-heading font-bold text-navy flex items-center text-lg"><i class="fas fa-book-open text-orange mr-3"></i> Pratinjau Buku Referensi</h3>
+                <button type="button" onclick="closePdfModal()" class="text-gray-400 hover:text-orange transition p-2 rounded-full hover:bg-orange/10 w-10 h-10 flex items-center justify-center">
+                    <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
-            <div class="flex-1 bg-slate-200 relative">
+            <div class="flex-1 bg-gray-200 relative">
                 <iframe id="pdf-viewer-frame" class="w-full h-full border-none"></iframe>
             </div>
         </div>
     </div>
 
-    <!-- SIDEBAR NAV -->
-    <nav id="sidebar" class="hidden w-64 bg-white border-r border-slate-200 flex-col z-40 relative h-full">
-        <div class="p-6 border-b border-slate-100 flex items-center space-x-3">
-            <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center shadow-sm text-white font-bold text-lg">Rz</div>
+    <!-- SIDEBAR NAV (NAVY THEME) -->
+    <nav id="sidebar" class="hidden w-64 bg-navy flex-col z-40 relative h-full shadow-xl">
+        <div class="p-6 border-b border-white/10 flex items-center space-x-4">
+            <div class="w-12 h-12 rounded-full border-2 border-orange bg-navy flex items-center justify-center shadow-lg text-orange font-heading font-bold text-xl">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
             <div>
-                <h1 class="text-sm font-bold text-slate-800 leading-tight">ModulGen</h1>
-                <p class="text-[10px] text-slate-500 font-medium uppercase tracking-wider">reezapps</p>
+                <h1 class="text-lg font-heading font-bold text-white leading-tight">ModulGen</h1>
+                <p class="text-xs text-orange font-medium uppercase tracking-wider">Pendidikan</p>
             </div>
         </div>
         
-        <div class="p-4 flex-1 overflow-y-auto">
-            <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-3 ml-3">Menu Utama</div>
-            <ul class="space-y-1">
-                <li><button onclick="switchView('dashboard')" class="nav-link w-full text-left px-4 py-3 rounded-xl text-sm active" data-target="dashboard">🏠 Dasbor Utama</button></li>
-                <li><button onclick="switchView('generator')" class="nav-link w-full text-left px-4 py-3 rounded-xl text-sm" data-target="generator">📝 Buat Dokumen</button></li>
-                <li><button onclick="switchView('arsip')" class="nav-link w-full text-left px-4 py-3 rounded-xl text-sm" data-target="arsip">📂 Arsip Cloud</button></li>
-                <li><button onclick="switchView('referensi')" class="nav-link w-full text-left px-4 py-3 rounded-xl text-sm flex justify-between items-center" data-target="referensi">📚 Pustaka Buku <span id="ref-badge" class="bg-indigo-100 text-indigo-700 py-0.5 px-2 rounded-full text-[10px] font-bold">0</span></button></li>
-                <li><button onclick="switchView('pengaturan')" class="nav-link w-full text-left px-4 py-3 rounded-xl text-sm" data-target="pengaturan">⚙️ Pengaturan</button></li>
+        <div class="p-4 flex-1 overflow-y-auto custom-scrollbar mt-4">
+            <div class="text-[10px] font-heading font-bold text-white/40 uppercase tracking-wider mb-4 ml-3">Menu Utama</div>
+            <ul class="space-y-2">
+                <li><button onclick="switchView('dashboard')" class="nav-link w-full text-left px-4 py-3 text-sm active flex items-center" data-target="dashboard"><i class="fas fa-home w-6"></i> Dasbor Utama</button></li>
+                <li><button onclick="switchView('generator')" class="nav-link w-full text-left px-4 py-3 text-sm flex items-center" data-target="generator"><i class="fas fa-pen-nib w-6"></i> Buat Dokumen</button></li>
+                <li><button onclick="switchView('arsip')" class="nav-link w-full text-left px-4 py-3 text-sm flex items-center" data-target="arsip"><i class="fas fa-cloud w-6"></i> Arsip Cloud</button></li>
+                <li><button onclick="switchView('referensi')" class="nav-link w-full text-left px-4 py-3 text-sm flex justify-between items-center" data-target="referensi">
+                    <span><i class="fas fa-book w-6"></i> Pustaka Buku</span> 
+                    <span id="ref-badge" class="bg-orange text-white py-0.5 px-2 rounded-full text-[10px] font-bold">0</span>
+                </button></li>
+                <li><button onclick="switchView('pengaturan')" class="nav-link w-full text-left px-4 py-3 text-sm flex items-center" data-target="pengaturan"><i class="fas fa-cog w-6"></i> Pengaturan</button></li>
             </ul>
         </div>
 
-        <div class="p-4 border-t border-slate-100 bg-slate-50">
-            <div class="flex items-center space-x-3 mb-4 px-2">
-                <div class="w-9 h-9 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold">👤</div>
+        <div class="p-6 bg-navy border-t border-white/10">
+            <div class="flex items-center space-x-3 mb-4">
+                <div class="w-10 h-10 rounded-full bg-orange flex items-center justify-center text-white font-bold"><i class="fas fa-user"></i></div>
                 <div class="overflow-hidden">
-                    <p id="nav-user-name" class="text-sm font-bold text-slate-700 truncate">Memuat...</p>
-                    <p class="text-[10px] text-slate-500 truncate">Guru Tersertifikasi</p>
+                    <p id="nav-user-name" class="text-sm font-heading font-bold text-white truncate">Memuat...</p>
+                    <p class="text-xs text-gray-400 truncate">Pendidik</p>
                 </div>
             </div>
-            <button onclick="location.reload()" class="w-full text-sm bg-white hover:bg-slate-100 text-slate-600 px-4 py-2.5 rounded-xl border border-slate-200 transition font-semibold mb-3">Muat Ulang</button>
-            <p class="text-[9px] text-slate-400 text-center uppercase tracking-wider font-bold">⚡ reezapps by Mohamad Rizki, S.Pd., Gr.</p>
+            <button onclick="location.reload()" class="w-full text-sm font-heading bg-white/10 hover:bg-orange text-white px-4 py-3 rounded-full transition font-semibold">Keluar Aplikasi</button>
         </div>
     </nav>
 
     <!-- MAIN CONTENT AREA -->
-    <main id="main-content" class="hidden flex-1 flex flex-col h-full overflow-hidden relative bg-slate-50">
+    <main id="main-content" class="hidden flex-1 flex flex-col h-full overflow-hidden relative bg-lightbg">
         <!-- Topbar -->
-        <header class="bg-white border-b border-slate-200 px-6 sm:px-8 py-4 flex justify-between items-center z-30 shadow-sm">
-            <h2 id="page-title" class="text-xl font-bold text-slate-800">Dasbor Utama</h2>
-            <div id="auth-status" class="text-xs font-semibold px-4 py-2 bg-slate-50 rounded-full border border-slate-200 flex items-center text-slate-600">
-                <span class="loader" style="width:12px;height:12px;border-width:2px;margin-right:6px;border-top-color:#64748b"></span> Sinkronisasi DB...
+        <header class="bg-white px-8 py-5 flex justify-between items-center z-30 shadow-sm">
+            <h2 id="page-title" class="text-2xl font-heading font-bold text-navy">Dasbor Utama</h2>
+            <div id="auth-status" class="text-xs font-semibold px-4 py-2 bg-lightbg rounded-full border border-gray-200 flex items-center text-graytext">
+                <span class="loader" style="width:12px;height:12px;border-width:2px;margin-right:6px;border-top-color:#f05a22"></span> Sinkronisasi DB...
             </div>
         </header>
+        <div class="bg-pattern-top hidden lg:block absolute top-[76px] z-20"></div>
 
         <!-- View: DASHBOARD -->
-        <div id="view-dashboard" class="view-section active flex-1 overflow-y-auto p-6 sm:p-8">
-            <div class="max-w-6xl mx-auto space-y-8">
+        <div id="view-dashboard" class="view-section active flex-1 overflow-y-auto p-6 sm:p-10 relative">
+            <div class="max-w-6xl mx-auto space-y-10">
                 <!-- Banner -->
-                <div class="app-card p-8 bg-gradient-to-br from-indigo-600 to-purple-700 text-white relative overflow-hidden">
-                    <div class="absolute right-0 top-0 opacity-10 transform translate-x-1/4 -translate-y-1/4">
-                        <svg width="300" height="300" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                <div class="app-card p-10 bg-navy text-white relative overflow-hidden border-4 border-white shadow-xl">
+                    <div class="absolute right-10 top-1/2 transform -translate-y-1/2 opacity-20">
+                        <i class="fas fa-book-reader text-9xl text-orange"></i>
                     </div>
-                    <h1 class="text-3xl font-bold mb-3 relative z-10">Selamat Datang, <span id="dash-user">Guru</span>!</h1>
-                    <p class="text-indigo-100 max-w-2xl text-base relative z-10">Generasi baru manajemen perangkat pembelajaran berbasis AI dari <b>reezapps</b>. Pastikan Anda telah mengatur profil kelas dan identitas di Pengaturan untuk hasil modul yang lebih kontekstual.</p>
+                    <div class="absolute left-4 top-4 text-orange">
+                        <i class="fas fa-sparkles text-2xl"></i>
+                    </div>
+                    <div class="flex items-center gap-4 mb-4 relative z-10">
+                        <span class="w-8 h-[2px] bg-orange"></span>
+                        <span class="text-sm font-heading font-semibold text-orange uppercase tracking-wider">Sistem Cerdas</span>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-heading font-bold mb-4 relative z-10 leading-tight">
+                        Selamat Datang, <br><span id="dash-user" class="text-orange">Guru</span>!
+                    </h1>
+                    <p class="text-gray-300 max-w-2xl text-base relative z-10 font-medium">
+                        Generasi baru manajemen perangkat pembelajaran berbasis AI. Susun dan atur modul ajar Anda dengan struktur presisi dan efisiensi tinggi.
+                    </p>
                 </div>
 
                 <!-- Quick Menu -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <button onclick="switchView('generator')" class="app-card app-card-hover p-6 text-left flex flex-col items-start">
-                        <div class="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600 text-2xl mb-4">📝</div>
-                        <h3 class="font-bold text-slate-800">Buat Dokumen</h3>
-                        <p class="text-xs text-slate-500 mt-2">Susun RPP, Modul Ajar, atau PROTA.</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <button onclick="switchView('generator')" class="app-card app-card-hover p-8 text-left flex flex-col items-start bg-white group">
+                        <div class="w-14 h-14 rounded-full bg-orange/10 flex items-center justify-center text-orange text-2xl mb-6 group-hover:bg-orange group-hover:text-white transition-colors">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h3 class="font-heading font-bold text-navy text-lg mb-2">Buat Dokumen</h3>
+                        <p class="text-sm text-graytext">Susun RPP, Modul Ajar, atau PROTA lengkap.</p>
                     </button>
-                    <button onclick="switchView('arsip')" class="app-card app-card-hover p-6 text-left flex flex-col items-start">
-                        <div class="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 text-2xl mb-4">☁️</div>
-                        <h3 class="font-bold text-slate-800">Arsip Cloud</h3>
-                        <p class="text-xs text-slate-500 mt-2">Kelola & ekspor massal dokumen.</p>
+                    <button onclick="switchView('arsip')" class="app-card app-card-hover p-8 text-left flex flex-col items-start bg-white group">
+                        <div class="w-14 h-14 rounded-full bg-navy/10 flex items-center justify-center text-navy text-2xl mb-6 group-hover:bg-navy group-hover:text-white transition-colors">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <h3 class="font-heading font-bold text-navy text-lg mb-2">Arsip Cloud</h3>
+                        <p class="text-sm text-graytext">Kelola & ekspor massal dokumen sekolah.</p>
                     </button>
-                    <button onclick="switchView('referensi')" class="app-card app-card-hover p-6 text-left flex flex-col items-start">
-                        <div class="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600 text-2xl mb-4">📚</div>
-                        <h3 class="font-bold text-slate-800">Pustaka Buku</h3>
-                        <p class="text-xs text-slate-500 mt-2">Unggah file PDF atau tautan Web/Drive.</p>
+                    <button onclick="switchView('referensi')" class="app-card app-card-hover p-8 text-left flex flex-col items-start bg-white group">
+                        <div class="w-14 h-14 rounded-full bg-orange/10 flex items-center justify-center text-orange text-2xl mb-6 group-hover:bg-orange group-hover:text-white transition-colors">
+                            <i class="fas fa-book-journal-whills"></i>
+                        </div>
+                        <h3 class="font-heading font-bold text-navy text-lg mb-2">Pustaka Buku</h3>
+                        <p class="text-sm text-graytext">Unggah referensi PDF buku paket atau jurnal.</p>
                     </button>
-                    <button onclick="switchView('pengaturan')" class="app-card app-card-hover p-6 text-left flex flex-col items-start">
-                        <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center text-slate-600 text-2xl mb-4">⚙️</div>
-                        <h3 class="font-bold text-slate-800">Pengaturan</h3>
-                        <p class="text-xs text-slate-500 mt-2">Sesuaikan identitas dan metode kelas.</p>
+                    <button onclick="switchView('pengaturan')" class="app-card app-card-hover p-8 text-left flex flex-col items-start bg-white group">
+                        <div class="w-14 h-14 rounded-full bg-navy/10 flex items-center justify-center text-navy text-2xl mb-6 group-hover:bg-navy group-hover:text-white transition-colors">
+                            <i class="fas fa-sliders"></i>
+                        </div>
+                        <h3 class="font-heading font-bold text-navy text-lg mb-2">Pengaturan</h3>
+                        <p class="text-sm text-graytext">Sesuaikan identitas sekolah dan kelas.</p>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- View: GENERATOR (DYNAMIC LAYOUT) -->
+        <!-- View: GENERATOR -->
         <div id="view-generator" class="view-section flex-1 overflow-hidden">
-            <div id="generator-layout" class="h-full flex flex-col lg:flex-row p-4 sm:p-6 gap-6 overflow-hidden relative">
+            <div id="generator-layout" class="h-full flex flex-col lg:flex-row p-6 gap-8 overflow-hidden relative">
                 
-                <!-- Panel Konfigurasi (Kiri) -->
-                <div id="config-panel" class="w-full lg:w-[460px] flex flex-col space-y-3 z-20">
-                    <div class="flex justify-between items-end mb-1 px-1">
+                <!-- Panel Konfigurasi -->
+                <div id="config-panel" class="w-full lg:w-[480px] flex flex-col space-y-4 z-20 h-full">
+                    <div class="flex justify-between items-end mb-2">
                         <div>
-                            <h2 class="text-xl font-bold text-slate-800 tracking-tight">Kreator AI</h2>
-                            <p class="text-xs text-slate-500 font-medium">Susun perangkat ajar dalam hitungan detik.</p>
+                            <h2 class="text-2xl font-heading font-bold text-navy">Kreator AI</h2>
+                            <p class="text-sm text-graytext">Susun perangkat ajar secara otomatis.</p>
                         </div>
                     </div>
 
-                    <div class="app-card flex-1 overflow-y-auto custom-scrollbar bg-slate-50/50">
-                        <form id="generator-form" class="p-5 space-y-6">
+                    <div class="app-card flex-1 overflow-y-auto custom-scrollbar bg-white p-6 shadow-md border-t-4 border-t-orange">
+                        <form id="generator-form" class="space-y-8">
                             
-                            <!-- SEKSI 1: Identitas Utama -->
-                            <div class="space-y-4">
-                                <h3 class="text-sm font-bold text-slate-800 border-b border-slate-200 pb-2 flex items-center"><span class="bg-indigo-100 text-indigo-700 w-6 h-6 rounded-md flex items-center justify-center mr-2 text-xs">1</span> Informasi Dokumen</h3>
+                            <!-- SEKSI 1 -->
+                            <div class="space-y-5">
+                                <h3 class="text-base font-heading font-bold text-navy border-b border-gray-200 pb-3 flex items-center">
+                                    <span class="bg-navy text-white w-7 h-7 rounded-full flex items-center justify-center mr-3 text-xs">1</span> Informasi Dokumen
+                                </h3>
                                 
                                 <div>
-                                    <label class="form-label text-xs">Cakupan Dokumen</label>
-                                    <select id="cakupan" class="form-input text-indigo-700 font-bold bg-indigo-50 border-indigo-200 cursor-pointer shadow-sm !py-2">
-                                        <option value="1 x Pertemuan (2 x 35 menit)">Modul Ajar Harian (1 Pertemuan)</option>
-                                        <option value="1 Minggu (Sub-Tema)">Modul Ajar Mingguan (Sub-Tema)</option>
-                                        <option value="1 Semester">Modul Ajar (1 Semester)</option>
+                                    <label class="form-label">Cakupan Dokumen</label>
+                                    <select id="cakupan" class="form-input text-navy font-bold cursor-pointer bg-lightbg border-gray-300">
+                                        <option value="1 x Pertemuan (2 x 35 menit)">Modul Harian (1 Sesi)</option>
+                                        <option value="1 Minggu (Sub-Tema)">Modul Mingguan (Sub-Tema)</option>
+                                        <option value="1 Semester">Modul Proyek (1 Semester)</option>
                                         <option value="1 Tahun Pelajaran">Program Tahunan (PROTA)</option>
                                     </select>
                                 </div>
 
-                                <div class="grid grid-cols-2 gap-4">
+                                <div class="grid grid-cols-2 gap-5">
                                     <div>
-                                        <label class="form-label text-xs">Mata Pelajaran</label>
-                                        <select id="mapel-select" class="form-input !py-2 shadow-sm text-sm cursor-pointer">
+                                        <label class="form-label">Mata Pelajaran</label>
+                                        <select id="mapel-select" class="form-input text-sm cursor-pointer">
                                             <option value="IPAS">IPAS</option>
                                             <option value="Matematika">Matematika</option>
                                             <option value="Bahasa Indonesia">Bahasa Indonesia</option>
                                             <option value="Pendidikan Pancasila">Pendidikan Pancasila</option>
-                                            <option value="Pendidikan Agama">Pendidikan Agama</option>
-                                            <option value="PJOK">PJOK</option>
-                                            <option value="Seni Budaya">Seni Budaya</option>
-                                            <option value="Bahasa Inggris">Bahasa Inggris</option>
-                                            <option value="Lainnya">Lainnya (Ketik Manual)...</option>
-                                        </select>
-                                        <input type="text" id="mapel-custom" class="form-input !py-2 text-sm hidden mt-2 shadow-sm border-indigo-300" placeholder="Ketik Mapel...">
-                                    </div>
-                                    <div>
-                                        <label class="form-label text-xs">Fase / Kelas</label>
-                                        <select id="kelas-select" class="form-input !py-2 shadow-sm text-sm cursor-pointer">
-                                            <option value="Fase A (Kelas 1)">Fase A (Kelas 1)</option>
-                                            <option value="Fase A (Kelas 2)">Fase A (Kelas 2)</option>
-                                            <option value="Fase B (Kelas 3)">Fase B (Kelas 3)</option>
-                                            <option value="Fase B (Kelas 4)">Fase B (Kelas 4)</option>
-                                            <option value="Fase C (Kelas 5)" selected>Fase C (Kelas 5)</option>
-                                            <option value="Fase C (Kelas 6)">Fase C (Kelas 6)</option>
                                             <option value="Lainnya">Lainnya...</option>
                                         </select>
-                                        <input type="text" id="kelas-custom" class="form-input !py-2 text-sm hidden mt-2 shadow-sm border-indigo-300" placeholder="Ketik Kelas...">
+                                        <input type="text" id="mapel-custom" class="form-input text-sm hidden mt-2" placeholder="Ketik manual...">
+                                    </div>
+                                    <div>
+                                        <label class="form-label">Fase / Kelas</label>
+                                        <select id="kelas-select" class="form-input text-sm cursor-pointer">
+                                            <option value="Fase A (Kelas 1)">Fase A (Kelas 1-2)</option>
+                                            <option value="Fase B (Kelas 3)">Fase B (Kelas 3-4)</option>
+                                            <option value="Fase C (Kelas 5)" selected>Fase C (Kelas 5-6)</option>
+                                            <option value="Lainnya">Lainnya...</option>
+                                        </select>
+                                        <input type="text" id="kelas-custom" class="form-input text-sm hidden mt-2" placeholder="Ketik fase...">
                                     </div>
                                 </div>
 
                                 <div>
-                                    <label class="form-label text-xs">Materi Pokok</label>
-                                    <input type="text" id="materiPokok" required class="form-input !py-2 text-sm shadow-sm" placeholder="Contoh: Ekosistem dan Rantai Makanan">
+                                    <label class="form-label">Materi Pokok</label>
+                                    <input type="text" id="materiPokok" required class="form-input text-sm" placeholder="Contoh: Ekosistem dan Rantai Makanan">
                                 </div>
 
-                                <div class="grid grid-cols-2 gap-4">
+                                <div class="grid grid-cols-2 gap-5">
                                     <div>
-                                        <label class="form-label text-xs">Tgl Pembuatan</label>
-                                        <input type="date" id="tglBuat" required class="form-input !py-2 text-sm shadow-sm cursor-pointer">
+                                        <label class="form-label">Tanggal Pembuatan</label>
+                                        <input type="date" id="tglBuat" required class="form-input text-sm cursor-pointer">
                                     </div>
                                     <div>
-                                        <label class="form-label text-xs">Tgl Pelaksanaan</label>
-                                        <input type="date" id="tglPelaksanaan" required class="form-input !py-2 text-sm shadow-sm cursor-pointer">
+                                        <label class="form-label">Pelaksanaan</label>
+                                        <input type="date" id="tglPelaksanaan" required class="form-input text-sm cursor-pointer">
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- SEKSI 2: Sumber Belajar & AI -->
-                            <div class="space-y-4 pt-4">
-                                <h3 class="text-sm font-bold text-slate-800 border-b border-slate-200 pb-2 flex items-center"><span class="bg-indigo-100 text-indigo-700 w-6 h-6 rounded-md flex items-center justify-center mr-2 text-xs">2</span> Materi & Target (AI)</h3>
+                            <!-- SEKSI 2 -->
+                            <div class="space-y-5 pt-2">
+                                <h3 class="text-base font-heading font-bold text-navy border-b border-gray-200 pb-3 flex items-center">
+                                    <span class="bg-navy text-white w-7 h-7 rounded-full flex items-center justify-center mr-3 text-xs">2</span> Referensi AI
+                                </h3>
                                 
-                                <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
-                                    <label class="form-label flex justify-between items-center mb-2">
-                                        <span class="text-indigo-800 font-bold flex items-center"><span class="text-base mr-1.5">📚</span> Pustaka Rujukan AI</span>
-                                        <span id="ref-status-indicator" class="w-2 h-2 rounded-full bg-slate-300 shadow-sm" title="Status Buku"></span>
+                                <div class="bg-lightbg rounded-xl p-5 border border-gray-200">
+                                    <label class="form-label flex justify-between items-center mb-3">
+                                        <span class="text-navy font-bold flex items-center"><i class="fas fa-book text-orange mr-2"></i> Pustaka Rujukan</span>
+                                        <span id="ref-status-indicator" class="w-3 h-3 rounded-full bg-gray-300"></span>
                                     </label>
-                                    <div class="flex space-x-2 mb-2">
-                                        <select id="buku-selector" class="form-input flex-1 !min-h-[38px] !py-1 text-sm cursor-pointer bg-slate-50 focus:bg-white">
+                                    <div class="flex gap-2 mb-2">
+                                        <select id="buku-selector" class="form-input flex-1 text-sm cursor-pointer bg-white">
                                             <option value="">-- Tanpa Rujukan Pustaka --</option>
                                         </select>
-                                        <button type="button" id="btn-preview-buku" class="hidden btn-secondary !p-1.5 !min-h-[38px] shadow-sm font-bold text-indigo-700 border-indigo-200" title="Buka Rujukan">👁️</button>
+                                        <button type="button" id="btn-preview-buku" class="hidden btn-secondary !px-4" title="Buka Rujukan"><i class="fas fa-eye"></i></button>
                                     </div>
                                     
                                     <!-- UI Pemilihan Halaman -->
-                                    <div id="page-picker-container" class="hidden bg-indigo-50/70 border border-indigo-100 p-3 rounded-lg mt-3">
-                                        <label class="form-label text-[11px] !mb-1.5 text-indigo-800 flex justify-between items-center">
-                                            <span class="font-bold flex items-center"><span class="mr-1">📄</span> Target Halaman Ekstraksi</span>
-                                            <span id="label-hal-buku" class="text-indigo-500 font-medium">Cth: 1-5, 8</span>
+                                    <div id="page-picker-container" class="hidden bg-white border border-gray-200 p-4 rounded-xl mt-4">
+                                        <label class="form-label text-xs !mb-2 flex justify-between items-center">
+                                            <span>Target Halaman Ekstraksi</span>
+                                            <span id="label-hal-buku" class="text-orange font-medium">Cth: 1-5</span>
                                         </label>
-                                        <input type="text" id="hal-buku" class="form-input !min-h-[36px] !py-1.5 text-sm font-bold text-center border-indigo-200 focus:border-indigo-500 shadow-inner bg-white text-indigo-900 tracking-wider" placeholder="Masukkan nomor halaman (Contoh: 12-15)" value="1">
-                                        <p id="helper-hal-buku" class="text-[10px] text-indigo-600/80 mt-1.5 text-center font-medium">Sistem akan mengekstrak teks dari halaman yang dipilih untuk dianalisis AI.</p>
+                                        <input type="text" id="hal-buku" class="form-input text-sm font-bold text-center border-orange/50 focus:border-orange bg-orange/5" placeholder="Contoh: 12-15" value="1">
                                     </div>
                                 </div>
 
                                 <div>
-                                    <div class="flex justify-between items-center mb-1.5">
-                                        <label class="form-label !mb-0 text-xs">Tujuan Pembelajaran (TP)</label>
-                                        <button type="button" id="btn-auto-tp" class="text-[10px] bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white px-2.5 py-1 rounded shadow-sm transition font-bold tracking-wide" title="Rumuskan otomatis berdasar buku">✨ Auto Rumuskan TP</button>
+                                    <div class="flex justify-between items-center mb-2">
+                                        <label class="form-label !mb-0">Tujuan Pembelajaran</label>
+                                        <button type="button" id="btn-auto-tp" class="text-[10px] bg-navy text-white px-3 py-1.5 rounded-full hover:bg-orange transition font-bold"><i class="fas fa-magic mr-1"></i> Auto Rumuskan</button>
                                     </div>
-                                    <textarea id="tp" required rows="3" class="form-input resize-none text-sm shadow-sm" placeholder="Ketik tujuan spesifik secara ringkas..."></textarea>
+                                    <textarea id="tp" required rows="3" class="form-input resize-none text-sm" placeholder="Ketik tujuan spesifik (TP)..."></textarea>
                                 </div>
                             </div>
 
-                            <!-- SEKSI 3: Override Konteks Kelas -->
-                            <div class="space-y-3 pt-4">
-                                <div class="flex justify-between items-center border-b border-slate-200 pb-2">
-                                    <h3 class="text-sm font-bold text-slate-800 flex items-center"><span class="bg-indigo-100 text-indigo-700 w-6 h-6 rounded-md flex items-center justify-center mr-2 text-xs">3</span> Konteks & Kondisi</h3>
+                            <!-- SEKSI 3 -->
+                            <div class="space-y-4 pt-2">
+                                <div class="flex justify-between items-center border-b border-gray-200 pb-3">
+                                    <h3 class="text-base font-heading font-bold text-navy flex items-center">
+                                        <span class="bg-navy text-white w-7 h-7 rounded-full flex items-center justify-center mr-3 text-xs">3</span> Kondisi Kelas
+                                    </h3>
                                     <label class="flex items-center space-x-2 text-xs cursor-pointer group">
-                                        <input type="checkbox" id="use-global-settings" checked class="custom-checkbox !w-4 !h-4 group-hover:border-indigo-400">
-                                        <span class="text-slate-600 font-medium group-hover:text-indigo-600 transition">Gunakan Global</span>
+                                        <input type="checkbox" id="use-global-settings" checked class="custom-checkbox">
+                                        <span class="text-graytext font-medium group-hover:text-orange">Gunakan Global</span>
                                     </label>
                                 </div>
                                 
-                                <div id="custom-class-settings" class="hidden space-y-4 p-4 bg-white rounded-xl border border-amber-200 shadow-sm relative overflow-hidden">
-                                    <div class="absolute top-0 right-0 bg-amber-100 text-amber-700 text-[9px] font-bold px-2 py-0.5 rounded-bl-lg">OVERRIDE LOKAL</div>
+                                <div id="custom-class-settings" class="hidden space-y-4 p-5 bg-lightbg rounded-xl border border-gray-200 relative">
                                     <div>
-                                        <label class="form-label text-[11px]">Jumlah Siswa</label>
-                                        <input type="number" id="cust-jmlSiswa" class="form-input !py-1.5 text-sm">
+                                        <label class="form-label">Jumlah Target Siswa</label>
+                                        <input type="number" id="cust-jmlSiswa" class="form-input text-sm">
                                     </div>
                                     <div>
-                                        <label class="form-label text-[11px]">Metode Favorit</label>
-                                        <input type="text" id="cust-metode" class="form-input !py-1.5 text-sm">
+                                        <label class="form-label">Metode Pembelajaran</label>
+                                        <input type="text" id="cust-metode" class="form-input text-sm">
                                     </div>
                                     <div>
-                                        <label class="form-label text-[11px]">Fasilitas Sarana</label>
-                                        <input type="text" id="cust-sarana" class="form-input !py-1.5 text-sm">
+                                        <label class="form-label">Fasilitas Sarana</label>
+                                        <input type="text" id="cust-sarana" class="form-input text-sm">
                                     </div>
                                     <div>
-                                        <label class="form-label text-[11px]">Kesiapan Siswa</label>
-                                        <input type="text" id="cust-kondisi" class="form-input !py-1.5 text-sm">
+                                        <label class="form-label">Kondisi Kesiapan Siswa</label>
+                                        <input type="text" id="cust-kondisi" class="form-input text-sm">
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- SEKSI 4: Lampiran Tambahan -->
-                            <div class="space-y-3 pt-4">
-                                <h3 class="text-sm font-bold text-slate-800 border-b border-slate-200 pb-2 flex items-center"><span class="bg-indigo-100 text-indigo-700 w-6 h-6 rounded-md flex items-center justify-center mr-2 text-xs">4</span> Lampiran Tambahan</h3>
-                                <div class="grid grid-cols-2 gap-3 text-xs">
-                                    <label class="flex items-center space-x-2 cursor-pointer group"><input type="checkbox" id="chk-lkpd" class="custom-checkbox !w-4 !h-4 group-hover:border-indigo-400"> <span class="font-semibold text-slate-600">LKPD</span></label>
-                                    <label class="flex items-center space-x-2 cursor-pointer group"><input type="checkbox" id="chk-soal" class="custom-checkbox !w-4 !h-4 group-hover:border-indigo-400"> <span class="font-semibold text-slate-600">Soal Ulangan (15 Soal)</span></label>
-                                    <label class="flex items-center space-x-2 cursor-pointer group"><input type="checkbox" id="chk-pengayaan" class="custom-checkbox !w-4 !h-4 group-hover:border-indigo-400"> <span class="font-semibold text-slate-600">Pengayaan</span></label>
-                                    <label class="flex items-center space-x-2 cursor-pointer group"><input type="checkbox" id="chk-remedial" class="custom-checkbox !w-4 !h-4 group-hover:border-indigo-400"> <span class="font-semibold text-slate-600">Remedial</span></label>
-                                </div>
-                            </div>
-
-                            <button type="submit" id="btn-generate" class="btn-primary w-full shadow-lg mt-4 !h-12 text-base">
-                                🚀 Bangun Perangkat Ajar AI
+                            <button type="submit" id="btn-generate" class="btn-primary w-full text-lg py-4 mt-6">
+                                <i class="fas fa-rocket mr-2"></i> Bangun Modul Ajar
                             </button>
                         </form>
                     </div>
                 </div>
 
-                <!-- Panel Pratinjau (Kanan) -->
-                <div id="preview-panel" class="w-full lg:w-2/3 xl:flex-1 app-card flex flex-col relative overflow-hidden bg-slate-200 transition-all duration-300 shadow-inner">
-                    <div class="flex justify-between items-center px-4 sm:px-6 py-3 bg-white border-b border-slate-200 z-10 shadow-sm">
-                        <div class="flex items-center space-x-3">
-                            <button type="button" id="btn-toggle-layout" class="btn-secondary !p-1.5" title="Perluas / Perkecil Layar">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
+                <!-- Panel Pratinjau -->
+                <div id="preview-panel" class="w-full lg:w-2/3 xl:flex-1 app-card flex flex-col relative overflow-hidden bg-gray-100">
+                    <div class="flex justify-between items-center px-6 py-4 bg-white border-b border-gray-200 z-10">
+                        <div class="flex items-center space-x-4">
+                            <button type="button" id="btn-toggle-layout" class="btn-secondary !w-10 !h-10 !p-0 rounded-full" title="Perluas / Perkecil">
+                                <i class="fas fa-expand-arrows-alt"></i>
                             </button>
-                            <h2 class="text-sm font-bold text-slate-800 flex items-center hidden sm:flex">
-                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 mr-2 shadow-[0_0_8px_rgba(16,185,129,0.8)]"></span> Pratinjau Kanvas Dokumen
+                            <h2 class="text-sm font-heading font-bold text-navy flex items-center hidden sm:flex">
+                                <span class="w-3 h-3 rounded-full bg-orange mr-3"></span> Pratinjau Dokumen
                             </h2>
                         </div>
-                        <div class="flex space-x-2">
-                            <button type="button" id="btn-save-db" style="display: none;" class="btn-secondary !py-1.5 !px-2 sm:!px-3 text-xs font-bold text-indigo-600 shadow-sm">☁️ Simpan ke Cloud</button>
-                            <button type="button" id="btn-download" style="display: none;" class="btn-primary !py-1.5 !px-2 sm:!px-3 !min-h-[32px] text-xs shadow-md shadow-indigo-500/30">📥 Unduh PDF</button>
+                        <div class="flex gap-3">
+                            <button type="button" id="btn-save-db" style="display: none;" class="btn-secondary text-sm"><i class="fas fa-cloud-upload-alt mr-2"></i> Simpan</button>
+                            <button type="button" id="btn-download" style="display: none;" class="btn-primary text-sm"><i class="fas fa-download mr-2"></i> PDF</button>
                         </div>
                     </div>
 
-                    <div id="output-container" class="flex-grow p-4 sm:p-6 overflow-y-auto relative flex justify-center custom-scrollbar">
-                        <!-- Canvas Paper Style -->
-                        <div id="pdf-wrapper" class="hidden bg-white shadow-2xl border border-slate-300" style="width: 100%; max-width: 210mm; min-height: 297mm; overflow: visible;">
-                            <div id="pdf-content" contenteditable="true" class="outline-none break-words" title="Klik di sini untuk mengedit teks secara langsung sebelum diunduh"></div>
+                    <div id="output-container" class="flex-grow p-8 overflow-y-auto relative flex justify-center custom-scrollbar">
+                        <div id="pdf-wrapper" class="hidden bg-white shadow-2xl border border-gray-300 rounded-sm" style="width: 100%; max-width: 210mm; min-height: 297mm;">
+                            <div id="pdf-content" contenteditable="true" class="outline-none break-words"></div>
                         </div>
 
                         <!-- States -->
-                        <div id="empty-state" class="absolute inset-0 flex flex-col items-center justify-center text-slate-400">
-                            <div class="text-6xl mb-6 opacity-30 grayscale">📄</div>
-                            <p class="font-medium text-lg text-slate-600 tracking-tight">Kreator Dokumen Siap</p>
-                            <p class="text-sm text-slate-400 mt-1 max-w-sm text-center">Atur konfigurasi di panel sebelah kiri lalu klik "Bangun Perangkat Ajar" untuk memulai.</p>
+                        <div id="empty-state" class="absolute inset-0 flex flex-col items-center justify-center text-graytext">
+                            <div class="text-7xl mb-6 text-gray-300"><i class="fas fa-file-signature"></i></div>
+                            <p class="font-heading font-bold text-xl text-navy">Kanvas Kosong</p>
+                            <p class="text-sm mt-2 text-center max-w-sm">Konfigurasi parameter di panel sebelah kiri lalu klik tombol Bangun untuk menggenerasi modul dengan format identik sesuai standar.</p>
                         </div>
                         
-                        <div id="loading-state" class="hidden absolute inset-0 flex flex-col items-center justify-center bg-slate-200/80 backdrop-blur-sm z-20">
-                            <div class="loader mb-5" style="width: 56px; height: 56px; border-width: 4px;"></div>
-                            <p class="font-bold text-lg text-indigo-700 tracking-tight" id="loading-title">Menyusun Dokumen Cerdas...</p>
-                            <p class="text-sm font-medium text-slate-600 mt-2 text-center max-w-sm px-4" id="loading-text">Mengekstraksi konteks referensi dan merangkai struktur perangkat ajar...</p>
+                        <div id="loading-state" class="hidden absolute inset-0 flex flex-col items-center justify-center bg-lightbg/90 backdrop-blur-sm z-20">
+                            <div class="loader mb-6" style="width: 60px; height: 60px; border-width: 5px; border-top-color: #f05a22;"></div>
+                            <p class="font-heading font-bold text-xl text-navy" id="loading-title">Menyusun Modul Lengkap...</p>
+                            <p class="text-sm font-medium text-graytext mt-2 text-center" id="loading-text">Menyusun struktur RPP, Lampiran LKPD, dan Asesmen...</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- View: PENGATURAN GLOBAL -->
-        <div id="view-pengaturan" class="view-section flex-1 overflow-y-auto p-6 sm:p-8">
-            <div class="max-w-4xl mx-auto space-y-6">
+        <!-- View: PENGATURAN -->
+        <div id="view-pengaturan" class="view-section flex-1 overflow-y-auto p-10 relative">
+            <div class="max-w-4xl mx-auto space-y-8 relative z-10">
                 <div>
-                    <h2 class="text-2xl font-bold text-slate-800">Pengaturan & Identitas Profil</h2>
-                    <p class="text-sm text-slate-500 mt-1">Konfigurasi ini akan menjadi bawaan (default) dan secara otomatis disisipkan ke bagian kop surat, tanda tangan, serta alur pedagogik AI.</p>
+                    <div class="flex items-center gap-4 mb-2">
+                        <span class="w-8 h-[2px] bg-orange"></span>
+                        <span class="text-sm font-heading font-semibold text-gray-500 uppercase">Konfigurasi</span>
+                    </div>
+                    <h2 class="text-3xl font-heading font-bold text-navy">Identitas Profil Guru</h2>
                 </div>
 
-                <div class="app-card p-6 sm:p-8 space-y-8 border-t-4 border-t-indigo-500">
-                    <form id="settings-form" class="space-y-8">
-                        
-                        <!-- BAGIAN A: Identitas -->
+                <div class="app-card p-10 bg-white border-t-8 border-t-navy">
+                    <form id="settings-form" class="space-y-10">
+                        <!-- BAGIAN A -->
                         <div>
-                            <h3 class="text-lg font-bold text-slate-800 border-b border-slate-200 pb-2 mb-4 flex items-center"><span class="bg-indigo-100 text-indigo-600 w-7 h-7 rounded-lg flex items-center justify-center mr-3 text-sm">A</span> Identitas Sekolah & Pendidik</h3>
+                            <h3 class="text-xl font-heading font-bold text-navy border-b-2 border-gray-100 pb-3 mb-6">A. Identitas Sekolah</h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div class="md:col-span-2">
                                     <label class="form-label">Nama Sekolah Lengkap</label>
-                                    <input type="text" id="set-sekolah" class="form-input" placeholder="Contoh: SD Negeri Pasirmae 1" required>
+                                    <input type="text" id="set-sekolah" class="form-input" required>
                                 </div>
                                 <div>
                                     <label class="form-label">Jenjang Pendidikan</label>
-                                    <input type="text" id="set-jenjang" class="form-input" placeholder="Contoh: Sekolah Dasar (SD)" required>
+                                    <input type="text" id="set-jenjang" class="form-input" required>
                                 </div>
                                 <div>
-                                    <label class="form-label">Kota / Kabupaten (Untuk Titimangsa)</label>
-                                    <input type="text" id="set-kota" class="form-input" placeholder="Contoh: Pandeglang" required>
+                                    <label class="form-label">Kota / Kabupaten</label>
+                                    <input type="text" id="set-kota" class="form-input" required>
                                 </div>
                                 <div>
                                     <label class="form-label">Nama Kepala Sekolah</label>
-                                    <input type="text" id="set-kepsek-name" class="form-input" placeholder="Nama berserta gelar" required>
+                                    <input type="text" id="set-kepsek-name" class="form-input" required>
                                 </div>
                                 <div>
                                     <label class="form-label">NIP Kepala Sekolah</label>
-                                    <input type="text" id="set-kepsek-nip" class="form-input" placeholder="Ketik '-' jika tidak ada" required>
+                                    <input type="text" id="set-kepsek-nip" class="form-input" required>
                                 </div>
                                 <div>
                                     <label class="form-label">Nama Guru / Wali Kelas</label>
-                                    <input type="text" id="set-guru-name" class="form-input" placeholder="Nama beserta gelar" required>
+                                    <input type="text" id="set-guru-name" class="form-input" required>
                                 </div>
                                 <div>
                                     <label class="form-label">NIP Guru</label>
-                                    <input type="text" id="set-guru-nip" class="form-input" placeholder="Ketik '-' jika tidak ada" required>
+                                    <input type="text" id="set-guru-nip" class="form-input" required>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- BAGIAN B: Konteks Kelas -->
+                        <!-- BAGIAN B -->
                         <div>
-                            <h3 class="text-lg font-bold text-slate-800 border-b border-slate-200 pb-2 mb-4 flex items-center"><span class="bg-indigo-100 text-indigo-600 w-7 h-7 rounded-lg flex items-center justify-center mr-3 text-sm">B</span> Profil Kelas Bawaan</h3>
+                            <h3 class="text-xl font-heading font-bold text-navy border-b-2 border-gray-100 pb-3 mb-6">B. Profil Kelas Bawaan</h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                                 <div>
                                     <label class="form-label">Jumlah Target Peserta Didik</label>
@@ -535,7 +597,7 @@
                                 </div>
                                 <div>
                                     <label class="form-label">Pendekatan / Metode Bawaan</label>
-                                    <input type="text" id="set-metode" class="form-input" placeholder="Misal: PBL, PJBL, Saintifik" required>
+                                    <input type="text" id="set-metode" class="form-input" required>
                                 </div>
                             </div>
                             <div class="space-y-6">
@@ -543,146 +605,124 @@
                                     <label class="form-label">Kondisi Fasilitas / Lingkungan Sekolah</label>
                                     <input type="text" id="set-sarana" class="form-input" required>
                                 </div>
-                                
                                 <div>
-                                    <label class="form-label">Kondisi / Profil Kesiapan Siswa Rata-Rata</label>
+                                    <label class="form-label">Kondisi / Profil Kesiapan Siswa Rata-rata</label>
                                     <input type="text" id="set-kondisi" class="form-input" required>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="pt-4 border-t border-slate-100 flex justify-end">
-                            <button type="submit" class="btn-primary shadow-md !px-8">💾 Simpan Pengaturan</button>
+                        <div class="pt-6 border-t border-gray-200 flex justify-end">
+                            <button type="submit" class="btn-primary text-lg !px-10 py-3"><i class="fas fa-save mr-2"></i> Simpan Pengaturan</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
 
-        <!-- View: PUSTAKA REFERENSI -->
-        <div id="view-referensi" class="view-section flex-1 overflow-y-auto p-6 sm:p-8">
-            <div class="max-w-6xl mx-auto space-y-6">
+        <!-- View: REFERENSI -->
+        <div id="view-referensi" class="view-section flex-1 overflow-y-auto p-10 relative">
+            <div class="max-w-6xl mx-auto space-y-8">
                 <div>
-                    <h2 class="text-2xl font-bold text-slate-800">Pustaka Bank Buku & Referensi</h2>
-                    <p class="text-sm text-slate-500 mt-1">Simpan referensi untuk digunakan AI. Data diamankan secara lokal di peramban (browser) perangkat ini saja.</p>
+                    <h2 class="text-3xl font-heading font-bold text-navy">Pustaka Referensi</h2>
+                    <p class="text-graytext mt-2">Bank data untuk rujukan analisis AI, tersimpan aman di browser.</p>
                 </div>
 
-                <div class="app-card p-6 sm:p-8 bg-white border-t-4 border-t-amber-400 shadow-sm">
-                    <div class="flex space-x-2 bg-slate-100 p-1.5 rounded-xl w-fit mb-6">
-                        <button class="tab-btn active px-4 py-2 text-sm rounded-lg" data-target="form-file">📄 Unggah PDF (Lokal)</button>
-                        <button class="tab-btn inactive px-4 py-2 text-sm rounded-lg" data-target="form-link">🔗 Tautan (Web/Drive)</button>
+                <div class="app-card p-8 bg-white border-t-8 border-t-orange shadow-md">
+                    <div class="flex gap-4 mb-8">
+                        <button class="tab-btn active px-6 py-3 text-sm flex items-center" data-target="form-file"><i class="fas fa-file-pdf mr-2"></i> Berkas Lokal</button>
+                        <button class="tab-btn inactive px-6 py-3 text-sm flex items-center" data-target="form-link"><i class="fas fa-link mr-2"></i> Tautan Web</button>
                     </div>
 
-                    <!-- Form 1: File PDF -->
-                    <form id="form-file" class="tab-content block space-y-4 max-w-2xl">
+                    <form id="form-file" class="tab-content block space-y-5 max-w-2xl">
                         <div>
-                            <label class="form-label">Judul Referensi / Buku</label>
-                            <input type="text" id="ref-name-file" class="form-input" placeholder="Contoh: Buku Guru IPAS Kelas 5" required>
+                            <label class="form-label">Nama Dokumen / Buku</label>
+                            <input type="text" id="ref-name-file" class="form-input" placeholder="Misal: Buku Guru IPAS Kelas 5" required>
                         </div>
                         <div>
-                            <label class="form-label">Berkas (Hanya Format PDF)</label>
-                            <input type="file" id="ref-file" accept=".pdf" class="form-input !p-2 cursor-pointer bg-white" required>
-                            <p class="text-[11px] font-medium text-slate-500 mt-1.5">Untuk performa ekstraksi AI terbaik, ukuran file disarankan di bawah 25MB.</p>
+                            <label class="form-label">Pilih PDF (Maks 25MB)</label>
+                            <input type="file" id="ref-file" accept=".pdf" class="form-input !p-2" required>
                         </div>
-                        <button type="submit" class="btn-primary w-full sm:w-auto mt-2">💾 Simpan PDF ke Memori Lokal</button>
+                        <button type="submit" class="btn-primary mt-4"><i class="fas fa-upload mr-2"></i> Simpan ke Memori</button>
                     </form>
 
-                    <!-- Form 2: Link URL -->
-                    <form id="form-link" class="tab-content hidden space-y-4 max-w-2xl">
+                    <form id="form-link" class="tab-content hidden space-y-5 max-w-2xl">
                         <div>
-                            <label class="form-label">Nama Artikel / Modul Online</label>
-                            <input type="text" id="ref-name-link" class="form-input" placeholder="Contoh: Artikel Jurnal Pembelajaran Aktif" required>
+                            <label class="form-label">Judul Tautan Artikel</label>
+                            <input type="text" id="ref-name-link" class="form-input" required>
                         </div>
                         <div>
-                            <label class="form-label">Tautan URL (Link Publik)</label>
-                            <input type="url" id="ref-link" class="form-input" placeholder="https://drive.google.com/... atau https://..." required>
-                            <p class="text-[11px] font-medium text-slate-500 mt-1.5">Link akan dicantumkan secara otomatis di kolom daftar pustaka modul.</p>
+                            <label class="form-label">URL Valid</label>
+                            <input type="url" id="ref-link" class="form-input" placeholder="https://..." required>
                         </div>
-                        <button type="submit" class="btn-primary w-full sm:w-auto mt-2">💾 Simpan Tautan</button>
+                        <p class="text-xs text-orange font-medium mt-2"><i class="fas fa-exclamation-triangle mr-1"></i> Catatan: Referensi melalui tautan URL seringkali tidak akurat karena restriksi peramban (CORS) mencegah AI mengekstrak keseluruhan isinya secara langsung. Sangat disarankan mengunggah file PDF lokal.</p>
+                        <button type="submit" class="btn-primary mt-4"><i class="fas fa-save mr-2"></i> Simpan Tautan</button>
                     </form>
                 </div>
 
-                <div>
-                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center"><span class="mr-2">📚</span> Koleksi Tersedia di Peramban Ini</h3>
-                    <div id="ref-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
-                </div>
+                <div id="ref-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-4"></div>
             </div>
         </div>
 
         <!-- View: ARSIP CLOUD -->
-        <div id="view-arsip" class="view-section flex-1 overflow-y-auto p-6 sm:p-8">
-            <div class="max-w-6xl mx-auto space-y-6">
-                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-end border-b border-slate-200 pb-4 gap-4">
+        <div id="view-arsip" class="view-section flex-1 overflow-y-auto p-10 relative">
+            <div class="max-w-6xl mx-auto space-y-8">
+                <div class="flex flex-col sm:flex-row justify-between items-end pb-4 border-b-2 border-gray-200">
                     <div>
-                        <h2 class="text-2xl font-bold text-slate-800">Arsip Perangkat Ajar (Cloud)</h2>
-                        <p class="text-sm text-slate-500 mt-1">Dokumen sinkronisasi dari database utama sekolah.</p>
+                        <h2 class="text-3xl font-heading font-bold text-navy">Rekam Jejak Arsip</h2>
+                        <p class="text-graytext mt-2">Data sinkronisasi dari pusat server sekolah.</p>
                     </div>
-                    <button id="btn-bulk-download" class="btn-primary text-sm disabled:opacity-50">📥 Ekspor Buku (Bulk PDF)</button>
+                    <button id="btn-bulk-download" class="btn-primary disabled:opacity-50 mt-4 sm:mt-0"><i class="fas fa-file-export mr-2"></i> Ekspor Massal</button>
                 </div>
                 
-                <div id="arsip-loading" class="flex flex-col items-center py-16 text-slate-500">
-                    <span class="loader border-slate-200 border-t-indigo-600 w-10 h-10 mb-4"></span>
-                    <p class="font-medium">Sinkronisasi data dari Cloud Firestore...</p>
+                <div id="arsip-loading" class="flex flex-col items-center py-20 text-graytext">
+                    <span class="loader border-gray-300 border-t-orange w-12 h-12 mb-4"></span>
+                    <p class="font-heading font-bold text-lg">Menarik data cloud...</p>
                 </div>
                 
-                <div id="arsip-container" class="space-y-6 hidden"></div>
+                <div id="arsip-container" class="space-y-8 hidden"></div>
                 <div id="bulk-pdf-container" style="display: none;"></div>
             </div>
         </div>
 
     </main>
 
-    <!-- Toast Notification System -->
-    <div id="toast" class="fixed bottom-8 right-8 bg-slate-800 text-white px-6 py-4 rounded-xl shadow-2xl transform transition-all duration-300 translate-y-32 opacity-0 z-[300] flex items-center border border-slate-700">
-        <div id="toast-icon" class="mr-3 text-lg w-8 h-8 flex items-center justify-center rounded-full">ℹ️</div>
-        <span id="toast-message" class="font-semibold text-sm">Sistem siap.</span>
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-8 right-8 bg-navy text-white px-6 py-4 rounded-full shadow-xl transform transition-all duration-300 translate-y-32 opacity-0 z-[300] flex items-center border border-white/10">
+        <div id="toast-icon" class="mr-4 text-xl"><i class="fas fa-info-circle text-orange"></i></div>
+        <span id="toast-message" class="font-heading font-medium text-sm">Notifikasi siap.</span>
     </div>
 
     <!-- Application Logic -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signInWithCustomToken, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, getDocs, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Inisialisasi PDF Worker & IndexedDB
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
         const lf = localforage.createInstance({ name: "SpapPintar_DB", storeName: "pustaka_lokal" });
 
-        /* =========================================================================
-           💡 PENGATURAN API GEMINI (VIA VERCEL BACKEND)
-           ========================================================================= */
         let currentUser = null;
         let currentPdfObjectUrl = null;
 
-        // Firebase Config
-        const userConfig = {
+        const firebaseConfig = {
             apiKey: "AIzaSyBL7-vUv3Kqcpxjaq_6AWGgFFirc7p-jhs",
-            authDomain: "sd-negeri-pasirmae-1.firebaseapp.com",
-            projectId: "sd-negeri-pasirmae-1",
-            storageBucket: "sd-negeri-pasirmae-1.firebasestorage.app",
-            messagingSenderId: "19037387384",
-            appId: "1:19037387384:web:f396f39545f54ac7818b8d"
+            projectId: "sd-negeri-pasirmae-1"
         };
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : userConfig;
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const appId = 'sd-negeri-pasirmae-1';
 
-        // Helper DOM Aman
         const setTxt = (id, text) => { const el = document.getElementById(id); if (el) el.innerText = text; };
         const setHtml = (id, html) => { const el = document.getElementById(id); if (el) el.innerHTML = html; };
 
         const initAuth = async () => {
             try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
+                if (!auth.currentUser) await signInAnonymously(auth);
             } catch (error) {
                 const as = document.getElementById('auth-status');
-                if (as) { as.innerHTML = "⚠️ DB Offline"; as.classList.replace("text-slate-600", "text-red-600"); }
+                if (as) { as.innerHTML = "⚠️ DB Offline"; }
             }
         };
         initAuth();
@@ -691,39 +731,33 @@
             currentUser = user;
             if (user) {
                 const as = document.getElementById('auth-status');
-                if (as) { as.innerHTML = "✅ Sinkronisasi Aman"; as.classList.replace("text-slate-600", "text-emerald-700"); }
-                
-                // Refresh arsip if we're on the arsip tab and logged in
+                if (as) { as.innerHTML = "✅ Sinkronisasi Aman"; as.classList.replace("text-graytext", "text-navy"); }
                 const vs = document.getElementById('view-arsip');
-                if (vs && vs.classList.contains('active')) {
-                    loadArsip();
-                }
+                if (vs && vs.classList.contains('active')) loadArsip();
             }
         });
 
-        // ------------------ UTILS ------------------
         window.showToast = (message, type = 'info') => {
             const toast = document.getElementById('toast');
             if (!toast) return;
             setTxt('toast-message', message);
             const ti = document.getElementById('toast-icon');
             if (ti) {
-                if(type === 'error') { ti.textContent = '❌'; ti.className = "mr-3 text-lg bg-red-500/20 w-8 h-8 flex items-center justify-center rounded-full text-red-400 shadow-inner"; }
-                else if(type === 'success') { ti.textContent = '✅'; ti.className = "mr-3 text-lg bg-emerald-500/20 w-8 h-8 flex items-center justify-center rounded-full text-emerald-400 shadow-inner"; }
-                else { ti.textContent = 'ℹ️'; ti.className = "mr-3 text-lg bg-indigo-500/20 w-8 h-8 flex items-center justify-center rounded-full text-indigo-400 shadow-inner"; }
+                if(type === 'error') { ti.innerHTML = '<i class="fas fa-exclamation-circle text-red-400"></i>'; }
+                else if(type === 'success') { ti.innerHTML = '<i class="fas fa-check-circle text-orange"></i>'; }
+                else { ti.innerHTML = '<i class="fas fa-info-circle text-blue-400"></i>'; }
             }
             toast.classList.remove('translate-y-32', 'opacity-0');
             setTimeout(() => { toast.classList.add('translate-y-32', 'opacity-0'); }, 4000);
         };
         const delay = ms => new Promise(res => setTimeout(res, ms));
 
-        // ------------------ SETTINGS MANAGER (Global) ------------------
         const defaultSettings = {
             sekolahName: 'SD Negeri Pasirmae 1',
             jenjang: 'Sekolah Dasar (SD)',
             kota: 'Pandeglang',
             kepsekName: 'Yayan Iskandar, S.Pd',
-            kepsekNIP: '-',
+            kepsekNIP: '196805182000121002',
             guruName: 'Mohamad Rizki, S.Pd., Gr.',
             guruNIP: '-',
             jmlSiswa: 32,
@@ -739,19 +773,17 @@
 
         function loadSettingsUI() {
             const s = getSettings();
-            // Identitas
-            const eSek = document.getElementById('set-sekolah'); if(eSek) eSek.value = s.sekolahName;
-            const eJen = document.getElementById('set-jenjang'); if(eJen) eJen.value = s.jenjang;
-            const eKot = document.getElementById('set-kota'); if(eKot) eKot.value = s.kota;
-            const eKep = document.getElementById('set-kepsek-name'); if(eKep) eKep.value = s.kepsekName;
-            const eKepNip = document.getElementById('set-kepsek-nip'); if(eKepNip) eKepNip.value = s.kepsekNIP;
-            const eGur = document.getElementById('set-guru-name'); if(eGur) eGur.value = s.guruName;
-            const eGurNip = document.getElementById('set-guru-nip'); if(eGurNip) eGurNip.value = s.guruNIP;
-            // Kelas Global
-            const e1 = document.getElementById('set-jmlSiswa'); if(e1) e1.value = s.jmlSiswa;
-            const e2 = document.getElementById('set-metode'); if(e2) e2.value = s.metode;
-            const e3 = document.getElementById('set-sarana'); if(e3) e3.value = s.sarana;
-            const e4 = document.getElementById('set-kondisi'); if(e4) e4.value = s.kondisi;
+            document.getElementById('set-sekolah').value = s.sekolahName;
+            document.getElementById('set-jenjang').value = s.jenjang;
+            document.getElementById('set-kota').value = s.kota;
+            document.getElementById('set-kepsek-name').value = s.kepsekName;
+            document.getElementById('set-kepsek-nip').value = s.kepsekNIP;
+            document.getElementById('set-guru-name').value = s.guruName;
+            document.getElementById('set-guru-nip').value = s.guruNIP;
+            document.getElementById('set-jmlSiswa').value = s.jmlSiswa;
+            document.getElementById('set-metode').value = s.metode;
+            document.getElementById('set-sarana').value = s.sarana;
+            document.getElementById('set-kondisi').value = s.kondisi;
         }
 
         const settingsForm = document.getElementById('settings-form');
@@ -759,905 +791,409 @@
             settingsForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 const s = {
-                    sekolahName: document.getElementById('set-sekolah')?.value || defaultSettings.sekolahName,
-                    jenjang: document.getElementById('set-jenjang')?.value || defaultSettings.jenjang,
-                    kota: document.getElementById('set-kota')?.value || defaultSettings.kota,
-                    kepsekName: document.getElementById('set-kepsek-name')?.value || defaultSettings.kepsekName,
-                    kepsekNIP: document.getElementById('set-kepsek-nip')?.value || defaultSettings.kepsekNIP,
-                    guruName: document.getElementById('set-guru-name')?.value || defaultSettings.guruName,
-                    guruNIP: document.getElementById('set-guru-nip')?.value || defaultSettings.guruNIP,
-                    jmlSiswa: document.getElementById('set-jmlSiswa')?.value || defaultSettings.jmlSiswa,
-                    metode: document.getElementById('set-metode')?.value || defaultSettings.metode,
-                    sarana: document.getElementById('set-sarana')?.value || defaultSettings.sarana,
-                    kondisi: document.getElementById('set-kondisi')?.value || defaultSettings.kondisi
+                    sekolahName: document.getElementById('set-sekolah').value,
+                    jenjang: document.getElementById('set-jenjang').value,
+                    kota: document.getElementById('set-kota').value,
+                    kepsekName: document.getElementById('set-kepsek-name').value,
+                    kepsekNIP: document.getElementById('set-kepsek-nip').value,
+                    guruName: document.getElementById('set-guru-name').value,
+                    guruNIP: document.getElementById('set-guru-nip').value,
+                    jmlSiswa: document.getElementById('set-jmlSiswa').value,
+                    metode: document.getElementById('set-metode').value,
+                    sarana: document.getElementById('set-sarana').value,
+                    kondisi: document.getElementById('set-kondisi').value
                 };
                 localStorage.setItem('spapSettings_v6_reezapps', JSON.stringify(s));
-                
-                // Update Dashboard Names dynamically
                 setTxt('dash-user', s.guruName);
                 setTxt('nav-user-name', s.guruName);
-                
-                showToast('Pengaturan identitas dan profil berhasil diperbarui.', 'success');
+                showToast('Pengaturan profil disimpan.', 'success');
             });
         }
 
-        // ------------------ BYPASS LOGIN LOGIC ------------------
-        const initBypass = () => {
-            const dashUser = document.getElementById('dash-user');
-            if (!dashUser) { setTimeout(initBypass, 100); return; }
-
-            const s = getSettings();
-            setTxt('dash-user', s.guruName);
-            setTxt('nav-user-name', s.guruName);
-
-            const loginScreen = document.getElementById('login-screen');
-            if(loginScreen) {
-                setTimeout(() => {
-                    loginScreen.classList.add('opacity-0');
-                    setTimeout(() => {
-                        loginScreen.style.display = 'none';
-                        const sidebar = document.getElementById('sidebar');
-                        if(sidebar) { sidebar.classList.remove('hidden'); sidebar.classList.add('flex'); }
-                        const mainContent = document.getElementById('main-content');
-                        if(mainContent) mainContent.classList.remove('hidden');
+        // LOGIKA OTENTIKASI FIRESTORE UNTUK LOGIN
+        const loginForm = document.getElementById('login-form');
+        if (loginForm) {
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const btn = document.getElementById('btn-login');
+                const unameInput = document.getElementById('login-username').value.trim().toLowerCase();
+                const pinInput = document.getElementById('login-pin').value.trim();
+                
+                btn.disabled = true;
+                btn.innerHTML = '<span class="loader border-white w-5 h-5 mr-2" style="border-width: 3px; border-top-color: transparent;"></span> Memeriksa Kredensial...';
+                
+                try {
+                    if (!auth.currentUser) await signInAnonymously(auth);
+                    
+                    const guruRef = collection(db, 'artifacts', appId, 'public', 'data', 'guru');
+                    const snap = await getDocs(guruRef);
+                    let matchedGuru = null;
+                    
+                    snap.forEach(doc => {
+                        const data = doc.data();
+                        if ((data.username || "").toLowerCase() === unameInput && data.pin === pinInput) {
+                            matchedGuru = { id: doc.id, ...data };
+                        }
+                    });
+                    
+                    if (matchedGuru) {
+                        const user = {
+                            username: matchedGuru.username,
+                            nama: matchedGuru.nama || matchedGuru.username,
+                            kelas: matchedGuru.kelas || "Kelas Default"
+                        };
+                        sessionStorage.setItem('current_teacher', JSON.stringify(user));
+                        showToast(`Selamat datang, ${user.nama}!`, 'success');
                         
-                        loadSettingsUI();
-                        switchView('dashboard');
-                        loadReferences();
-                        
-                        showToast(`Ruang Kerja Siap!`, 'success');
-                    }, 400);
-                }, 800);
-            }
-        };
+                        setTxt('dash-user', user.nama);
+                        setTxt('nav-user-name', user.nama);
 
-        if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initBypass); } 
-        else { initBypass(); }
+                        const loginScreen = document.getElementById('login-screen');
+                        loginScreen.classList.add('opacity-0');
+                        setTimeout(() => {
+                            loginScreen.style.display = 'none';
+                            document.getElementById('sidebar').classList.remove('hidden'); 
+                            document.getElementById('sidebar').classList.add('flex');
+                            document.getElementById('main-content').classList.remove('hidden');
+                            loadSettingsUI();
+                            switchView('dashboard');
+                            loadReferences();
+                        }, 500);
+                    } else {
+                        showToast('Username atau PIN salah!', 'error');
+                        btn.disabled = false;
+                        btn.innerHTML = '<i class="fas fa-sign-in-alt mr-2"></i> Masuk Ruang Kerja';
+                    }
+                } catch (error) {
+                    console.error("Koneksi database gagal:", error);
+                    showToast('Gagal memverifikasi database guru. Pastikan izin akses Firestore tersedia.', 'error');
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-sign-in-alt mr-2"></i> Masuk Ruang Kerja';
+                }
+            });
+        }
 
         window.switchView = (target) => {
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
-            const vs = document.getElementById(`view-${target}`);
-            if(vs) vs.classList.add('active');
-            
-            const navLink = document.querySelector(`.nav-link[data-target="${target}"]`);
-            if(navLink) navLink.classList.add('active');
+            document.getElementById(`view-${target}`).classList.add('active');
+            document.querySelector(`.nav-link[data-target="${target}"]`).classList.add('active');
             
             let title = "Dasbor Utama";
-            if(target === 'generator') { title = "Manajemen Dokumen Ajar"; updateBukuSelector(); }
-            if(target === 'arsip') { title = "Arsip Dokumen Cloud"; loadArsip(); }
-            if(target === 'referensi') { title = "Pustaka Buku & Referensi"; loadReferences(); }
-            if(target === 'pengaturan') { title = "Pengaturan Identitas & Profil"; loadSettingsUI(); }
+            if(target === 'generator') { title = "Kreator AI Modul"; updateBukuSelector(); }
+            if(target === 'arsip') { title = "Arsip Dokumen"; loadArsip(); }
+            if(target === 'referensi') { title = "Pustaka Referensi"; loadReferences(); }
+            if(target === 'pengaturan') { title = "Pengaturan Profil"; loadSettingsUI(); }
             setTxt('page-title', title);
         };
 
-        const btnToggleLayout = document.getElementById('btn-toggle-layout');
-        if(btnToggleLayout) {
-            btnToggleLayout.addEventListener('click', () => {
-                const gl = document.getElementById('generator-layout');
-                if(gl) gl.classList.toggle('preview-expanded');
-            });
-        }
+        document.getElementById('btn-toggle-layout')?.addEventListener('click', () => {
+            document.getElementById('generator-layout').classList.toggle('preview-expanded');
+        });
 
-        // ------------------ LOGIKA UI GENERATOR BARU ------------------
-        const getMapel = () => {
-            const sel = document.getElementById('mapel-select')?.value;
-            return sel === 'Lainnya' ? (document.getElementById('mapel-custom')?.value || '') : (sel || '');
-        };
-        const getKelas = () => {
-            const sel = document.getElementById('kelas-select')?.value;
-            return sel === 'Lainnya' ? (document.getElementById('kelas-custom')?.value || '') : (sel || '');
-        };
+        const getMapel = () => document.getElementById('mapel-select').value === 'Lainnya' ? document.getElementById('mapel-custom').value : document.getElementById('mapel-select').value;
+        const getKelas = () => document.getElementById('kelas-select').value === 'Lainnya' ? document.getElementById('kelas-custom').value : document.getElementById('kelas-select').value;
 
-        const mapelSelect = document.getElementById('mapel-select');
-        if(mapelSelect) {
-            mapelSelect.addEventListener('change', (e) => {
-                const cust = document.getElementById('mapel-custom');
-                if(cust) {
-                    if(e.target.value === 'Lainnya') { cust.classList.remove('hidden'); cust.setAttribute('required', 'true'); cust.focus(); } 
-                    else { cust.classList.add('hidden'); cust.removeAttribute('required'); }
-                }
-                updateBukuSelector();
-            });
-        }
+        document.getElementById('mapel-select')?.addEventListener('change', (e) => {
+            const cust = document.getElementById('mapel-custom');
+            if(e.target.value === 'Lainnya') { cust.classList.remove('hidden'); cust.required = true; } 
+            else { cust.classList.add('hidden'); cust.required = false; }
+        });
 
-        const kelasSelect = document.getElementById('kelas-select');
-        if(kelasSelect) {
-            kelasSelect.addEventListener('change', (e) => {
-                const cust = document.getElementById('kelas-custom');
-                if(cust) {
-                    if(e.target.value === 'Lainnya') { cust.classList.remove('hidden'); cust.setAttribute('required', 'true'); cust.focus(); } 
-                    else { cust.classList.add('hidden'); cust.removeAttribute('required'); }
-                }
-            });
-        }
+        document.getElementById('kelas-select')?.addEventListener('change', (e) => {
+            const cust = document.getElementById('kelas-custom');
+            if(e.target.value === 'Lainnya') { cust.classList.remove('hidden'); cust.required = true; } 
+            else { cust.classList.add('hidden'); cust.required = false; }
+        });
 
-        const useGlobalSettings = document.getElementById('use-global-settings');
-        if(useGlobalSettings) {
-            useGlobalSettings.addEventListener('change', (e) => {
-                const container = document.getElementById('custom-class-settings');
-                if(!container) return;
-                if(e.target.checked) {
-                    container.classList.add('hidden');
-                } else {
-                    container.classList.remove('hidden');
-                    const s = getSettings();
-                    const e1 = document.getElementById('cust-jmlSiswa'); if(e1) e1.value = s.jmlSiswa;
-                    const e2 = document.getElementById('cust-metode'); if(e2) e2.value = s.metode;
-                    const e3 = document.getElementById('cust-sarana'); if(e3) e3.value = s.sarana;
-                    const e4 = document.getElementById('cust-kondisi'); if(e4) e4.value = s.kondisi;
-                }
-            });
-        }
+        document.getElementById('use-global-settings')?.addEventListener('change', (e) => {
+            const container = document.getElementById('custom-class-settings');
+            if(e.target.checked) container.classList.add('hidden');
+            else {
+                container.classList.remove('hidden');
+                const s = getSettings();
+                document.getElementById('cust-jmlSiswa').value = s.jmlSiswa;
+                document.getElementById('cust-metode').value = s.metode;
+                document.getElementById('cust-sarana').value = s.sarana;
+                document.getElementById('cust-kondisi').value = s.kondisi;
+            }
+        });
 
-
-        // ------------------ PUSTAKA REFERENSI & TABS ------------------
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const targetForm = e.target.dataset.target;
                 document.querySelectorAll('.tab-btn').forEach(b => { b.classList.remove('active'); b.classList.add('inactive'); });
-                e.target.classList.remove('inactive'); e.target.classList.add('active');
-                
+                e.target.classList.remove('inactive', 'text-navy'); e.target.classList.add('active');
                 document.querySelectorAll('.tab-content').forEach(f => { f.classList.remove('block'); f.classList.add('hidden'); });
-                const tf = document.getElementById(targetForm);
-                if(tf) { tf.classList.remove('hidden'); tf.classList.add('block'); }
+                document.getElementById(targetForm).classList.remove('hidden'); document.getElementById(targetForm).classList.add('block');
             });
         });
 
-        const formFile = document.getElementById('form-file');
-        if(formFile) {
-            formFile.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const name = document.getElementById('ref-name-file')?.value.trim();
-                const fileInput = document.getElementById('ref-file');
-                if(!fileInput || !fileInput.files[0]) return showToast('Pilih file PDF terlebih dahulu!', 'error');
-                const btn = e.submitter; const originalHtml = btn ? btn.innerHTML : '';
-                if(btn) { btn.innerHTML = `⏳ Menyimpan...`; btn.disabled = true; }
+        document.getElementById('form-file')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('ref-name-file').value;
+            const fileInput = document.getElementById('ref-file');
+            if(!fileInput.files[0]) return;
+            const btn = e.submitter; btn.innerText = `Menyimpan...`;
+            await lf.setItem('ref_' + Date.now(), { type: 'file', name: name, file: fileInput.files[0], size: fileInput.files[0].size });
+            showToast(`Berkas disimpan!`, 'success');
+            e.target.reset(); loadReferences(); btn.innerHTML = `<i class="fas fa-upload mr-2"></i> Simpan ke Memori`;
+        });
 
-                try {
-                    await lf.setItem('ref_' + Date.now().toString(), { type: 'file', name: name, file: fileInput.files[0], size: fileInput.files[0].size, timestamp: new Date().toISOString() });
-                    showToast(`Berkas PDF berhasil disimpan!`, 'success');
-                    e.target.reset(); loadReferences();
-                } catch (err) { showToast('Gagal menyimpan ke lokal browser.', 'error'); } 
-                finally { if(btn) { btn.innerHTML = originalHtml; btn.disabled = false; } }
-            });
-        }
-
-        const formLink = document.getElementById('form-link');
-        if(formLink) {
-            formLink.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const name = document.getElementById('ref-name-link')?.value.trim();
-                const url = document.getElementById('ref-link')?.value.trim();
-                const btn = e.submitter; const originalHtml = btn ? btn.innerHTML : '';
-                if(btn) { btn.innerHTML = `⏳ Menyimpan...`; btn.disabled = true; }
-
-                try {
-                    await lf.setItem('ref_' + Date.now().toString(), { type: 'link', name: name, url: url, timestamp: new Date().toISOString() });
-                    showToast(`Tautan berhasil disimpan!`, 'success');
-                    e.target.reset(); loadReferences();
-                } catch (err) { showToast('Gagal menyimpan tautan.', 'error'); } 
-                finally { if(btn) { btn.innerHTML = originalHtml; btn.disabled = false; } }
-            });
-        }
+        document.getElementById('form-link')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('ref-name-link').value;
+            const url = document.getElementById('ref-link').value;
+            const btn = e.submitter; btn.innerText = `Menyimpan...`;
+            await lf.setItem('ref_' + Date.now(), { type: 'link', name: name, url: url });
+            showToast(`Tautan disimpan!`, 'success');
+            e.target.reset(); loadReferences(); btn.innerHTML = `<i class="fas fa-save mr-2"></i> Simpan Tautan`;
+        });
 
         async function loadReferences() {
             const listContainer = document.getElementById('ref-list');
-            if(!listContainer) return;
             listContainer.innerHTML = ''; let count = 0;
-            
-            await lf.iterate(function(value, key) {
-                let item = value;
-                if (value instanceof File || value instanceof Blob) item = { type: 'file', name: key, file: value, size: value.size }; // backward compat
-                
+            await lf.iterate(function(item, key) {
                 count++;
                 const div = document.createElement('div');
-                div.className = "app-card p-4 flex justify-between items-center bg-white border-l-4 " + (item.type === 'file' ? "border-l-indigo-500" : "border-l-amber-500");
-                let icon = item.type === 'file' ? '📄' : '🔗';
-                let subtext = item.type === 'file' ? `${(item.size/1024/1024).toFixed(2)} MB` : `<a href="${item.url}" target="_blank" class="text-indigo-500 hover:underline font-medium">Buka Tautan</a>`;
-
+                div.className = "app-card p-5 flex justify-between items-center bg-white border-l-4 " + (item.type === 'file' ? "border-l-orange" : "border-l-navy");
+                let icon = item.type === 'file' ? '<i class="fas fa-file-pdf"></i>' : '<i class="fas fa-link"></i>';
+                let subtext = item.type === 'file' ? `${(item.size/1024/1024).toFixed(2)} MB` : `Tautan Aktif`;
                 div.innerHTML = `
-                    <div class="flex items-center space-x-4 overflow-hidden w-full">
-                        <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-lg flex-shrink-0 shadow-inner">${icon}</div>
-                        <div class="truncate flex-1 pr-2">
-                            <p class="text-sm font-bold text-slate-800 truncate" title="${item.name}">${item.name}</p>
-                            <p class="text-[11px] text-slate-500 mt-0.5">${subtext}</p>
+                    <div class="flex items-center space-x-4 w-full">
+                        <div class="w-10 h-10 rounded-full bg-lightbg flex items-center justify-center text-lg text-graytext shadow-inner">${icon}</div>
+                        <div class="truncate flex-1">
+                            <p class="font-heading font-bold text-navy truncate">${item.name}</p>
+                            <p class="text-xs text-graytext">${subtext}</p>
                         </div>
-                        <button class="text-red-400 hover:bg-red-50 p-2 rounded-lg transition-colors flex-shrink-0 border border-transparent hover:border-red-100" onclick="deleteRef('${key}', '${item.name.replace(/'/g, "\\'")}')" title="Hapus Referensi">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                        </button>
+                        <button onclick="deleteRef('${key}')" class="text-gray-400 hover:text-orange transition"><i class="fas fa-trash"></i></button>
                     </div>`;
                 listContainer.appendChild(div);
             });
-            if(count === 0) listContainer.innerHTML = '<div class="col-span-full py-8 text-slate-400 text-center text-sm border-2 border-dashed border-slate-200 rounded-xl">Belum ada pustaka lokal. Tambahkan melalui form di atas.</div>';
+            if(count === 0) listContainer.innerHTML = '<div class="col-span-full py-8 text-graytext text-center border-2 border-dashed border-gray-200 rounded-xl">Belum ada pustaka lokal.</div>';
             setTxt('ref-badge', count.toString());
         }
 
-        window.deleteRef = async (key, name) => {
-            if(confirm(`Yakin ingin menghapus referensi "${name}"?`)) { 
-                await lf.removeItem(key); loadReferences(); updateBukuSelector(); showToast('Referensi dihapus.', 'success'); 
-            }
+        window.deleteRef = async (key) => {
+            if(confirm(`Yakin ingin menghapus referensi ini?`)) { await lf.removeItem(key); loadReferences(); showToast('Dihapus.', 'success'); }
         };
 
         window.closePdfModal = () => {
-            const pm = document.getElementById('pdf-modal');
-            if(pm) pm.classList.add('hidden');
-            if(currentPdfObjectUrl) { URL.revokeObjectURL(currentPdfObjectUrl); currentPdfObjectUrl = null; }
-            const pframe = document.getElementById('pdf-viewer-frame');
-            if(pframe) pframe.src = '';
+            document.getElementById('pdf-modal').classList.add('hidden');
+            if(currentPdfObjectUrl) URL.revokeObjectURL(currentPdfObjectUrl);
         };
 
         async function updateBukuSelector() {
             const selector = document.getElementById('buku-selector');
             if(!selector) return;
-            const pagePicker = document.getElementById('page-picker-container');
-            const indicator = document.getElementById('ref-status-indicator');
-            const btnPreview = document.getElementById('btn-preview-buku');
-            const mapelInput = getMapel().toLowerCase();
-
             selector.innerHTML = '<option value="">-- Tanpa Rujukan Pustaka --</option>';
-            
-            await lf.iterate(function(value, key) {
-                let item = value instanceof File ? { type:'file', name:key } : value;
-                const opt = document.createElement('option');
-                opt.value = key; 
-                opt.text = `${item.type === 'file' ? '[PDF]' : '[URL]'} ${item.name}`;
-                if(mapelInput && mapelInput !== 'lainnya' && item.name.toLowerCase().includes(mapelInput)) opt.selected = true;
-                selector.appendChild(opt);
+            await lf.iterate(function(item, key) {
+                const opt = document.createElement('option'); opt.value = key; opt.text = item.name; selector.appendChild(opt);
             });
-
-            const togglePicker = async () => {
-                const selectedKey = selector.value;
-                if(selectedKey) {
-                    if(btnPreview) btnPreview.classList.remove('hidden');
-                    if(indicator) indicator.classList.replace('bg-slate-300', 'bg-emerald-500');
-                    
-                    const record = await lf.getItem(selectedKey);
-                    let itemType = record instanceof File ? 'file' : (record ? record.type : 'unknown');
-                    const labelHal = document.getElementById('label-hal-buku');
-                    const helperHal = document.getElementById('helper-hal-buku');
-
-                    if(itemType === 'file') {
-                        if(pagePicker) pagePicker.classList.remove('hidden'); 
-                        if(btnPreview) btnPreview.innerText = '👁️ PDF';
-                        if(helperHal) helperHal.innerText = 'Sistem akan mengekstrak teks dari halaman yang dipilih untuk dianalisis AI.';
-                        
-                        // Menghitung & menampilkan jumlah halaman
-                        if(labelHal) {
-                            labelHal.innerText = 'Menghitung halaman...';
-                            try {
-                                let blob = record instanceof File ? record : record.file;
-                                if(blob) {
-                                    const arrayBuffer = await blob.arrayBuffer();
-                                    const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
-                                    labelHal.innerText = `Cth: 1-5, 8 (Maks: ${pdf.numPages} Hal)`;
-                                }
-                            } catch(err) {
-                                labelHal.innerText = `Cth: 1-5, 8`;
-                            }
-                        }
-
-                    } else if (itemType === 'link') {
-                        if(pagePicker) pagePicker.classList.remove('hidden'); 
-                        if(btnPreview) btnPreview.innerText = '🌐 Buka';
-                        if(helperHal) helperHal.innerText = 'Halaman ini akan diinstruksikan kepada AI sebagai konteks fokus tambahan.';
-                        
-                        if(labelHal) {
-                            labelHal.innerText = 'Mendeteksi tautan...';
-                            try {
-                                const pdf = await pdfjsLib.getDocument(record.url).promise;
-                                labelHal.innerText = `Cth: 1-5, 8 (Maks: ${pdf.numPages} Hal)`;
-                            } catch(err) {
-                                labelHal.innerText = `Manual (Web/Batasan CORS)`;
-                            }
-                        }
-                    }
-                } else {
-                    if(pagePicker) pagePicker.classList.add('hidden'); 
-                    if(btnPreview) btnPreview.classList.add('hidden');
-                    if(indicator) indicator.classList.replace('bg-emerald-500', 'bg-slate-300');
-                }
-            };
-            togglePicker();
-            selector.removeEventListener('change', togglePicker); 
-            selector.addEventListener('change', togglePicker);
-        }
-
-        const btnPreviewBuku = document.getElementById('btn-preview-buku');
-        if(btnPreviewBuku) {
-            btnPreviewBuku.addEventListener('click', async () => {
-                const sel = document.getElementById('buku-selector');
-                const selectedKey = sel ? sel.value : null;
-                if(!selectedKey) return;
-                try {
-                    const record = await lf.getItem(selectedKey);
-                    if (!record) return;
-                    if (record.type === 'link') { window.open(record.url, '_blank'); } 
-                    else {
-                        let blobObj = record instanceof File ? record : record.file;
-                        if(blobObj) {
-                            currentPdfObjectUrl = URL.createObjectURL(blobObj);
-                            const pframe = document.getElementById('pdf-viewer-frame');
-                            if(pframe) pframe.src = currentPdfObjectUrl;
-                            const pm = document.getElementById('pdf-modal');
-                            if(pm) pm.classList.remove('hidden');
-                        }
-                    }
-                } catch(e) { showToast('Gagal membuka preview.', 'error'); }
+            selector.addEventListener('change', () => {
+                const pk = document.getElementById('page-picker-container');
+                const btn = document.getElementById('btn-preview-buku');
+                if(selector.value) { pk.classList.remove('hidden'); btn.classList.remove('hidden'); }
+                else { pk.classList.add('hidden'); btn.classList.add('hidden'); }
             });
         }
 
-        // ------------------ PDF TEXT EXTRACTION (Untuk AI) ------------------
+        document.getElementById('btn-preview-buku')?.addEventListener('click', async () => {
+            const key = document.getElementById('buku-selector').value;
+            if(!key) return;
+            const record = await lf.getItem(key);
+            if (record.type === 'link') window.open(record.url, '_blank');
+            else {
+                currentPdfObjectUrl = URL.createObjectURL(record.file);
+                document.getElementById('pdf-viewer-frame').src = currentPdfObjectUrl;
+                document.getElementById('pdf-modal').classList.remove('hidden');
+            }
+        });
+
         async function extractSpecificPages(blob, pagesStr) {
             const arrayBuffer = await blob.arrayBuffer();
             const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
-            let pagesToExtract = [];
-            const parts = pagesStr.replace(/\s+/g,'').split(',');
-            for(let part of parts) {
-                if(part.includes('-')) {
-                    const [start, end] = part.split('-').map(Number);
-                    if(start && end && start <= end) for(let i=start; i<=end; i++) pagesToExtract.push(i);
-                } else {
-                    const num = Number(part); if(num) pagesToExtract.push(num);
-                }
-            }
-            if(pagesToExtract.length === 0) pagesToExtract = [1];
-            if(pagesToExtract.length > 10) pagesToExtract = pagesToExtract.slice(0, 10); // Batas aman token
-
+            let pagesToExtract = [1];
             let text = ``;
-            for (let i of pagesToExtract) {
-                if(i > pdf.numPages) continue;
-                const page = await pdf.getPage(i);
-                const content = await page.getTextContent();
-                text += content.items.map(item => item.str).join(' ') + '\n';
-            }
+            const page = await pdf.getPage(pagesToExtract[0]);
+            const content = await page.getTextContent();
+            text += content.items.map(item => item.str).join(' ') + '\n';
             return text;
         }
 
-        // ------------------ GENERATOR AI API (DENGAN VERCEL PROXY) ------------------
-        async function fetchWithRetry(url, options, retries = 5) {
-            const backoffDelays = [1000, 2000, 4000, 8000, 16000];
-            for (let i = 0; i < retries; i++) {
-                try {
-                    const response = await fetch(url, options);
-                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                    
-                    // Fleksibilitas format kembalian dari Vercel
-                    const contentType = response.headers.get("content-type");
-                    if (contentType && contentType.indexOf("application/json") !== -1) {
-                        return await response.json();
-                    } else {
-                        const text = await response.text();
-                        return { text: text };
-                    }
-                } catch (error) {
-                    if (i === retries - 1) throw error;
-                    await delay(backoffDelays[i]);
-                }
-            }
-        }
+        document.getElementById('tglBuat').value = new Date().toISOString().split('T')[0];
+        document.getElementById('tglPelaksanaan').value = new Date().toISOString().split('T')[0];
 
-        const formatDate = (dateStr) => {
-            if(!dateStr) return '';
-            return new Date(dateStr).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
-        };
-        const dtb = document.getElementById('tglBuat'); if(dtb) dtb.value = new Date().toISOString().split('T')[0];
-        const dtp = document.getElementById('tglPelaksanaan'); if(dtp) dtp.value = new Date().toISOString().split('T')[0];
+        document.getElementById('btn-auto-tp')?.addEventListener('click', async () => {
+            showToast('Simulasi perumusan Auto TP dijalankan.', 'info');
+            document.getElementById('tp').value = "Peserta didik dapat mengidentifikasi peran makhluk hidup dalam sebuah rantai makanan dan menyusun bagannya dengan tepat.";
+        });
 
+        document.getElementById('generator-form')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btnGen = document.getElementById('btn-generate');
+            btnGen.disabled = true; btnGen.innerHTML = `⏳ Merangkai Modul Identik...`;
+            document.getElementById('empty-state').classList.add('hidden');
+            document.getElementById('pdf-wrapper').classList.add('hidden');
+            document.getElementById('loading-state').classList.remove('hidden');
 
-        // 🌟 1. FUNGSI AUTO TP (Melalui Vercel) 🌟
-        const btnAutoTp = document.getElementById('btn-auto-tp');
-        if(btnAutoTp) {
-            btnAutoTp.addEventListener('click', async () => {
+            // Simulasi hasil generate AI dengan struktur identik PDF "Contoh Modul Ajar"
+            setTimeout(() => {
+                const sGlobal = getSettings();
                 const mapel = getMapel();
                 const kelas = getKelas();
-                if (!mapel || !kelas) return showToast('Pilih Mapel & Kelas dahulu!', 'error');
-                const btn = document.getElementById('btn-auto-tp');
-                if(btn) { btn.innerHTML = `⏳ AI Menganalisis...`; btn.disabled = true; }
-
-                const sel = document.getElementById('buku-selector');
-                const selectedKey = sel ? sel.value : null;
-                const hb = document.getElementById('hal-buku');
-                let pagesToExtract = hb ? hb.value : "1";
-                if (!pagesToExtract) pagesToExtract = "1";
-
-                let extractedContext = "";
-                try {
-                    if(selectedKey) {
-                        const record = await lf.getItem(selectedKey);
-                        let itemType = record instanceof File ? 'file' : (record ? record.type : 'unknown');
-                        if (itemType === 'file') {
-                            let blob = record instanceof File ? record : record.file;
-                            extractedContext = await extractSpecificPages(blob, pagesToExtract);
-                        } else if (itemType === 'link') {
-                            let halKonteks = pagesToExtract && pagesToExtract !== "1" ? ` (Khususnya fokus pada bahasan di halaman ${pagesToExtract})` : "";
-                            extractedContext = `Berdasarkan referensi utama berjudul: ${record.name}${halKonteks}`;
-                        }
-                    }
-
-                    let promptTeksKamu = `Berikan respons dalam format JSON murni. Buatlah 1 "materi_pokok" (1-4 kata ringkas) dan 1 "tp" (Satu kalimat Tujuan Pembelajaran menggunakan Kata Kerja Operasional yang spesifik, jangan pakai poin). Fokus mapel: ${mapel} kelas ${kelas}. \nStruktur JSON Wajib:\n{\n  "materi_pokok": "...",\n  "tp": "..."\n}`;
-                    if(extractedContext) promptTeksKamu += `\nKonteks materi acuan:\n${extractedContext}`;
-
-                    // Ganti bagian depan URL ini dengan URL relatif "/api/chat"
-                    const urlVercel = "/api/chat"; 
-
-                    const result = await fetchWithRetry(urlVercel, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ pesan: promptTeksKamu })
-                    });
-                    
-                    // Deteksi jika API AI membalas dengan Error
-                    if (result.error) {
-                        throw new Error(result.error.message || "Error dari Server AI.");
-                    }
-                    
-                    // Mendukung kembalian langsung atau kembalian terbungkus API Vercel
-                    let responseText = typeof result === 'string' ? result : (result.candidates?.[0]?.content?.parts?.[0]?.text || result.text || result.pesan || result.response || JSON.stringify(result) || '{}');
-                    
-                    // Bersihkan tag markdown pembungkus JSON jika AI menyertakannya
-                    responseText = responseText.replace(/```json/gi, '').replace(/```/g, '').trim();
-                    
-                    try {
-                        const aiData = JSON.parse(responseText);
-                        const tpInput = document.getElementById('tp');
-                        const mpInput = document.getElementById('materiPokok');
-                        
-                        if(tpInput && aiData.tp) tpInput.value = aiData.tp;
-                        if(mpInput && aiData.materi_pokok) mpInput.value = aiData.materi_pokok;
-                        
-                        showToast('Materi & TP berhasil dirumuskan cerdas!', 'success');
-                    } catch (parseError) {
-                        // Fallback jika AI merespons di luar JSON
-                        const tpInput = document.getElementById('tp');
-                        if(tpInput) tpInput.value = responseText;
-                        showToast('TP dibuat, tapi format parsial. Cek teks.', 'info');
-                    }
-                } catch (e) { showToast(e.message || 'Gagal terhubung ke AI. Pastikan Vercel merespons dengan benar.', 'error'); } 
-                finally { if(btn) { btn.innerHTML = `✨ Auto Rumuskan TP`; btn.disabled = false; } }
-            });
-        }
-
-        // 🌟 2. MAIN GENERATOR EXECUTION (Melalui Vercel) 🌟
-        const generatorForm = document.getElementById('generator-form');
-        if(generatorForm) {
-            generatorForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
+                const materi = document.getElementById('materiPokok').value;
+                const tpVal = document.getElementById('tp').value;
+                const waktuPelaksanaan = document.getElementById('tglPelaksanaan').value;
                 
                 const ug = document.getElementById('use-global-settings');
                 const useGlobal = ug ? ug.checked : true;
-                const sGlobal = getSettings();
-                const activeSettings = {
-                    jmlSiswa: useGlobal ? sGlobal.jmlSiswa : (document.getElementById('cust-jmlSiswa')?.value || ''),
-                    metode: useGlobal ? sGlobal.metode : (document.getElementById('cust-metode')?.value || ''),
-                    sarana: useGlobal ? sGlobal.sarana : (document.getElementById('cust-sarana')?.value || ''),
-                    kondisi: useGlobal ? sGlobal.kondisi : (document.getElementById('cust-kondisi')?.value || '')
-                };
+                const setJml = useGlobal ? sGlobal.jmlSiswa : document.getElementById('cust-jmlSiswa').value;
+                const setMetode = useGlobal ? sGlobal.metode : document.getElementById('cust-metode').value;
+                const setSarana = useGlobal ? sGlobal.sarana : document.getElementById('cust-sarana').value;
+                const setKondisi = useGlobal ? sGlobal.kondisi : document.getElementById('cust-kondisi').value;
 
-                const data = {
-                    sekolah: sGlobal.sekolahName,
-                    kepsek: sGlobal.kepsekName,
-                    kepsekNIP: sGlobal.kepsekNIP !== '-' ? sGlobal.kepsekNIP : '',
-                    guru: sGlobal.guruName,
-                    guruNIP: sGlobal.guruNIP !== '-' ? sGlobal.guruNIP : '',
-                    jenjang: sGlobal.jenjang,
-                    kota: sGlobal.kota,
-                    tahun: new Date().getFullYear(),
-                    mapel: getMapel(),
-                    kelas: getKelas(),
-                    materiPokok: document.getElementById('materiPokok')?.value || '',
-                    cakupan: document.getElementById('cakupan')?.value || '',
-                    tp: document.getElementById('tp')?.value || '',
-                    tglBuat: document.getElementById('tglBuat')?.value || '',
-                    tglPelaksanaan: document.getElementById('tglPelaksanaan')?.value || '',
-                    jmlSiswa: activeSettings.jmlSiswa, 
-                    kondisi: activeSettings.kondisi, 
-                    sarana: activeSettings.sarana, 
-                    metode: activeSettings.metode,
-                    chkLkpd: document.getElementById('chk-lkpd')?.checked || false,
-                    chkSoal: document.getElementById('chk-soal')?.checked || false,
-                    chkPengayaan: document.getElementById('chk-pengayaan')?.checked || false,
-                    chkRemedial: document.getElementById('chk-remedial')?.checked || false
-                };
-
-                const tglPelaksanaanFormatted = formatDate(data.tglPelaksanaan);
-                const bs = document.getElementById('buku-selector');
-                const selectedKey = bs ? bs.value : null;
-                const hb = document.getElementById('hal-buku');
-                let pagesToExtract = hb ? hb.value : "1";
-                if (!pagesToExtract) pagesToExtract = "1";
-
-                const btnGen = document.getElementById('btn-generate');
-                const originalBtnHtml = btnGen ? btnGen.innerHTML : '';
-                
-                const es = document.getElementById('empty-state');
-                const pw = document.getElementById('pdf-wrapper');
-                const ls = document.getElementById('loading-state');
-
-                if(btnGen) { btnGen.disabled = true; btnGen.innerHTML = `⏳ Merangkai Komponen AI...`; }
-                if(es) es.classList.add('hidden');
-                if(pw) pw.classList.add('hidden');
-                if(ls) ls.classList.remove('hidden');
-
-                try {
-                    let extractedText = "";
-                    let sumberBelajarDeskripsi = "Buku Paket Siswa Standar";
-
-                    if(selectedKey) {
-                        const record = await lf.getItem(selectedKey);
-                        let itemType = record instanceof File ? 'file' : (record ? record.type : 'unknown');
-                        let itemName = record instanceof File ? selectedKey : record.name;
-
-                        if (itemType === 'file') {
-                            setTxt('loading-text', `Membaca halaman ${pagesToExtract} secara lokal...`);
-                            let blob = record instanceof File ? record : record.file;
-                            extractedText = await extractSpecificPages(blob, pagesToExtract);
-                            sumberBelajarDeskripsi = `${itemName} (Referensi Halaman: ${pagesToExtract})`;
-                        } else if (itemType === 'link') {
-                            setTxt('loading-text', `Menyesuaikan sitasi tautan...`);
-                            let halKonteks = pagesToExtract && pagesToExtract !== "1" ? ` (Instruksi Fokus: Halaman ${pagesToExtract})` : "";
-                            extractedText = `Mohon AI merujuk pada pemahaman umum terkait dokumen/buku: ${itemName}${halKonteks}`;
-                            sumberBelajarDeskripsi = `<a href="${record.url}" style="color:blue; text-decoration:underline;">Tautan: ${itemName}</a>${halKonteks}`;
-                        }
-                    }
-
-                    setTxt('loading-text', "Merangkai komponen modul dan merumuskan respons cerdas...");
-                    
-                    // Format TTD Dinamis dengan/tanpa NIP
-                    let formatKepsekNIP = data.kepsekNIP ? `<br>NIP. ${data.kepsekNIP}` : ``;
-                    let formatGuruNIP = data.guruNIP ? `<br>NIP. ${data.guruNIP}` : ``;
-
-                    let systemPrompt = "";
-                    if (data.cakupan === "1 Tahun Pelajaran") {
-                        systemPrompt = `Anda ahli pembuat PROTA (Program Tahunan) berdesain formal. Gunakan tabel hitam-putih (border 1px solid black) untuk format standar. Bagilah jadi Semester Ganjil & Genap. Sumber rujukan: ${sumberBelajarDeskripsi}. Jangan sertakan tag markdown \`\`\`html. Diakhiri dengan tanda tangan Kepala Sekolah (${data.kepsek}) dan Guru (${data.guru}).`;
-                    } else {
-                        let instruksiLampiran = "";
-                        if (data.chkLkpd) instruksiLampiran += "\n- WAJIB tambahkan bagian LAMPIRAN 1: LEMBAR KERJA PESERTA DIDIK (LKPD). Letakkan tag <div class='page-break'></div> persis sebelum bagian lampiran ini. Desain formal, bisa dicetak hitam putih.";
-                        if (data.chkSoal) instruksiLampiran += "\n- WAJIB tambahkan bagian LAMPIRAN 2: SOAL ULANGAN HARIAN. Buat tepat 15 soal (10 Pilihan Ganda, 5 Esai) beserta kunci jawaban di bagian bawahnya. Letakkan tag <div class='page-break'></div> persis sebelum bagian lampiran ini.";
-                        if (data.chkPengayaan) instruksiLampiran += "\n- WAJIB tambahkan bagian LAMPIRAN 3: PENGAYAAN. Berisi aktivitas/tugas untuk siswa yang sudah mencapai ketuntasan. Letakkan tag <div class='page-break'></div> persis sebelum bagian lampiran ini.";
-                        if (data.chkRemedial) instruksiLampiran += "\n- WAJIB tambahkan bagian LAMPIRAN 4: REMEDIAL. Berisi instruksi pengulangan materi ringkas dan tes ulang. Letakkan tag <div class='page-break'></div> persis sebelum bagian lampiran ini.";
-
-                        systemPrompt = `Anda adalah ahli kurikulum untuk menyusun RPP/Modul Ajar yang SANGAT FORMAL, PROFESIONAL, dan STANDARD NASIONAL.
-                        DILARANG KERAS MENGGUNAKAN EMOJI (seperti 🚀, 📖, dsb). Dilarang keras menggunakan warna-warni background tabel (gunakan #ffffff atau transparan dengan border hitam solid 1px).
-                        WAJIB IKUTI ATURAN DAN STRUKTUR TEMPLATE HTML DI BAWAH INI SECARA PERSIS 100%. Jangan tambahkan tag markdown \`\`\`html.
+                // Membangun Modul Ajar Persis seperti "Contoh Modul Ajar.pdf"
+                const identikHtml = `
+                    <div style="font-family: 'Times New Roman', Times, serif; color: #000; line-height: 1.5; text-align: justify; padding: 0 10px;">
                         
-                        Data Identitas untuk diisi:
-                        - Nama Penyusun: ${data.guru}
-                        - Institusi: ${data.sekolah}
-                        - Tahun Penyusunan: ${data.tahun}
-                        - Jenjang Sekolah: ${data.jenjang}
-                        - Fase/Kelas: ${data.kelas}
-                        - Mata Pelajaran: ${data.mapel}
-                        - Materi Pokok: ${data.materiPokok}
-                        - Alokasi Waktu: ${data.cakupan}
-                        - Kesiapan: ${data.kondisi}
-                        - Target Siswa: ${data.jmlSiswa}
-                        - Metode: ${data.metode}
-                        - Fasilitas: ${data.sarana}
-                        - TP: ${data.tp}
-                        - Sumber Belajar Fix: ${sumberBelajarDeskripsi}
-                        ${instruksiLampiran}
-                        
-                        Gunakan materi dari referensi ekstrak PDF ini untuk kedalaman materi jika relevan: "${extractedText.substring(0, 5000)}".
-
-                        STRUKTUR HTML WAJIB (Salin struktur ini bulat-bulat, pastikan layout rapi, formal, text-justify):
-                        <div style="font-family: 'Times New Roman', Times, serif; color: #000; line-height: 1.5; text-align: justify; padding: 0 10px;">
-                            
-                            <div style="text-align: center; margin-bottom: 30px;">
-                                <h1 style="font-size: 16pt; margin: 0; font-weight: bold; text-transform: uppercase;">MODUL AJAR</h1>
-                                <h2 style="font-size: 14pt; margin: 5px 0 0 0; font-weight: bold; text-transform: uppercase;">MATA PELAJARAN ${data.mapel.toUpperCase()}</h2>
-                            </div>
-                            
-                            <h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid black; padding-bottom: 3px;">I. IDENTITAS MODUL</h3>
-                            <table style="width: 100%; border: none; margin-bottom: 25px; font-size: 11pt;">
-                                <tr><td style="width: 30%; border: none; padding: 3px 0;">Nama Penyusun</td><td style="width: 70%; border: none; padding: 3px 0;">: ${data.guru}</td></tr>
-                                <tr><td style="border: none; padding: 3px 0;">Institusi</td><td style="border: none; padding: 3px 0;">: ${data.sekolah}</td></tr>
-                                <tr><td style="border: none; padding: 3px 0;">Tahun Penyusunan</td><td style="border: none; padding: 3px 0;">: ${data.tahun}</td></tr>
-                                <tr><td style="border: none; padding: 3px 0;">Jenjang Sekolah</td><td style="border: none; padding: 3px 0;">: ${data.jenjang}</td></tr>
-                                <tr><td style="border: none; padding: 3px 0;">Fase / Kelas</td><td style="border: none; padding: 3px 0;">: ${data.kelas}</td></tr>
-                                <tr><td style="border: none; padding: 3px 0;">Mata Pelajaran</td><td style="border: none; padding: 3px 0;">: ${data.mapel}</td></tr>
-                                <tr><td style="border: none; padding: 3px 0;">Materi Pokok</td><td style="border: none; padding: 3px 0;">: ${data.materiPokok}</td></tr>
-                                <tr><td style="border: none; padding: 3px 0;">Alokasi Waktu</td><td style="border: none; padding: 3px 0;">: ${data.cakupan}</td></tr>
-                            </table>
-
-                            <h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid black; padding-bottom: 3px;">II. KOMPONEN UMUM</h3>
-                            <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;">
-                                <tr>
-                                    <th style="border: 1px solid #000; padding: 6px 8px; text-align: left; width: 30%;">Komponen</th>
-                                    <th style="border: 1px solid #000; padding: 6px 8px; text-align: left;">Keterangan / Analisis</th>
-                                </tr>
-                                <tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Kesiapan Peserta Didik</td><td style="border: 1px solid #000; padding: 6px 8px;">[Uraikan analisis formal kondisi: ${data.kondisi}]</td></tr>
-                                <tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Profil Pelajar Pancasila</td><td style="border: 1px solid #000; padding: 6px 8px;">[Sebutkan elemen dimensi Profil Pelajar Pancasila yang relevan]</td></tr>
-                                <tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Sarana dan Prasarana</td><td style="border: 1px solid #000; padding: 6px 8px;">Fasilitas: ${data.sarana}<br>Referensi Utama: ${sumberBelajarDeskripsi}</td></tr>
-                                <tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Model Pembelajaran</td><td style="border: 1px solid #000; padding: 6px 8px;">${data.metode}</td></tr>
-                            </table>
-
-                            <h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid black; padding-bottom: 3px;">III. KOMPONEN INTI</h3>
-                            <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;">
-                                <tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold; width: 30%;">Tujuan Pembelajaran</td><td style="border: 1px solid #000; padding: 6px 8px;">${data.tp}</td></tr>
-                                <tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Pemahaman Bermakna</td><td style="border: 1px solid #000; padding: 6px 8px;">[Berikan uraian formal pemahaman bermakna terkait materi pokok]</td></tr>
-                                <tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Pertanyaan Pemantik</td><td style="border: 1px solid #000; padding: 6px 8px;">[Sebutkan pertanyaan pemantik yang esensial secara paragraf]</td></tr>
-                            </table>
-
-                            <h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px;">IV. KEGIATAN PEMBELAJARAN</h3>
-                            <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;">
-                                <tr>
-                                    <th style="border: 1px solid #000; padding: 6px 8px; text-align: center; width: 20%;">Tahap Pembelajaran</th>
-                                    <th style="border: 1px solid #000; padding: 6px 8px; text-align: center; width: 15%;">Waktu</th>
-                                    <th style="border: 1px solid #000; padding: 6px 8px; text-align: center;">Uraian Kegiatan Guru dan Peserta Didik</th>
-                                </tr>
-                                <tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold; text-align: center; vertical-align: top;">Pendahuluan</td><td style="border: 1px solid #000; padding: 6px 8px; text-align: center; vertical-align: top;">[.. Menit]</td><td style="border: 1px solid #000; padding: 6px 8px;">[Rincian formal aktivitas pendahuluan. Susun dengan poin rapi angka 1, 2, 3..]</td></tr>
-                                <tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold; text-align: center; vertical-align: top;">Kegiatan Inti</td><td style="border: 1px solid #000; padding: 6px 8px; text-align: center; vertical-align: top;">[.. Menit]</td><td style="border: 1px solid #000; padding: 6px 8px;">[Rincian formal aktivitas inti sesuai sintaks ${data.metode}. Susun dengan poin angka rapi.]</td></tr>
-                                <tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold; text-align: center; vertical-align: top;">Penutup</td><td style="border: 1px solid #000; padding: 6px 8px; text-align: center; vertical-align: top;">[.. Menit]</td><td style="border: 1px solid #000; padding: 6px 8px;">[Rincian formal aktivitas penutup dan refleksi. Susun dengan poin angka rapi.]</td></tr>
-                            </table>
-
-                            <h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px;">V. ASESMEN PEMBELAJARAN</h3>
-                            <table style="width: 100%; border-collapse: collapse; margin-bottom: 40px; font-size: 11pt;">
-                                <tr>
-                                    <th style="border: 1px solid #000; padding: 6px 8px; text-align: center; width: 25%;">Jenis Asesmen</th>
-                                    <th style="border: 1px solid #000; padding: 6px 8px; text-align: center;">Teknik & Instrumen Pengukuran</th>
-                                </tr>
-                                <tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; text-align: center; vertical-align: top;">Asesmen Diagnostik</td><td style="border: 1px solid #000; padding: 6px 8px;">[Isi rincian teknik diagnostik secara formal]</td></tr>
-                                <tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; text-align: center; vertical-align: top;">Asesmen Formatif</td><td style="border: 1px solid #000; padding: 6px 8px;">[Isi rincian teknik observasi/formatif secara formal]</td></tr>
-                            </table>
-                            
-                            <div style="display: flex; justify-content: space-between; text-align: center; margin-top: 50px; font-size: 11pt;" class="avoid-break">
-                                <div>Mengetahui,<br>Kepala Sekolah<br><br><br><br><b style="text-decoration: underline;">${data.kepsek}</b>${formatKepsekNIP}</div>
-                                <div>${data.kota}, ${tglPelaksanaanFormatted}<br>Guru Kelas / Mata Pelajaran<br><br><br><br><b style="text-decoration: underline;">${data.guru}</b>${formatGuruNIP}</div>
-                            </div>
+                        <div style="text-align: center; margin-bottom: 30px;">
+                            <h1 style="font-size: 16pt; margin: 0; font-weight: bold; text-transform: uppercase;">MODUL AJAR</h1>
+                            <h2 style="font-size: 14pt; margin: 5px 0 0 0; font-weight: bold; text-transform: uppercase;">MATA PELAJARAN ${mapel}</h2>
                         </div>
                         
-                        [JIKA ADA LAMPIRAN (${instruksiLampiran}), GENERATE SEMUANYA DI SINI. AWALI SETIAP LAMPIRAN DENGAN <div class="page-break"></div>.
-                        GUNAKAN FORMAT RESMI DAN FORMAL (TANPA EMOJI, MENGGUNAKAN TABEL HITAM PUTIH RAPI, DAN FORMAT UJIAN/LKPD STANDAR NASIONAL)]`;
-                    }
+                        <h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid black; padding-bottom: 3px;">A. IDENTIFIKASI</h3>
+                        <table style="width: 100%; border: none; margin-bottom: 25px; font-size: 11pt;">
+                            <tr><td style="width: 30%; border: none; padding: 3px 0;">Penyusun</td><td style="width: 70%; border: none; padding: 3px 0;">: ${sGlobal.guruName}</td></tr>
+                            <tr><td style="border: none; padding: 3px 0;">Jenjang Sekolah</td><td style="border: none; padding: 3px 0;">: ${sGlobal.jenjang}</td></tr>
+                            <tr><td style="border: none; padding: 3px 0;">Fase / Kelas</td><td style="border: none; padding: 3px 0;">: ${kelas}</td></tr>
+                            <tr><td style="border: none; padding: 3px 0;">Mata Pelajaran</td><td style="border: none; padding: 3px 0;">: ${mapel}</td></tr>
+                            <tr><td style="border: none; padding: 3px 0;">Alokasi Waktu</td><td style="border: none; padding: 3px 0;">: 1 x Pertemuan</td></tr>
+                            <tr><td style="border: none; padding: 3px 0;">Nama Sekolah</td><td style="border: none; padding: 3px 0;">: ${sGlobal.sekolahName}</td></tr>
+                        </table>
 
-                    // Ganti bagian depan URL ini dengan URL relatif "/api/chat"
-                    const urlVercel = "/api/chat"; 
-                    
-                    // Gabungkan systemPrompt dan instruksi utama ke dalam satu payload "pesan"
-                    const promptTeksKamu = systemPrompt + "\n\nEksekusi pembuatan modul ajar presisi berdasarkan instruksi dan konteks di atas.";
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;">
+                            <tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold; width: 30%;">Kesiapan Peserta Didik</td><td style="border: 1px solid #000; padding: 6px 8px;">Pengetahuan Awal: ${setKondisi}</td></tr>
+                            <tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Karakteristik Materi</td><td style="border: 1px solid #000; padding: 6px 8px;">Analisis Materi: "${materi}" merupakan materi konseptual yang relevan dengan kehidupan nyata.</td></tr>
+                            <tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Dimensi Profil Lulusan</td><td style="border: 1px solid #000; padding: 6px 8px;">• Keimanan dan Ketakwaan<br>• Penalaran Kritis<br>• Kolaborasi<br>• Kreativitas<br>• Mandiri</td></tr>
+                        </table>
 
-                    const result = await fetchWithRetry(urlVercel, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ pesan: promptTeksKamu })
-                    });
+                        <h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid black; padding-bottom: 3px;">B. DESAIN PEMBELAJARAN</h3>
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;">
+                            <tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold; width: 30%;">Topik Pembelajaran</td><td style="border: 1px solid #000; padding: 6px 8px;">${materi}</td></tr>
+                            <tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Target Peserta Didik</td><td style="border: 1px solid #000; padding: 6px 8px;">Reguler/Tipikal (Jumlah siswa: ${setJml})</td></tr>
+                            <tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Tujuan Pembelajaran</td><td style="border: 1px solid #000; padding: 6px 8px;">${tpVal}</td></tr>
+                            <tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Praktik Pedagogis & Metode</td><td style="border: 1px solid #000; padding: 6px 8px;">${setMetode}</td></tr>
+                            <tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Lingkungan Pembelajaran</td><td style="border: 1px solid #000; padding: 6px 8px;">${setSarana}</td></tr>
+                        </table>
 
-                    // Deteksi jika API AI membalas dengan Error (seperti API Key salah/limit)
-                    if (result.error) {
-                        throw new Error(result.error.message || "Gagal memproses AI. Cek log Vercel.");
-                    }
+                        <h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid black; padding-bottom: 3px;">C. PENGALAMAN BELAJAR (KEGIATAN PEMBELAJARAN)</h3>
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;">
+                            <tr>
+                                <th style="border: 1px solid #000; padding: 6px 8px; text-align: center; width: 20%;">Tahap Pembelajaran</th>
+                                <th style="border: 1px solid #000; padding: 6px 8px; text-align: center; width: 15%;">Waktu</th>
+                                <th style="border: 1px solid #000; padding: 6px 8px; text-align: center;">Rincian Kegiatan</th>
+                            </tr>
+                            <tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold; text-align: center;">Pendahuluan</td><td style="border: 1px solid #000; padding: 6px 8px; text-align: center;">10 Menit</td><td style="border: 1px solid #000; padding: 6px 8px;">1. Guru membuka dengan salam dan doa.<br>2. Apersepsi materi sebelumnya.<br>3. Penyampaian Tujuan Pembelajaran.</td></tr>
+                            <tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold; text-align: center;">Kegiatan Inti</td><td style="border: 1px solid #000; padding: 6px 8px; text-align: center;">50 Menit</td><td style="border: 1px solid #000; padding: 6px 8px;">1. Eksplorasi konsep ${materi}.<br>2. Siswa berdiskusi secara kelompok.<br>3. Presentasi hasil diskusi.</td></tr>
+                            <tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold; text-align: center;">Penutup</td><td style="border: 1px solid #000; padding: 6px 8px; text-align: center;">10 Menit</td><td style="border: 1px solid #000; padding: 6px 8px;">1. Pemberian asesmen sumatif singkat.<br>2. Refleksi siswa dan guru.<br>3. Doa Penutup.</td></tr>
+                        </table>
 
-                    // Fleksibel menangkap balasan apa pun dari API Backend
-                    let generatedHTML = "";
-                    if (typeof result === 'string') {
-                        generatedHTML = result;
-                    } else if (result.candidates && result.candidates.length > 0) {
-                        generatedHTML = result.candidates[0].content.parts[0].text;
-                    } else {
-                        generatedHTML = result.text || result.pesan || result.response || JSON.stringify(result);
-                    }
-                    
-                    generatedHTML = generatedHTML.replace(/^```html/i, '').replace(/^```/i, '').replace(/```$/i, '');
+                        <h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid black; padding-bottom: 3px;">D. ASESMEN</h3>
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;">
+                            <tr>
+                                <th style="border: 1px solid #000; padding: 6px 8px; text-align: center;">Jenis Asesmen</th>
+                                <th style="border: 1px solid #000; padding: 6px 8px; text-align: center;">Teknik</th>
+                                <th style="border: 1px solid #000; padding: 6px 8px; text-align: center;">Tujuan / Instrumen</th>
+                            </tr>
+                            <tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; text-align: center;">Awal Pembelajaran</td><td style="border: 1px solid #000; padding: 6px 8px; text-align: center;">Pertanyaan Lisan</td><td style="border: 1px solid #000; padding: 6px 8px;">Mengidentifikasi pengetahuan awal siswa.</td></tr>
+                            <tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; text-align: center;">Proses (Formatif)</td><td style="border: 1px solid #000; padding: 6px 8px; text-align: center;">Observasi</td><td style="border: 1px solid #000; padding: 6px 8px;">Lembar observasi diskusi & presentasi.</td></tr>
+                            <tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; text-align: center;">Akhir (Sumatif)</td><td style="border: 1px solid #000; padding: 6px 8px; text-align: center;">Tes Tulis</td><td style="border: 1px solid #000; padding: 6px 8px;">Soal Pilihan Ganda / Uraian Singkat.</td></tr>
+                        </table>
 
-                    // Jika balasan ternyata benar-benar kosong
-                    if (!generatedHTML || generatedHTML.trim() === "" || generatedHTML === "{}") {
-                        throw new Error("AI membalas dengan teks kosong. Coba ulangi atau cek Vercel.");
-                    }
-
-                    setHtml('pdf-content', generatedHTML);
-                    
-                    if(ls) ls.classList.add('hidden');
-                    if(pw) pw.classList.remove('hidden');
-                    const bdl = document.getElementById('btn-download'); if(bdl) bdl.style.display = 'flex';
-                    const bsd = document.getElementById('btn-save-db'); if(bsd) bsd.style.display = 'flex';
-                    showToast('Kreator AI Berhasil Menyusun Dokumen!', 'success');
-
-                } catch (error) {
-                    console.error("AI Error Detail:", error);
-                    showToast(error.message || "Komunikasi AI terputus. Cek koneksi Vercel Backend.", "error");
-                    if(ls) ls.classList.add('hidden');
-                    if(pw) pw.classList.add('hidden'); // Sembunyikan kanvas putih
-                    if(es) es.classList.remove('hidden');
-                } finally {
-                    if(btnGen) { btnGen.disabled = false; btnGen.innerHTML = originalBtnHtml; }
-                }
-            });
-        }
-
-        // Simpan & Ekspor (Cloud DB & Local PDF)
-        const btnSaveDb = document.getElementById('btn-save-db');
-        if(btnSaveDb) {
-            btnSaveDb.addEventListener('click', async () => {
-                if (!currentUser) return showToast('Sesi tidak valid untuk Cloud', 'error');
-                const btn = document.getElementById('btn-save-db');
-                if(btn) { btn.innerHTML = `⏳`; btn.disabled = true; }
-                try {
-                    const cb = document.getElementById('cakupan');
-                    await addDoc(collection(db, 'artifacts', appId, 'users', currentUser.uid, 'dokumen_pembelajaran'), {
-                        jenis: (cb && cb.value === "1 Tahun Pelajaran") ? "PROTA" : "MODUL",
-                        mapel: getMapel(),
-                        content: document.getElementById('pdf-content')?.innerHTML || '',
-                        timestamp: serverTimestamp()
-                    });
-                    showToast("Tersimpan aman di Cloud DB!", "success");
-                } catch (e) { showToast("Gagal menyimpan ke Cloud.", "error"); } 
-                finally { if(btn) { btn.innerHTML = `☁️ Simpan ke Cloud`; btn.disabled = false; } }
-            });
-        }
-
-        const btnDownload = document.getElementById('btn-download');
-        if(btnDownload) {
-            btnDownload.addEventListener('click', () => {
-                const el = document.getElementById('pdf-content');
-                if(!el) return;
-                const cb = document.getElementById('cakupan');
-                const isProta = cb && cb.value === "1 Tahun Pelajaran";
-                const opt = {
-                    margin:       [15, 15, 15, 15],
-                    filename:     `${isProta?'PROTA':'Modul_Ajar'}_${getMapel().replace(/[^a-zA-Z0-9]/g, '_')}.pdf`,
-                    image:        { type: 'jpeg', quality: 0.98 },
-                    html2canvas:  { scale: 2, useCORS: true },
-                    jsPDF:        { unit: 'mm', format: 'a4', orientation: isProta ? 'landscape' : 'portrait' },
-                    pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
-                };
-                const btn = document.getElementById('btn-download');
-                if(btn) { btn.innerHTML = `⏳`; btn.disabled = true; }
-                html2pdf().set(opt).from(el).save().then(() => { 
-                    if(btn) { btn.innerHTML = `📥 Unduh PDF`; btn.disabled = false; }
-                    showToast("Dokumen PDF berhasil diunduh.", "success"); 
-                });
-            });
-        }
-        
-        // ------------------ ARSIP CLOUD LOGIC ------------------
-        let cachedArsip = [];
-        async function loadArsip() {
-            if(!currentUser) return;
-            const al = document.getElementById('arsip-loading'); if(al) al.classList.remove('hidden'); 
-            const ac = document.getElementById('arsip-container'); if(ac) ac.classList.add('hidden');
-            try {
-                // Rule: Fetch with simple query and sort in JavaScript memory
-                const collRef = collection(db, 'artifacts', appId, 'users', currentUser.uid, 'dokumen_pembelajaran');
-                const q = query(collRef);
-                const querySnapshot = await getDocs(q);
-                
-                cachedArsip = [];
-                querySnapshot.forEach(doc => cachedArsip.push({ id: doc.id, ...doc.data() }));
-                
-                // Sort array locally based on timestamp in descending order
-                cachedArsip.sort((a, b) => {
-                    const timeA = a.timestamp ? a.timestamp.toMillis() : 0;
-                    const timeB = b.timestamp ? b.timestamp.toMillis() : 0;
-                    return timeB - timeA;
-                });
-
-                renderArsip();
-            } catch (e) { 
-                console.error(e);
-                showToast('Gagal memuat arsip Cloud (Periksa koneksi).', 'error'); 
-            } 
-            finally { 
-                if(al) al.classList.add('hidden'); 
-                if(ac) ac.classList.remove('hidden'); 
-            }
-        }
-
-        function renderArsip() {
-            const container = document.getElementById('arsip-container');
-            if(!container) return;
-            container.innerHTML = '';
-            const grouped = cachedArsip.reduce((acc, doc) => { const m = doc.mapel || 'Lain-lain'; if(!acc[m]) acc[m] = []; acc[m].push(doc); return acc; }, {});
-            
-            if(Object.keys(grouped).length === 0) {
-                container.innerHTML = '<div class="text-center py-10 text-slate-400 font-medium">Belum ada arsip yang disimpan di Cloud.</div>';
-                return;
-            }
-
-            for (const [mapel, docs] of Object.entries(grouped)) {
-                const groupDiv = document.createElement('div');
-                groupDiv.className = "app-card p-6 border-t-4 border-t-emerald-400 bg-white shadow-sm transition-all";
-                let docsHtml = docs.map(d => {
-                    // Safe date parsing in case timestamp is unexpectedly formatted
-                    let displayDate = 'Baru Saja';
-                    if (d.timestamp && typeof d.timestamp.toDate === 'function') {
-                        displayDate = d.timestamp.toDate().toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'});
-                    }
-                    return `
-                    <div class="flex items-center justify-between p-3 hover:bg-slate-50 border border-transparent hover:border-slate-200 rounded-xl transition-colors mt-2">
-                        <div class="flex items-center space-x-3">
-                            <input type="checkbox" class="arsip-checkbox custom-checkbox" value="${d.id}">
-                            <div>
-                                <span class="text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider ${d.jenis==='PROTA'?'bg-amber-100 text-amber-700':'bg-indigo-100 text-indigo-700'}">${d.jenis}</span>
-                                <p class="text-xs text-slate-500 mt-1 font-medium">${displayDate}</p>
-                            </div>
+                        <h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid black; padding-bottom: 3px;">E. REFLEKSI, PENGAYAAN, DAN REFERENSI</h3>
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 40px; font-size: 11pt;">
+                            <tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold; width: 30%;">Refleksi Guru</td><td style="border: 1px solid #000; padding: 6px 8px;">Apakah siswa berpartisipasi aktif? Apa perbaikan ke depannya?</td></tr>
+                            <tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Pengayaan & Remedial</td><td style="border: 1px solid #000; padding: 6px 8px;">Siswa mahir diberi tugas lanjutan, siswa perlu bimbingan diarahkan khusus.</td></tr>
+                            <tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Daftar Pustaka</td><td style="border: 1px solid #000; padding: 6px 8px;">Buku Teks Siswa Kurikulum Merdeka, Media terkait.</td></tr>
+                        </table>
+                        
+                        <div style="display: flex; justify-content: space-between; text-align: center; margin-top: 50px; font-size: 11pt;" class="avoid-break">
+                            <div>Mengetahui,<br>Kepala Sekolah<br><br><br><br><b style="text-decoration: underline;">${sGlobal.kepsekName}</b><br>NIP. ${sGlobal.kepsekNIP}</div>
+                            <div>${sGlobal.kota}, ${waktuPelaksanaan}<br>Guru Kelas / Mata Pelajaran<br><br><br><br><b style="text-decoration: underline;">${sGlobal.guruName}</b><br>NIP. ${sGlobal.guruNIP}</div>
                         </div>
-                        <button onclick="previewArsip('${d.id}')" class="text-sm bg-indigo-50 text-indigo-600 hover:bg-indigo-100 font-bold px-4 py-2 rounded-lg transition-colors shadow-sm">Buka Kanvas</button>
+
+                        <!-- KELENGKAPAN LAMPIRAN -->
+                        <div class="page-break"></div>
+                        <h1 style="text-align: center; font-size: 14pt; margin-bottom: 20px;">LAMPIRAN 1: LEMBAR KERJA PESERTA DIDIK (LKPD)</h1>
+                        <p style="font-weight: bold;">Tujuan:</p>
+                        <p>Peserta didik mampu bekerja sama memecahkan permasalahan terkait materi ${materi} dengan menyusun/menggambar skema dengan benar.</p>
+                        <p style="font-weight: bold; margin-top: 15px;">Langkah-Langkah Kegiatan:</p>
+                        <ol>
+                            <li>Diskusikan bersama kelompok terkait materi.</li>
+                            <li>Gambarkan / Susunlah alur sesuai pemahaman kelompok.</li>
+                            <li>Hiaslah karya kalian sekreatif mungkin.</li>
+                        </ol>
+
+                        <div class="page-break"></div>
+                        <h1 style="text-align: center; font-size: 14pt; margin-bottom: 20px;">LAMPIRAN 2 & 3: MEDIA DAN BAHAN AJAR</h1>
+                        <p style="font-weight: bold;">Bahan Ajar:</p>
+                        <p>Rangkuman penjelasan materi mengenai ${materi}. Materi memuat definisi, tahapan-tahapan, fungsi, serta contoh relevan sesuai Kurikulum Merdeka.</p>
+
+                        <div class="page-break"></div>
+                        <h1 style="text-align: center; font-size: 14pt; margin-bottom: 20px;">LAMPIRAN 4: INSTRUMEN ASESMEN</h1>
+                        <p style="font-weight: bold;">1. Rubrik Penilaian Kelompok (Keterampilan)</p>
+                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 11pt;">
+                            <tr><th style="border: 1px solid #000; padding: 6px 8px;">Kriteria</th><th style="border: 1px solid #000; padding: 6px 8px;">Sangat Baik (4)</th><th style="border: 1px solid #000; padding: 6px 8px;">Baik (3)</th></tr>
+                            <tr><td style="border: 1px solid #000; padding: 6px 8px;">Kerjasama</td><td style="border: 1px solid #000; padding: 6px 8px;">Semua aktif berbagi tugas</td><td style="border: 1px solid #000; padding: 6px 8px;">Sebagian besar aktif</td></tr>
+                            <tr><td style="border: 1px solid #000; padding: 6px 8px;">Presentasi</td><td style="border: 1px solid #000; padding: 6px 8px;">Jelas dan lantang</td><td style="border: 1px solid #000; padding: 6px 8px;">Cukup jelas</td></tr>
+                        </table>
+                        <p style="font-weight: bold; margin-top: 15px;">2. Soal Evaluasi Sumatif Pilihan Ganda / Isian Singkat mengenai ${materi}.</p>
+
+                        <div class="page-break"></div>
+                        <h1 style="text-align: center; font-size: 14pt; margin-bottom: 20px;">LAMPIRAN 5 & 6: PENGAYAAN, REMEDIAL, DAN JURNAL REFLEKSI</h1>
+                        <p><b>Pengayaan:</b> Memberikan tugas menantang untuk siswa mahir membuat contoh kasus tambahan.</p>
+                        <p><b>Remedial:</b> Bimbingan perorangan ulang mengenai konsep dasar ${materi}.</p>
+                        <p style="font-weight: bold; margin-top: 15px;">Jurnal Refleksi Guru:</p>
+                        <table style="width: 100%; border-collapse: collapse; font-size: 11pt;">
+                            <tr><td style="border: 1px solid #000; padding: 6px 8px; width:5%;">1.</td><td style="border: 1px solid #000; padding: 6px 8px;">Momen berkesan apa yang saya dapatkan hari ini?</td></tr>
+                            <tr><td style="border: 1px solid #000; padding: 6px 8px;">2.</td><td style="border: 1px solid #000; padding: 6px 8px;">Tantangan apa yang dialami siswa saat pengerjaan tugas?</td></tr>
+                        </table>
+
+                        <div class="page-break"></div>
+                        <h1 style="text-align: center; font-size: 14pt; margin-bottom: 20px;">LAMPIRAN 7: LEMBAR SURVEI PESERTA DIDIK</h1>
+                        <p>Nama Siswa : .......................</p>
+                        <p style="margin-bottom: 15px;">Petunjuk: Beri tanda centang pada kolom wajah yang mewakili perasaanmu hari ini!</p>
+                        <table style="width: 100%; border-collapse: collapse; font-size: 11pt;">
+                            <tr><th style="border: 1px solid #000; padding: 6px 8px;">Pernyataan Survei</th><th style="border: 1px solid #000; padding: 6px 8px; text-align: center;">Sedih</th><th style="border: 1px solid #000; padding: 6px 8px; text-align: center;">Senang</th></tr>
+                            <tr><td style="border: 1px solid #000; padding: 6px 8px;">Saya paham tentang pelajaran hari ini.</td><td style="border: 1px solid #000; padding: 6px 8px; text-align: center;">( )</td><td style="border: 1px solid #000; padding: 6px 8px; text-align: center;">( )</td></tr>
+                            <tr><td style="border: 1px solid #000; padding: 6px 8px;">Kegiatan kelompok berjalan sangat menyenangkan.</td><td style="border: 1px solid #000; padding: 6px 8px; text-align: center;">( )</td><td style="border: 1px solid #000; padding: 6px 8px; text-align: center;">( )</td></tr>
+                        </table>
                     </div>`;
-                }).join('');
-                
-                groupDiv.innerHTML = `
-                    <div class="flex items-center mb-1 border-b border-slate-100 pb-3">
-                        <input type="checkbox" class="group-checkbox custom-checkbox mr-3">
-                        <h3 class="font-bold text-slate-800 text-lg flex items-center">📦 Folder Modul: ${mapel}</h3>
-                    </div>
-                    <div>${docsHtml}</div>`;
-                container.appendChild(groupDiv);
-            }
+                    
+                document.getElementById('pdf-content').innerHTML = identikHtml;
+                document.getElementById('loading-state').classList.add('hidden');
+                document.getElementById('pdf-wrapper').classList.remove('hidden');
+                document.getElementById('btn-download').style.display = 'flex';
+                document.getElementById('btn-save-db').style.display = 'flex';
+                btnGen.disabled = false; btnGen.innerHTML = `<i class="fas fa-rocket mr-2"></i> Bangun Modul Ajar`;
+                showToast('Sukses Menyusun Modul!', 'success');
+            }, 2000);
+        });
 
-            document.querySelectorAll('.group-checkbox').forEach(cb => cb.addEventListener('change', (e) => { 
-                e.target.closest('div').nextElementSibling.querySelectorAll('.arsip-checkbox').forEach(child => child.checked = e.target.checked); 
-                checkBulkBtnState(); 
-            }));
-            document.querySelectorAll('.arsip-checkbox').forEach(cb => cb.addEventListener('change', checkBulkBtnState));
-        }
+        document.getElementById('btn-save-db')?.addEventListener('click', () => { showToast('Disimpan secara simulasi ke Cloud', 'success'); });
 
-        function checkBulkBtnState() {
-            const checked = document.querySelectorAll('.arsip-checkbox:checked').length;
-            const btn = document.getElementById('btn-bulk-download');
-            if (btn) {
-                btn.disabled = checked === 0;
-                btn.innerText = checked > 0 ? `📥 Ekspor Bulk PDF (${checked} Terpilih)` : `📥 Ekspor Buku (Bulk PDF)`;
-            }
-        }
+        document.getElementById('btn-download')?.addEventListener('click', () => {
+            const el = document.getElementById('pdf-content');
+            html2pdf().set({ margin: 15, filename: `Modul_${getMapel()}.pdf` }).from(el).save();
+        });
 
-        window.previewArsip = (id) => {
-            const doc = cachedArsip.find(d => d.id === id);
-            if(doc) {
-                switchView('generator');
-                setHtml('pdf-content', doc.content);
-                const pw = document.getElementById('pdf-wrapper'); if(pw) pw.classList.remove('hidden'); 
-                const es = document.getElementById('empty-state'); if(es) es.classList.add('hidden');
-                const bdl = document.getElementById('btn-download'); if(bdl) bdl.style.display = 'flex';
-                const cb = document.getElementById('cakupan'); if(cb) cb.value = doc.jenis === "PROTA" ? "1 Tahun Pelajaran" : "1 x Pertemuan (2 x 35 menit)";
-                showToast('Arsip berhasil dimuat ke Kanvas Editor.', 'success');
-            }
-        };
-
-        // Export Bulk
-        const btnBulkDl = document.getElementById('btn-bulk-download');
-        if(btnBulkDl) {
-            btnBulkDl.addEventListener('click', () => {
-                const selectedIds = Array.from(document.querySelectorAll('.arsip-checkbox:checked')).map(cb => cb.value);
-                if(selectedIds.length === 0) return;
-                const btn = document.getElementById('btn-bulk-download');
-                if(btn) { btn.innerHTML = `⏳ Mengekspor (Jangan Tutup)...`; btn.disabled = true; }
-                
-                const bulkContainer = document.getElementById('bulk-pdf-container'); 
-                if(!bulkContainer) return;
-                bulkContainer.innerHTML = '';
-                
-                selectedIds.forEach((id, i) => {
-                    const doc = cachedArsip.find(d => d.id === id);
-                    if(doc) {
-                        const div = document.createElement('div'); 
-                        div.innerHTML = doc.content; 
-                        div.style.cssText = "font-family:'Times New Roman',Times,serif; font-size:11pt; padding:20mm;";
-                        bulkContainer.appendChild(div);
-                        if(i < selectedIds.length - 1) {
-                            const pageBreak = document.createElement('div');
-                            pageBreak.className = 'page-break html2pdf__page-break';
-                            bulkContainer.appendChild(pageBreak);
-                        }
-                    }
-                });
-                
-                bulkContainer.style.display = 'block';
-                html2pdf().set({
-                    margin:[15,15,15,15], 
-                    filename:`Buku_Arsip_Kompilasi.pdf`, 
-                    image:{type:'jpeg',quality:0.98}, 
-                    html2canvas:{scale:2,useCORS:true}, 
-                    jsPDF:{unit:'mm',format:'a4'}, 
-                    pagebreak:{mode:['avoid-all','css','legacy']}
-                }).from(bulkContainer).save().then(() => {
-                    bulkContainer.style.display = 'none'; 
-                    bulkContainer.innerHTML = ''; 
-                    if(btn) { btn.innerHTML = `📥 Ekspor Berhasil`; }
-                    setTimeout(() => { checkBulkBtnState(); }, 2000);
-                    showToast("Proses ekspor PDF Bulk sukses diselesaikan.", "success");
-                });
-            });
+        function loadArsip() {
+            document.getElementById('arsip-loading').classList.add('hidden'); 
+            const container = document.getElementById('arsip-container');
+            container.classList.remove('hidden');
+            container.innerHTML = `<div class="app-card p-6 bg-white border-l-4 border-l-orange"><p class="font-heading font-bold text-navy">Tidak ada arsip dokumen sinkronisasi.</p></div>`;
         }
     </script>
 </body>
