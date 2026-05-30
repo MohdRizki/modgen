@@ -143,7 +143,7 @@
             border-color: #0b1b42;
         }
 
-        /* Render PDF Output Styles - Kept absolute units for PDF accuracy */
+        /* Render PDF Output Styles - Absolute units for PDF accuracy */
         #pdf-content { 
             font-family: 'Times New Roman', Times, serif; 
             font-size: 11pt; 
@@ -248,7 +248,7 @@
         </div>
     </div>
 
-    <!-- SIDEBAR NAV (NAVY THEME) -->
+    <!-- SIDEBAR NAV -->
     <nav id="sidebar" class="hidden w-64 bg-navy flex-col z-40 relative h-full shadow-xl shrink-0">
         <div class="p-6 border-b border-white/10 flex items-center space-x-4 shrink-0">
             <div class="w-12 h-12 rounded-full border-2 border-orange bg-navy flex items-center justify-center shadow-lg text-orange font-heading font-bold text-xl">
@@ -316,7 +316,7 @@
                         Selamat Datang, <br><span id="dash-user" class="text-orange">Guru</span>!
                     </h1>
                     <p class="text-gray-300 max-w-2xl text-base relative z-10 font-medium">
-                        Generasi baru manajemen perangkat pembelajaran berbasis AI. Susun dan atur modul ajar Anda dengan struktur presisi, dinamis, dan efisiensi tinggi.
+                        Generasi baru manajemen perangkat pembelajaran berbasis AI. Susun dan atur modul ajar Anda dengan struktur presisi, dinamis, dan efisiensi tinggi. Terhubung langsung ke Backend Vercel Anda.
                     </p>
                 </div>
 
@@ -561,7 +561,7 @@
                         <div id="loading-state" class="hidden absolute inset-0 flex flex-col items-center justify-center bg-lightbg/90 backdrop-blur-sm z-20">
                             <div class="loader mb-6" style="width: 60px; height: 60px; border-width: 5px; border-top-color: #f05a22;"></div>
                             <p class="font-heading font-bold text-xl text-navy" id="loading-title">AI Sedang Bekerja...</p>
-                            <p class="text-sm font-medium text-graytext mt-2 text-center max-w-md" id="loading-text">Menghubungkan ke Gemini AI untuk menyusun kegiatan inti dan asesmen secara spesifik untuk mapel ini...</p>
+                            <p class="text-sm font-medium text-graytext mt-2 text-center max-w-md" id="loading-text">Menghubungkan ke Backend Vercel untuk menyusun kegiatan inti dan asesmen secara spesifik untuk mapel ini...</p>
                         </div>
                     </div>
                 </div>
@@ -751,9 +751,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        const apiKey = "";
+        import { getFirestore, collection, getDocs, addDoc, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
         const lf = localforage.createInstance({ name: "SpapPintar_DB", storeName: "pustaka_lokal" });
@@ -919,6 +917,7 @@
                     if (matchedGuru) {
                         currentUser = {
                             username: matchedGuru.username,
+                            uid: matchedGuru.id,
                             nama: matchedGuru.nama || matchedGuru.username,
                             kelas: matchedGuru.kelas || "Kelas Default",
                             nip: matchedGuru.nip || '-'
@@ -1135,26 +1134,20 @@
             return text;
         }
 
-        // FUNGSI UTAMA CALL KE GEMINI API LANGSUNG
-        async function fetchGeminiAPI(prompt, schema = null) {
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+        // FUNGSI UTAMA CALL KE GEMINI API MELALUI BACKEND VERCEL
+        async function fetchGeminiAPI(prompt) {
+            // Mengarahkan request sepenuhnya ke backend Vercel Anda
+            const urlVercel = "/api/chat"; 
             
+            // Backend Vercel Anda memerlukan payload JSON dengan field "pesan"
             const payload = {
-                contents: [{ parts: [{ text: prompt }] }],
+                pesan: prompt
             };
 
-            if (schema) {
-                payload.generationConfig = {
-                    responseMimeType: "application/json",
-                    responseSchema: schema
-                };
-            }
-
-            // Implementasi retry exponential backoff
             const backoffDelays = [1000, 2000, 4000, 8000];
             for (let i = 0; i < backoffDelays.length; i++) {
                 try {
-                    const response = await fetch(url, {
+                    const response = await fetch(urlVercel, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(payload)
@@ -1166,9 +1159,25 @@
                     }
                     
                     const result = await response.json();
-                    return result.candidates?.[0]?.content?.parts?.[0]?.text || "{}";
+                    
+                    // Deteksi jika Vercel mengembalikan error terstruktur
+                    if (result.error) {
+                        throw new Error(result.error.message || "Error dari Server Backend Vercel.");
+                    }
+                    
+                    // Parsing kembalian yang fleksibel sesuai implementasi standar endpoint /api/chat Vercel
+                    let responseText = "";
+                    if (typeof result === 'string') {
+                        responseText = result;
+                    } else if (result.candidates && result.candidates.length > 0) {
+                        responseText = result.candidates[0].content.parts[0].text;
+                    } else {
+                        responseText = result.text || result.pesan || result.response || JSON.stringify(result);
+                    }
+
+                    return responseText;
                 } catch (error) {
-                    console.error(`Upaya API ke-${i + 1} gagal:`, error);
+                    console.error(`Upaya komunikasi backend ke-${i + 1} gagal:`, error);
                     if (i === backoffDelays.length - 1) throw error;
                     await new Promise(res => setTimeout(res, backoffDelays[i]));
                 }
@@ -1183,7 +1192,7 @@
         document.getElementById('tglBuat').value = new Date().toISOString().split('T')[0];
         document.getElementById('tglPelaksanaan').value = new Date().toISOString().split('T')[0];
 
-        // TOMBOL AUTO RUMUSKAN TP MENGGUNAKAN GEMINI
+        // TOMBOL AUTO RUMUSKAN TP
         document.getElementById('btn-auto-tp')?.addEventListener('click', async () => {
             const mapel = getMapel();
             const kelas = getKelas();
@@ -1219,24 +1228,17 @@
                     return;
                 }
 
+                // Instruksi untuk backend agar membalas dalam format JSON
                 let prompt = `Anda adalah seorang ahli pendidikan di Indonesia pembuat kurikulum.
                 Tugas Anda adalah merumuskan "Materi Pokok" (1 kalimat pendek) dan "Tujuan Pembelajaran" (1 paragraf jelas dengan 2 poin) untuk mata pelajaran ${mapel} kelas ${kelas}.
-                Berikan respon WAJIB dalam format JSON dengan kunci "materi_pokok" dan "tp".
+                Berikan respons WAJIB dalam format JSON murni dengan kunci "materi_pokok" dan "tp". Jangan tambahkan pembuka markdown \`\`\`json.
                 `;
                 
                 if(extractedContext) prompt += `\nKonteks materi dari rujukan PDF: "${extractedContext.substring(0, 2000)}"`;
                 if(materiInput) prompt += `\nAcuan Materi Pokok: "${materiInput}"`;
 
-                const tpSchema = {
-                    type: "OBJECT",
-                    properties: {
-                        materi_pokok: { type: "STRING" },
-                        tp: { type: "STRING" }
-                    }
-                };
-
-                // Panggil Gemini API
-                let responseText = await fetchGeminiAPI(prompt, tpSchema);
+                // Panggil Gemini API lewat Backend Vercel
+                let responseText = await fetchGeminiAPI(prompt);
                 
                 try {
                     let cleanText = responseText.replace(/```json/gi, '').replace(/```/g, '').trim();
@@ -1249,7 +1251,7 @@
                     showToast('Format balasan AI tidak sesuai, silakan ulangi.', 'error');
                 }
             } catch(err) {
-                showToast('Gagal terhubung ke server Gemini AI.', 'error');
+                showToast('Gagal terhubung ke backend Vercel.', 'error');
                 console.error(err);
             } finally {
                 btnAuto.innerHTML = `<i class="fas fa-magic mr-1"></i> Auto Rumuskan`;
@@ -1257,7 +1259,7 @@
             }
         });
 
-        // PROSES UTAMA PEMBUATAN MODUL MENGGUNAKAN GEMINI
+        // PROSES UTAMA PEMBUATAN MODUL
         document.getElementById('generator-form')?.addEventListener('submit', async (e) => {
             e.preventDefault();
             const btnGen = document.getElementById('btn-generate');
@@ -1299,7 +1301,7 @@
                 let pagesToExtract = hb ? hb.value : "1";
                 
                 let extractedText = "";
-                let sumberBelajarDeskripsi = "Buku Paket/Referensi Mandiri";
+                let sumberBelajarDeskripsi = "Buku Paket Siswa Standar";
 
                 if(selectedKey) {
                     const record = await lf.getItem(selectedKey);
@@ -1307,34 +1309,35 @@
                     let itemName = record instanceof File ? selectedKey : record.name;
 
                     if (itemType === 'file') {
-                        setTxt('loading-text', `Mengekstrak rujukan untuk konteks materi...`);
+                        setTxt('loading-text', `Mengekstrak rujukan PDF secara lokal...`);
                         let blob = record instanceof File ? record : record.file;
                         extractedText = await extractSpecificPages(blob, pagesToExtract);
-                        sumberBelajarDeskripsi = `${itemName} (Hal: ${pagesToExtract})`;
+                        sumberBelajarDeskripsi = `${itemName} (Referensi Hal: ${pagesToExtract})`;
                     } else if (itemType === 'link') {
                         extractedText = `Tautan rujukan: ${itemName}`;
                         sumberBelajarDeskripsi = `${itemName}`;
                     }
                 }
                 
-                setTxt('loading-text', `Gemini merumuskan sintaks untuk materi ${materi}...`);
+                setTxt('loading-text', `Mengirim instruksi ke Vercel untuk materi ${materi}...`);
 
-                // PROMPT KEPADA GEMINI DALAM BENTUK JSON AGAR STRUKTURNYA TIDAK RUSAK
+                // Instruksi format JSON untuk backend
                 let prompt = `Anda adalah ahli pedagogik tingkat tinggi. Buatlah rincian rencana pembelajaran.
                 Mata Pelajaran: ${mapel}
                 Kelas: ${kelas}
                 Materi Pokok: ${materi}
                 Tujuan Pembelajaran: ${tpVal}
-                Metode Pembelajaran yang harus diterapkan: ${setMetode}
+                Metode Pembelajaran: ${setMetode}
                 Kondisi Siswa: ${setKondisi}
-                ${extractedText ? `Konteks tambahan dari buku rujukan:\n${extractedText.substring(0, 2000)}\n\n` : ''}
+                ${extractedText ? `Konteks tambahan rujukan:\n${extractedText.substring(0, 2000)}\n\n` : ''}
                 
-                Anda harus mengisi komponen ini dengan SANGAT SPESIFIK dan BUKAN TEMPLATE UMUM. Sebutkan tindakan nyata siswa terkait "${materi}".
-                Berikan respons WAJIB dalam format JSON murni dengan properti berikut:
+                Anda harus mengisi komponen ini dengan SANGAT SPESIFIK dan BUKAN TEMPLATE UMUM. 
+                Berikan respons WAJIB dalam format JSON murni. Dilarang menyertakan pembuka markdown \`\`\`json.
+                Properti JSON wajib:
                 - "karakteristik": Analisis kritis materi ini (1 kalimat).
-                - "dimensi_p5": 3 dimensi Profil Pelajar Pancasila yang paling cocok (misal: "Bergotong royong, Mandiri").
+                - "dimensi_p5": 3 dimensi Profil Pelajar Pancasila yang paling cocok.
                 - "pendahuluan": HTML List (<ul><li>) tahapan pendahuluan operasional (min 3 poin).
-                - "inti": HTML List (<ul><li>) penjabaran sintaks inti metode ${setMetode} sangat mendetail tentang "${materi}" (min 5 poin kegiatan).
+                - "inti": HTML List (<ul><li>) penjabaran sintaks inti metode secara mendetail (min 5 poin kegiatan).
                 - "penutup": HTML List (<ul><li>) langkah penutup dan refleksi akhir (min 3 poin).
                 - "asesmen_awal": Bentuk instrumen formatif awal.
                 - "asesmen_proses": Bentuk observasi formatif proses.
@@ -1342,41 +1345,22 @@
                 `;
 
                 if (hasLkpd) prompt += `- "lkpd": HTML instruksi tugas Lembar Kerja Peserta Didik untuk kelompok.\n`;
-                if (hasBahan) prompt += `- "bahan": HTML 2 paragraf padat ringkasan bahan ajar materi "${materi}".\n`;
+                if (hasBahan) prompt += `- "bahan": HTML 2 paragraf padat ringkasan bahan ajar materi.\n`;
                 if (hasAsesmen) prompt += `- "soal_sumatif": HTML list (<ol><li>) berisi 3 soal evaluasi kognitif terkait materi.\n`;
                 if (hasPengayaan) prompt += `- "pengayaan": Teks 1 kalimat ide kegiatan pengayaan.\n`;
                 if (hasPengayaan) prompt += `- "remedial": Teks 1 kalimat ide kegiatan remedial.\n`;
 
-                const genSchema = {
-                    type: "OBJECT",
-                    properties: {
-                        karakteristik: { type: "STRING" },
-                        dimensi_p5: { type: "STRING" },
-                        pendahuluan: { type: "STRING" },
-                        inti: { type: "STRING" },
-                        penutup: { type: "STRING" },
-                        asesmen_awal: { type: "STRING" },
-                        asesmen_proses: { type: "STRING" },
-                        asesmen_akhir: { type: "STRING" },
-                        lkpd: { type: "STRING" },
-                        bahan: { type: "STRING" },
-                        soal_sumatif: { type: "STRING" },
-                        pengayaan: { type: "STRING" },
-                        remedial: { type: "STRING" }
-                    }
-                };
-
-                let responseJSON = await fetchGeminiAPI(prompt, genSchema);
+                let responseText = await fetchGeminiAPI(prompt);
                 
                 let dataAI;
                 try {
-                    let cleanResp = responseJSON.replace(/```json/gi, '').replace(/```/g, '').trim();
+                    let cleanResp = responseText.replace(/```json/gi, '').replace(/```/g, '').trim();
                     dataAI = JSON.parse(cleanResp);
                 } catch (err) {
-                    throw new Error("Gagal mem-parsing data pedagogik dari Gemini.");
+                    throw new Error("Gagal mem-parsing format balasan Vercel. Pastikan Vercel mengembalikan JSON murni.");
                 }
 
-                // MERANGKAI HTML FINAL DENGAN DATA DARI GEMINI
+                // MERANGKAI HTML FINAL DENGAN DATA DARI AI
                 let lampiranHTML = ``;
                 if(hasLkpd && dataAI.lkpd) {
                     lampiranHTML += `
@@ -1451,7 +1435,7 @@
                     `;
                 }
 
-                // Merakit HTML Utuh Modul Ajar
+                // Membangun Modul Ajar Inti
                 const identikHtml = `
                     <div style="font-family: 'Times New Roman', Times, serif; color: #000; line-height: 1.5; text-align: justify; padding: 0 10px;">
                         
@@ -1521,11 +1505,11 @@
                     document.getElementById('pdf-wrapper').classList.remove('hidden');
                     document.getElementById('btn-download').style.display = 'flex';
                     document.getElementById('btn-save-db').style.display = 'flex';
-                    showToast('Sukses Menyusun Modul Cerdas Berbasis AI!', 'success');
+                    showToast('Kreator AI Berhasil Menyusun Dokumen!', 'success');
 
             } catch(error) {
-                console.error(error);
-                showToast('Terjadi kesalahan perakitan AI, pastikan koneksi ke API stabil.', 'error');
+                console.error("Kesalahan Penyusunan AI:", error);
+                showToast(error.message || 'Gagal menyusun dokumen. Pastikan Vercel merespons dengan format JSON yang valid.', 'error');
                 document.getElementById('loading-state').classList.add('hidden');
                 document.getElementById('empty-state').classList.remove('hidden');
             } finally {
@@ -1533,18 +1517,33 @@
             }
         });
 
-        document.getElementById('btn-save-db')?.addEventListener('click', () => { showToast('Disimpan secara simulasi ke Cloud', 'success'); });
+        document.getElementById('btn-save-db')?.addEventListener('click', async () => {
+            if (!currentUser) return showToast('Sesi tidak valid', 'error');
+            const btn = document.getElementById('btn-save-db');
+            if(btn) { btn.innerHTML = `⏳`; btn.disabled = true; }
+            try {
+                const cb = document.getElementById('cakupan');
+                await addDoc(collection(db, 'artifacts', appId, 'users', currentUser.uid, 'dokumen_pembelajaran'), {
+                    jenis: (cb && cb.value === "1 Tahun Pelajaran") ? "PROTA" : "MODUL",
+                    mapel: getMapel(),
+                    content: document.getElementById('pdf-content')?.innerHTML || '',
+                    timestamp: serverTimestamp()
+                });
+                showToast("Modul tersimpan aman di Cloud DB!", "success");
+            } catch (e) { showToast("Gagal menyimpan ke Cloud.", "error"); } 
+            finally { if(btn) { btn.innerHTML = `☁️ Simpan ke Cloud`; btn.disabled = false; } }
+        });
 
         document.getElementById('btn-download')?.addEventListener('click', () => {
             const el = document.getElementById('pdf-content');
-            html2pdf().set({ margin: [15,15,15,15], filename: `Modul_Ajar_${getMapel()}.pdf` }).from(el).save();
+            html2pdf().set({ margin: [15, 15, 15, 15], filename: `Modul_Ajar_${getMapel()}.pdf` }).from(el).save();
         });
 
         function loadArsip() {
             document.getElementById('arsip-loading').classList.add('hidden'); 
             const container = document.getElementById('arsip-container');
             container.classList.remove('hidden');
-            container.innerHTML = `<div class="app-card p-6 bg-white border-l-4 border-l-orange"><p class="font-heading font-bold text-navy">Tidak ada arsip dokumen sinkronisasi.</p></div>`;
+            container.innerHTML = `<div class="app-card p-6 bg-white border-l-4 border-l-orange"><p class="font-heading font-bold text-navy">Sinkronisasi Cloud berjalan lambat, arsip sementara kosong.</p></div>`;
         }
     </script>
 </body>
