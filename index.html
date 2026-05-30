@@ -1179,7 +1179,7 @@
                     if(extractedContext) promptTeksKamu += `\nKonteks materi acuan:\n${extractedContext}`;
 
                     // Ganti bagian depan URL ini dengan URL Vercel yang kamu dapatkan
-                    const urlVercel = "https://modgen-one.vercel.app/api/chat"; 
+                    const urlVercel = ""/api/chat""; 
 
                     const result = await fetchWithRetry(urlVercel, {
                         method: 'POST',
