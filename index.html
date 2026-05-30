@@ -753,8 +753,7 @@
         import { getAuth, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Konfigurasi Gemini API untuk interaksi dinamis
-        const apiKey = ""; // API Key disuntikkan secara otomatis oleh environment execution
+        const apiKey = "";
 
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
         const lf = localforage.createInstance({ name: "SpapPintar_DB", storeName: "pustaka_lokal" });
@@ -1137,16 +1136,17 @@
         }
 
         // FUNGSI UTAMA CALL KE GEMINI API LANGSUNG
-        async function fetchGeminiAPI(prompt, isJSON = false) {
+        async function fetchGeminiAPI(prompt, schema = null) {
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
             
             const payload = {
                 contents: [{ parts: [{ text: prompt }] }],
             };
 
-            if (isJSON) {
+            if (schema) {
                 payload.generationConfig = {
-                    responseMimeType: "application/json"
+                    responseMimeType: "application/json",
+                    responseSchema: schema
                 };
             }
 
@@ -1160,11 +1160,15 @@
                         body: JSON.stringify(payload)
                     });
                     
-                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    if (!response.ok) {
+                        const errDetails = await response.text();
+                        throw new Error(`HTTP Error ${response.status}: ${errDetails}`);
+                    }
                     
                     const result = await response.json();
-                    return result.candidates?.[0]?.content?.parts?.[0]?.text || "";
+                    return result.candidates?.[0]?.content?.parts?.[0]?.text || "{}";
                 } catch (error) {
+                    console.error(`Upaya API ke-${i + 1} gagal:`, error);
                     if (i === backoffDelays.length - 1) throw error;
                     await new Promise(res => setTimeout(res, backoffDelays[i]));
                 }
@@ -1223,11 +1227,20 @@
                 if(extractedContext) prompt += `\nKonteks materi dari rujukan PDF: "${extractedContext.substring(0, 2000)}"`;
                 if(materiInput) prompt += `\nAcuan Materi Pokok: "${materiInput}"`;
 
+                const tpSchema = {
+                    type: "OBJECT",
+                    properties: {
+                        materi_pokok: { type: "STRING" },
+                        tp: { type: "STRING" }
+                    }
+                };
+
                 // Panggil Gemini API
-                let responseText = await fetchGeminiAPI(prompt, true);
+                let responseText = await fetchGeminiAPI(prompt, tpSchema);
                 
                 try {
-                    const aiData = JSON.parse(responseText);
+                    let cleanText = responseText.replace(/```json/gi, '').replace(/```/g, '').trim();
+                    const aiData = JSON.parse(cleanText);
                     if(aiData.tp) document.getElementById('tp').value = aiData.tp;
                     if(aiData.materi_pokok) document.getElementById('materiPokok').value = aiData.materi_pokok;
                     showToast('Materi & TP berhasil dirumuskan cerdas!', 'success');
@@ -1334,11 +1347,31 @@
                 if (hasPengayaan) prompt += `- "pengayaan": Teks 1 kalimat ide kegiatan pengayaan.\n`;
                 if (hasPengayaan) prompt += `- "remedial": Teks 1 kalimat ide kegiatan remedial.\n`;
 
-                let responseJSON = await fetchGeminiAPI(prompt, true);
+                const genSchema = {
+                    type: "OBJECT",
+                    properties: {
+                        karakteristik: { type: "STRING" },
+                        dimensi_p5: { type: "STRING" },
+                        pendahuluan: { type: "STRING" },
+                        inti: { type: "STRING" },
+                        penutup: { type: "STRING" },
+                        asesmen_awal: { type: "STRING" },
+                        asesmen_proses: { type: "STRING" },
+                        asesmen_akhir: { type: "STRING" },
+                        lkpd: { type: "STRING" },
+                        bahan: { type: "STRING" },
+                        soal_sumatif: { type: "STRING" },
+                        pengayaan: { type: "STRING" },
+                        remedial: { type: "STRING" }
+                    }
+                };
+
+                let responseJSON = await fetchGeminiAPI(prompt, genSchema);
                 
                 let dataAI;
                 try {
-                    dataAI = JSON.parse(responseJSON);
+                    let cleanResp = responseJSON.replace(/```json/gi, '').replace(/```/g, '').trim();
+                    dataAI = JSON.parse(cleanResp);
                 } catch (err) {
                     throw new Error("Gagal mem-parsing data pedagogik dari Gemini.");
                 }
