@@ -1,52 +1,49 @@
-module.exports = async function(req, res) {
-    // 1. Mengizinkan jalur komunikasi (CORS)
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+
+module.exports = async (req, res) => {
+    // Mengatur header CORS agar frontend dapat mengakses API ini
     res.setHeader('Access-Control-Allow-Credentials', true);
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
 
-    // Tangani preflight request dari browser
+    // Menangani preflight request dari browser (CORS)
     if (req.method === 'OPTIONS') {
-        res.status(200).end();
-        return;
+        return res.status(200).end();
     }
 
-    // Blokir jika bukan metode POST
+    // Hanya menerima metode POST
     if (req.method !== 'POST') {
-        return res.status(405).json({ error: { message: 'Method tidak diizinkan. Gunakan POST.' } });
+        return res.status(405).json({ error: 'Metode tidak diizinkan. Gunakan POST.' });
     }
 
     try {
         const { pesan } = req.body;
         
-        // Panggil API Key dari Environment Variables Vercel
-        const apiKey = process.env.GEMINI_API_KEY; 
-        
-        if (!apiKey) {
-            return res.status(500).json({ error: { message: "GEMINI_API_KEY belum diisi di Dasbor Vercel (Settings > Environment Variables)!" } });
+        if (!pesan) {
+            return res.status(400).json({ error: 'Parameter "pesan" tidak boleh kosong.' });
         }
 
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+        // Inisialisasi Gemini API dengan API Key dari Environment Variable Vercel
+        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+        // Menggunakan model Gemini 2.5 Flash untuk respons yang cepat dan hemat biaya
+        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
-        const googleRes = await fetch(apiUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                contents: [{ parts: [{ text: pesan }] }]
-            })
-        });
+        // Generate konten berdasarkan prompt dari frontend
+        const result = await model.generateContent(pesan);
+        const response = await result.response;
+        const text = response.text();
 
-        const data = await googleRes.json();
-        
-        // Jika Google menolak (limit/kunci salah), teruskan errornya ke HTML
-        if (!googleRes.ok) {
-            return res.status(googleRes.status).json(data);
-        }
-        
-        // Sukses! Kembalikan jawaban AI
-        res.status(200).json(data);
+        // Mengembalikan teks ke frontend
+        return res.status(200).json({ text: text });
 
     } catch (error) {
-        res.status(500).json({ error: { message: 'Terjadi kesalahan di Server Vercel: ' + error.message } });
+        console.error("Error pada Backend AI:", error);
+        return res.status(500).json({ 
+            error: { 
+                message: "Gagal memproses permintaan AI. Pastikan API Key valid dan server tidak sedang gangguan.",
+                details: error.message 
+            } 
+        });
     }
 };
