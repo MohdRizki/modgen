@@ -1,14 +1,15 @@
 {
-  "name": "spap-backend",
-  "version": "1.0.0",
-  "description": "Backend API untuk Sistem Perangkat Ajar Pintar menggunakan Vercel dan Gemini API",
-  "main": "api/chat.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "dependencies": {
-    "@google/generative-ai": "^0.2.0"
-  },
-  "author": "reezapps",
-  "license": "ISC"
+"name": "spap-backend",
+"version": "1.0.0",
+"description": "Backend API untuk ModulGen",
+"main": "api/chat.js",
+"scripts": {
+"start": "node api/chat.js"
+},
+"dependencies": {
+"@google/generative-ai": "^0.2.0"
+},
+"engines": {
+"node": "18.x"
+}
 }
