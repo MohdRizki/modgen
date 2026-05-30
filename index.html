@@ -1178,8 +1178,8 @@
                     let promptTeksKamu = `Berikan respons dalam format JSON murni. Buatlah 1 "materi_pokok" (1-4 kata ringkas) dan 1 "tp" (Satu kalimat Tujuan Pembelajaran menggunakan Kata Kerja Operasional yang spesifik, jangan pakai poin). Fokus mapel: ${mapel} kelas ${kelas}. \nStruktur JSON Wajib:\n{\n  "materi_pokok": "...",\n  "tp": "..."\n}`;
                     if(extractedContext) promptTeksKamu += `\nKonteks materi acuan:\n${extractedContext}`;
 
-                    // Ganti bagian depan URL ini dengan URL Vercel yang kamu dapatkan
-                    const urlVercel = ""/api/chat""; 
+                    // Ganti bagian depan URL ini dengan URL relatif "/api/chat"
+                    const urlVercel = "/api/chat"; 
 
                     const result = await fetchWithRetry(urlVercel, {
                         method: 'POST',
@@ -1411,8 +1411,8 @@
                         GUNAKAN FORMAT RESMI DAN FORMAL (TANPA EMOJI, MENGGUNAKAN TABEL HITAM PUTIH RAPI, DAN FORMAT UJIAN/LKPD STANDAR NASIONAL)]`;
                     }
 
-                    // Ganti bagian depan URL ini dengan URL Vercel yang kamu dapatkan
-                    const urlVercel = "https://modgen-one.vercel.app/api/chat"; 
+                    // Ganti bagian depan URL ini dengan URL relatif "/api/chat"
+                    const urlVercel = "/api/chat"; 
                     
                     // Gabungkan systemPrompt dan instruksi utama ke dalam satu payload "pesan"
                     const promptTeksKamu = systemPrompt + "\n\nEksekusi pembuatan modul ajar presisi berdasarkan instruksi dan konteks di atas.";
