@@ -26,6 +26,7 @@ module.exports = async (req, res) => {
 
         // Inisialisasi Gemini API dengan API Key dari Environment Variable Vercel
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+        
         // Menggunakan model Gemini 2.5 Flash untuk respons yang cepat dan hemat biaya
         const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
