@@ -16,6 +16,7 @@
     <!-- Dependencies -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js"></script>
     
     <script>
         tailwind.config = {
@@ -362,7 +363,7 @@
                         Selamat Datang, <br><span id="dash-user" class="text-orange">Guru</span>!
                     </h1>
                     <p class="text-gray-300 max-w-2xl text-sm md:text-base relative z-10 font-medium">
-                        Generasi baru manajemen perangkat pembelajaran berbasis AI. Susun dan atur modul ajar Anda dengan struktur presisi, dinamis, dan efisiensi tinggi. Terhubung langsung ke Backend Vercel Anda.
+                        Generasi baru manajemen perangkat pembelajaran berbasis AI. Susun dan atur modul ajar Anda dengan struktur presisi, dinamis, dan efisiensi tinggi. Pengaturan dan Arsip tersinkron ke Cloud.
                     </p>
                 </div>
 
@@ -386,7 +387,7 @@
                             <i class="fas fa-book-journal-whills"></i>
                         </div>
                         <h3 class="font-heading font-bold text-navy text-base md:text-lg mb-2">Pustaka Buku</h3>
-                        <p class="text-xs md:text-sm text-graytext">Unggah referensi PDF buku paket atau jurnal ke awan.</p>
+                        <p class="text-xs md:text-sm text-graytext">Unggah referensi PDF buku paket secara lokal ke browser.</p>
                     </button>
                     <button onclick="switchView('pengaturan')" class="app-card app-card-hover p-6 md:p-8 text-left flex flex-col items-start bg-white group">
                         <div class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-navy/10 flex items-center justify-center text-navy text-xl md:text-2xl mb-4 md:mb-6 group-hover:bg-navy group-hover:text-white transition-colors">
@@ -489,7 +490,7 @@
                                 
                                 <div class="bg-lightbg rounded-xl p-4 md:p-5 border border-gray-200">
                                     <label class="form-label flex justify-between items-center mb-3">
-                                        <span class="text-navy font-bold flex items-center"><i class="fas fa-book text-orange mr-2"></i> Pustaka Rujukan</span>
+                                        <span class="text-navy font-bold flex items-center"><i class="fas fa-book text-orange mr-2"></i> Pustaka Rujukan (Lokal)</span>
                                     </label>
                                     <div class="flex gap-2 mb-2">
                                         <select id="buku-modul" class="form-input flex-1 text-sm cursor-pointer bg-white buku-dynamic-select">
@@ -591,7 +592,7 @@
                                 </div>
                             </div>
                             <div class="bg-lightbg rounded-xl p-4 md:p-5 border border-gray-200">
-                                <label class="form-label mb-3">Pustaka Rujukan (Buku Teks)</label>
+                                <label class="form-label mb-3">Pustaka Rujukan (Buku Lokal)</label>
                                 <select id="buku-atp" class="form-input buku-dynamic-select cursor-pointer mb-2"></select>
                                 <div class="bg-white border border-gray-200 p-4 rounded-xl mt-4 page-picker-container hidden">
                                     <label class="form-label text-xs !mb-2 flex justify-between items-center">
@@ -632,10 +633,10 @@
                                     <span class="text-[10px] bg-white px-2 py-1 rounded text-graytext">Opsional</span>
                                 </label>
                                 <input type="file" id="kaldik-prota" accept=".pdf" class="form-input !p-2 cursor-pointer bg-white">
-                                <p class="text-[10px] text-graytext mt-2">Unggah Kaldik PDF untuk dianalisa hari efektifnya.</p>
+                                <p class="text-[10px] text-graytext mt-2">Unggah Kaldik PDF untuk dianalisa hari efektifnya oleh AI.</p>
                             </div>
                             <div class="bg-lightbg rounded-xl p-4 md:p-5 border border-gray-200">
-                                <label class="form-label mb-3">Pustaka Rujukan (Buku Teks)</label>
+                                <label class="form-label mb-3">Pustaka Rujukan (Buku Lokal)</label>
                                 <select id="buku-prota" class="form-input buku-dynamic-select cursor-pointer mb-2"></select>
                                 <div class="bg-white border border-gray-200 p-4 rounded-xl mt-4 page-picker-container hidden">
                                     <label class="form-label text-xs !mb-2 flex justify-between items-center">
@@ -888,13 +889,13 @@
         <div id="view-referensi" class="view-section flex-1 overflow-y-auto p-6 md:p-10 relative">
             <div class="max-w-6xl mx-auto space-y-8">
                 <div>
-                    <h2 class="text-2xl md:text-3xl font-heading font-bold text-navy">Pustaka Referensi Cloud</h2>
-                    <p class="text-sm md:text-base text-graytext mt-2">Bank data untuk rujukan analisis AI, tersimpan aman di awan (Firebase Storage).</p>
+                    <h2 class="text-2xl md:text-3xl font-heading font-bold text-navy">Pustaka Referensi Lokal</h2>
+                    <p class="text-sm md:text-base text-graytext mt-2">Bank data PDF untuk rujukan AI, disimpan secara lokal di memori browser ini (IndexedDB).</p>
                 </div>
 
                 <div class="app-card p-6 md:p-8 bg-white border-t-8 border-t-orange shadow-md">
                     <div class="flex gap-4 mb-6 md:mb-8 border-b border-gray-200 pb-2">
-                        <button class="tab-btn active px-4 md:px-6 py-2 md:py-3 text-xs md:text-sm flex items-center" data-target="form-file"><i class="fas fa-file-pdf mr-2"></i> Unggah PDF</button>
+                        <button class="tab-btn active px-4 md:px-6 py-2 md:py-3 text-xs md:text-sm flex items-center" data-target="form-file"><i class="fas fa-file-pdf mr-2"></i> Berkas Lokal</button>
                         <button class="tab-btn inactive px-4 md:px-6 py-2 md:py-3 text-xs md:text-sm flex items-center" data-target="form-link"><i class="fas fa-link mr-2"></i> Tautan Web</button>
                     </div>
 
@@ -914,7 +915,7 @@
                                 <input type="file" id="ref-file" accept=".pdf" class="form-input !p-2 cursor-pointer" required>
                             </div>
                         </div>
-                        <button type="submit" class="btn-primary mt-6 w-full md:w-auto"><i class="fas fa-cloud-upload-alt mr-2"></i> Unggah ke Cloud Storage</button>
+                        <button type="submit" class="btn-primary mt-6 w-full md:w-auto"><i class="fas fa-upload mr-2"></i> Simpan ke Memori Browser</button>
                     </form>
 
                     <form id="form-link" class="tab-content hidden space-y-5 max-w-2xl">
@@ -934,12 +935,12 @@
                             </div>
                         </div>
                         <p class="text-[10px] md:text-xs text-orange font-medium mt-2"><i class="fas fa-exclamation-triangle mr-1"></i> Catatan: Referensi melalui tautan URL seringkali tidak akurat karena restriksi peramban (CORS).</p>
-                        <button type="submit" class="btn-primary mt-6 w-full md:w-auto"><i class="fas fa-save mr-2"></i> Simpan Tautan ke Cloud</button>
+                        <button type="submit" class="btn-primary mt-6 w-full md:w-auto"><i class="fas fa-save mr-2"></i> Simpan Tautan</button>
                     </form>
                 </div>
 
                 <div id="ref-loading" class="hidden flex-col items-center py-10 text-graytext">
-                    <span class="loader border-gray-300 border-t-orange w-8 h-8 mb-2"></span><p class="text-sm font-bold">Memuat pustaka cloud...</p>
+                    <span class="loader border-gray-300 border-t-orange w-8 h-8 mb-2"></span><p class="text-sm font-bold">Memuat pustaka memori...</p>
                 </div>
 
                 <div id="ref-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-4"></div>
@@ -978,9 +979,11 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, getDocs, doc, setDoc, deleteDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+        // LocalForage for PDF Files ONLY
+        const lf = localforage.createInstance({ name: "SpapPintar_DB", storeName: "pustaka_lokal" });
 
         let currentUser = null;
         let currentPdfObjectUrl = null;
@@ -997,7 +1000,6 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const storage = getStorage(app);
         const appId = 'sd-negeri-pasirmae-1';
 
         const setTxt = (id, text) => { const el = document.getElementById(id); if (el) el.innerText = text; };
@@ -1104,6 +1106,7 @@
             fillSelect('.select-pendekatan', globalPendekatan);
             fillSelect('.select-model', globalModel);
             fillSelect('.select-metode', globalMetode);
+            updateBukuSelector();
         }
 
         const initAuth = async () => {
@@ -1322,11 +1325,10 @@
             });
         });
 
-        let cachedPustaka = [];
 
+        // PENYIMPANAN PUSTAKA REFERENSI LOKAL (IndexedDB via LocalForage)
         document.getElementById('form-file')?.addEventListener('submit', async (e) => {
             e.preventDefault();
-            if(!currentUser) return;
             const name = document.getElementById('ref-name-file').value;
             const mapel = document.getElementById('ref-mapel-file').value;
             const fileInput = document.getElementById('ref-file');
@@ -1334,26 +1336,25 @@
             if(!file) return;
             
             const btn = e.submitter; const oriText = btn.innerHTML;
-            btn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> Mengunggah...`; btn.disabled = true;
+            btn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> Menyimpan...`; btn.disabled = true;
 
             try {
-                const fileRef = ref(storage, `artifacts/${appId}/users/${currentUser.username}/pustaka/${Date.now()}_${file.name}`);
-                await uploadBytes(fileRef, file);
-                const url = await getDownloadURL(fileRef);
-                
-                const docId = Date.now().toString();
-                const docRef = doc(db, 'artifacts', appId, 'users', currentUser.username, 'pustaka', docId);
-                await setDoc(docRef, { type: 'file', name: name, mapel: mapel, url: url, path: fileRef.fullPath, size: file.size, timestamp: new Date().toISOString() });
-                
-                showToast(`Berkas berhasil diunggah ke Cloud!`, 'success');
+                let numPages = 0;
+                try {
+                    const arrayBuffer = await file.arrayBuffer();
+                    const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+                    numPages = pdf.numPages;
+                } catch(err) { console.warn("Gagal ekstrak halaman", err); }
+
+                await lf.setItem('ref_' + Date.now(), { type: 'file', name: name, mapel: mapel, file: file, size: file.size, pages: numPages });
+                showToast(`Berkas disimpan secara lokal!`, 'success');
                 e.target.reset(); await loadReferences();
-            } catch(e) { console.error(e); showToast("Gagal mengunggah file ke Cloud Storage", "error"); } 
+            } catch(e) { console.error(e); showToast("Gagal menyimpan file ke memori", "error"); } 
             finally { btn.innerHTML = oriText; btn.disabled = false; }
         });
 
         document.getElementById('form-link')?.addEventListener('submit', async (e) => {
             e.preventDefault();
-            if(!currentUser) return;
             const name = document.getElementById('ref-name-link').value;
             const mapel = document.getElementById('ref-mapel-link').value;
             const url = document.getElementById('ref-link').value;
@@ -1362,32 +1363,33 @@
             btn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> Menyimpan...`; btn.disabled = true;
 
             try {
-                const docId = Date.now().toString();
-                const docRef = doc(db, 'artifacts', appId, 'users', currentUser.username, 'pustaka', docId);
-                await setDoc(docRef, { type: 'link', name: name, mapel: mapel, url: url, timestamp: new Date().toISOString() });
-                showToast(`Tautan disimpan ke Cloud!`, 'success');
+                await lf.setItem('ref_' + Date.now(), { type: 'link', name: name, mapel: mapel, url: url });
+                showToast(`Tautan disimpan secara lokal!`, 'success');
                 e.target.reset(); await loadReferences();
             } catch(e) { showToast("Gagal menyimpan tautan.", "error"); }
             finally { btn.innerHTML = oriText; btn.disabled = false; }
         });
 
         async function loadReferences() {
-            if (!currentUser) return;
             document.getElementById('ref-loading')?.classList.remove('hidden');
             const listContainer = document.getElementById('ref-list');
-            listContainer.innerHTML = ''; cachedPustaka = [];
+            listContainer.innerHTML = ''; let count = 0;
             
             try {
-                const pustakaRef = collection(db, 'artifacts', appId, 'users', currentUser.username, 'pustaka');
-                const snap = await getDocs(pustakaRef);
-                snap.forEach(doc => { cachedPustaka.push({ id: doc.id, ...doc.data() }); });
-                cachedPustaka.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
-                
-                cachedPustaka.forEach(item => {
+                await lf.iterate(function(item, key) {
+                    count++;
                     const div = document.createElement('div');
                     div.className = "app-card p-5 flex justify-between items-center bg-white border-l-4 " + (item.type === 'file' ? "border-l-orange" : "border-l-navy");
                     let icon = item.type === 'file' ? '<i class="fas fa-file-pdf"></i>' : '<i class="fas fa-link"></i>';
-                    let subtext = item.type === 'file' ? `<span class="text-orange font-bold mr-1">PDF Cloud</span> • ${(item.size/1024/1024).toFixed(2)} MB` : `<span class="text-blue-500 font-bold mr-1">URL Cloud</span>`;
+                    
+                    let subtext = '';
+                    if (item.type === 'file') {
+                        const sizeMb = (item.size/1024/1024).toFixed(2);
+                        const pages = item.pages ? `${item.pages} Hal` : 'PDF Lokal';
+                        subtext = `<span class="text-orange font-bold mr-1">PDF Lokal</span> • ${pages} • ${sizeMb} MB`;
+                    } else {
+                        subtext = `<span class="text-blue-500 font-bold mr-1">URL Lokal</span>`;
+                    }
 
                     div.innerHTML = `
                         <div class="flex items-center space-x-3 w-full overflow-hidden">
@@ -1397,24 +1399,23 @@
                                 <p class="font-heading font-bold text-navy truncate text-sm">${item.name}</p>
                                 <p class="text-[10px] text-graytext">${subtext}</p>
                             </div>
-                            <button onclick="deleteRef('${item.id}', '${item.path || ''}')" class="text-gray-400 hover:text-orange transition ml-2 shrink-0"><i class="fas fa-trash"></i></button>
+                            <button onclick="deleteRef('${key}')" class="text-gray-400 hover:text-orange transition ml-2 shrink-0"><i class="fas fa-trash"></i></button>
                         </div>`;
                     listContainer.appendChild(div);
                 });
-                if(cachedPustaka.length === 0) listContainer.innerHTML = '<div class="col-span-full py-8 text-graytext text-center border-2 border-dashed border-gray-200 rounded-xl">Belum ada pustaka di Cloud.</div>';
-                setTxt('ref-badge', cachedPustaka.length.toString());
+                
+                if(count === 0) listContainer.innerHTML = '<div class="col-span-full py-8 text-graytext text-center border-2 border-dashed border-gray-200 rounded-xl">Belum ada pustaka lokal. Data hanya tersimpan di browser ini.</div>';
+                setTxt('ref-badge', count.toString());
                 updateBukuSelector();
-            } catch(e) { console.error("Gagal muat pustaka:", e); }
+            } catch(e) { console.error("Gagal muat pustaka lokal:", e); }
             finally { document.getElementById('ref-loading')?.classList.add('hidden'); }
         }
 
-        window.deleteRef = async (id, filePath) => {
-            if(!confirm(`Yakin ingin menghapus referensi ini dari Cloud?`)) return;
+        window.deleteRef = async (key) => {
+            if(!confirm(`Yakin ingin menghapus referensi ini dari memori lokal?`)) return;
             try {
-                if (filePath) { const fileRef = ref(storage, filePath); await deleteObject(fileRef).catch(e => console.warn("File tidak ditemukan di Storage:", e)); }
-                const docRef = doc(db, 'artifacts', appId, 'users', currentUser.username, 'pustaka', id);
-                await deleteDoc(docRef);
-                showToast('Dihapus dari Cloud.', 'success');
+                await lf.removeItem(key);
+                showToast('Dihapus dari memori.', 'success');
                 await loadReferences();
             } catch(e) { console.error(e); showToast('Gagal menghapus.', 'error'); }
         };
@@ -1424,14 +1425,18 @@
             if(currentPdfObjectUrl) URL.revokeObjectURL(currentPdfObjectUrl);
         };
 
-        function updateBukuSelector() {
+        async function updateBukuSelector() {
             const selectors = document.querySelectorAll('.buku-dynamic-select');
             if(!selectors.length) return;
             let optionsHtml = '<option value="">-- Tanpa Rujukan Pustaka --</option>';
-            cachedPustaka.forEach(item => { optionsHtml += `<option value="${item.id}">[${item.mapel || 'Semua'}] ${item.name}</option>`; });
+            
+            await lf.iterate(function(item, key) {
+                optionsHtml += `<option value="${key}">[${item.mapel || 'Semua'}] ${item.name}</option>`;
+            });
+
             selectors.forEach(selector => {
                 const currentVal = selector.value; selector.innerHTML = optionsHtml;
-                if(currentVal && cachedPustaka.find(p => p.id === currentVal)) selector.value = currentVal;
+                if(currentVal) selector.value = currentVal; // try to keep selection
                 const container = selector.closest('div.bg-lightbg');
                 if(container) {
                     const btn = container.querySelector('.btn-preview-buku'); const pk = container.querySelector('.page-picker-container');
@@ -1445,26 +1450,24 @@
             });
         }
 
-        document.querySelector('.btn-preview-buku')?.addEventListener('click', () => {
-            const id = document.getElementById('buku-modul').value;
-            if(!id) return;
-            const record = cachedPustaka.find(p => p.id === id);
+        document.querySelector('.btn-preview-buku')?.addEventListener('click', async () => {
+            const key = document.getElementById('buku-modul').value;
+            if(!key) return;
+            const record = await lf.getItem(key);
             if(record) {
                 if (record.type === 'link') window.open(record.url, '_blank');
-                else { document.getElementById('pdf-viewer-frame').src = record.url; document.getElementById('pdf-modal').classList.remove('hidden'); }
+                else { 
+                    currentPdfObjectUrl = URL.createObjectURL(record.file);
+                    document.getElementById('pdf-viewer-frame').src = currentPdfObjectUrl; 
+                    document.getElementById('pdf-modal').classList.remove('hidden'); 
+                }
             }
         });
 
-        async function extractSpecificPages(source, pagesStr) {
+        async function extractSpecificPages(fileOrBlob, pagesStr) {
             try {
-                let pdf;
-                if (typeof source === 'string') {
-                    // Extracting from Cloud Storage URL. Memerlukan CORS aktif di Firebase Storage.
-                    pdf = await pdfjsLib.getDocument({url: source, withCredentials: false}).promise;
-                } else {
-                    const arrayBuffer = await source.arrayBuffer();
-                    pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
-                }
+                const arrayBuffer = await fileOrBlob.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
                 
                 let pagesToExtract = [];
                 const parts = pagesStr.replace(/\s+/g,'').split(',');
@@ -1487,7 +1490,7 @@
                 return text;
             } catch (e) {
                 console.error("PDF Extraction Error:", e);
-                throw new Error("Gagal membaca dokumen. Jika ini PDF Cloud, pastikan CORS Storage Anda diizinkan untuk Web.");
+                throw new Error("Gagal membaca dokumen rujukan.");
             }
         }
 
@@ -1557,15 +1560,15 @@
             const btnAuto = document.getElementById('btn-auto-tp');
             btnAuto.innerHTML = `<i class="fas fa-spinner fa-spin mr-1"></i> Merumuskan...`; btnAuto.disabled = true;
 
-            const selectedId = document.getElementById('buku-modul').value;
+            const selectedKey = document.getElementById('buku-modul').value;
             const hb = document.getElementById('hal-modul'); let pagesToExtract = hb ? hb.value : "1";
             let extractedContext = "";
             
             try {
-                if(selectedId) {
-                    const record = cachedPustaka.find(p => p.id === selectedId);
+                if(selectedKey) {
+                    const record = await lf.getItem(selectedKey);
                     if(record) {
-                        if (record.type === 'file') extractedContext = await extractSpecificPages(record.url, pagesToExtract);
+                        if (record.type === 'file') extractedContext = await extractSpecificPages(record.file, pagesToExtract);
                         else if (record.type === 'link') extractedContext = `Berdasarkan referensi utama berjudul: ${record.name} pada halaman ${pagesToExtract}`;
                     }
                 }
@@ -1614,14 +1617,14 @@
                 const hasLkpd = document.getElementById('chk-lkpd').checked, hasBahan = document.getElementById('chk-bahan').checked;
                 const hasAsesmen = document.getElementById('chk-asesmen').checked, hasPengayaan = document.getElementById('chk-pengayaan').checked, hasJurnal = document.getElementById('chk-jurnal').checked;
 
-                const selectedId = document.getElementById('buku-modul').value;
+                const selectedKey = document.getElementById('buku-modul').value;
                 const hBuku = document.getElementById('hal-modul').value || "1";
                 let extractedText = ""; let sumberBelajarDeskripsi = "Buku Paket Siswa Standar";
 
-                if(selectedId) {
-                    const record = cachedPustaka.find(p => p.id === selectedId);
+                if(selectedKey) {
+                    const record = await lf.getItem(selectedKey);
                     if(record) {
-                        if (record.type === 'file') { setTxt('loading-text', `Mengekstrak rujukan PDF Cloud...`); extractedText = await extractSpecificPages(record.url, hBuku); sumberBelajarDeskripsi = `${record.name} (Referensi Hal: ${hBuku})`; } 
+                        if (record.type === 'file') { setTxt('loading-text', `Mengekstrak rujukan PDF Lokal...`); extractedText = await extractSpecificPages(record.file, hBuku); sumberBelajarDeskripsi = `${record.name} (Referensi Hal: ${hBuku})`; } 
                         else if (record.type === 'link') { extractedText = `Tautan rujukan: ${record.name}`; sumberBelajarDeskripsi = `${record.name}`; }
                     }
                 }
@@ -1660,8 +1663,8 @@
                 
                 let extractedText = "";
                 if(bKey) {
-                    const record = cachedPustaka.find(p => p.id === bKey);
-                    if(record && record.type === 'file') { setTxt('loading-text', `Membaca materi rujukan...`); extractedText = await extractSpecificPages(record.url, hBuku); }
+                    const record = await lf.getItem(bKey);
+                    if(record && record.type === 'file') { setTxt('loading-text', `Membaca materi rujukan...`); extractedText = await extractSpecificPages(record.file, hBuku); }
                 }
 
                 setTxt('loading-text', `Menganalisis matriks Alur Tujuan Pembelajaran...`);
@@ -1693,8 +1696,8 @@
                 
                 let extractedText = "";
                 if(bKey) {
-                    const record = cachedPustaka.find(p => p.id === bKey);
-                    if(record && record.type === 'file') { setTxt('loading-text', `Membaca materi Buku Rujukan...`); extractedText = await extractSpecificPages(record.url, hBuku); }
+                    const record = await lf.getItem(bKey);
+                    if(record && record.type === 'file') { setTxt('loading-text', `Membaca materi Buku Rujukan Lokal...`); extractedText = await extractSpecificPages(record.file, hBuku); }
                 }
 
                 const fKaldik = document.getElementById('kaldik-prota').files[0]; let kaldikText = "";
