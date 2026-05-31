@@ -61,9 +61,7 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        h1, h2, h3, h4, h5, h6, .font-heading {
-            font-family: 'Poppins', sans-serif;
-        }
+        h1, h2, h3, h4, h5, h6, .font-heading { font-family: 'Poppins', sans-serif; }
 
         .app-card {
             background-color: var(--surface);
@@ -121,10 +119,7 @@
             background-color: var(--primary-hover);
             box-shadow: 0 6px 8px rgba(11, 27, 66, 0.3);
         }
-        .btn-primary:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
+        .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; }
 
         .btn-secondary {
             background-color: #f8f9fa;
@@ -245,7 +240,6 @@
 </head>
 <body class="flex h-screen overflow-hidden">
 
-    <!-- LOGIN SCREEN -->
     <div id="login-screen" class="fixed inset-0 z-[100] bg-navy flex items-center justify-center transition-opacity duration-300">
         <div class="app-card p-10 w-full max-w-md shadow-2xl text-center border-t-4 border-t-orange">
             <div class="w-16 h-16 rounded-full bg-orange/10 flex items-center justify-center text-orange text-3xl mx-auto mb-4">
@@ -272,7 +266,6 @@
 
     <div id="mobile-overlay" class="hidden fixed inset-0 bg-navy/70 z-40 md:hidden backdrop-blur-sm"></div>
 
-    <!-- PDF PREVIEW MODAL -->
     <div id="pdf-modal" class="hidden fixed inset-0 z-[150] bg-navy/80 backdrop-blur-sm flex items-center justify-center p-4 sm:p-8 transition-opacity">
         <div class="bg-white w-full max-w-5xl h-full max-h-[90vh] rounded-[2rem] shadow-2xl flex flex-col overflow-hidden">
             <div class="p-5 border-b border-gray-200 flex justify-between items-center bg-lightbg">
@@ -287,7 +280,6 @@
         </div>
     </div>
 
-    <!-- SIDEBAR NAV -->
     <nav id="sidebar" class="fixed -translate-x-full md:relative md:translate-x-0 transition-transform duration-300 w-64 bg-navy flex-col z-50 h-full shadow-xl shrink-0 flex">
         <div class="p-6 border-b border-white/10 flex items-center justify-between shrink-0">
             <div class="flex items-center space-x-4">
@@ -332,7 +324,6 @@
         </div>
     </nav>
 
-    <!-- MAIN CONTENT AREA -->
     <main id="main-content" class="hidden flex-1 flex flex-col h-full overflow-hidden relative bg-lightbg">
         <header class="bg-white px-6 md:px-8 py-5 flex justify-between items-center z-30 shadow-sm shrink-0">
             <div class="flex items-center gap-4">
@@ -363,7 +354,7 @@
                         Selamat Datang, <br><span id="dash-user" class="text-orange">Guru</span>!
                     </h1>
                     <p class="text-gray-300 max-w-2xl text-sm md:text-base relative z-10 font-medium">
-                        Generasi baru manajemen perangkat pembelajaran berbasis AI. Susun dan atur modul ajar Anda dengan struktur presisi, dinamis, dan efisiensi tinggi. Pengaturan dan Arsip tersinkron ke Cloud.
+                        Generasi baru manajemen perangkat pembelajaran berbasis AI. Susun dan atur modul ajar Anda dengan struktur presisi, dinamis, dan efisiensi tinggi. Terhubung langsung ke Backend Vercel Anda.
                     </p>
                 </div>
 
@@ -386,8 +377,8 @@
                         <div class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-orange/10 flex items-center justify-center text-orange text-xl md:text-2xl mb-4 md:mb-6 group-hover:bg-orange group-hover:text-white transition-colors">
                             <i class="fas fa-book-journal-whills"></i>
                         </div>
-                        <h3 class="font-heading font-bold text-navy text-base md:text-lg mb-2">Pustaka Buku</h3>
-                        <p class="text-xs md:text-sm text-graytext">Unggah referensi PDF buku paket secara lokal ke browser.</p>
+                        <h3 class="font-heading font-bold text-navy text-base md:text-lg mb-2">Pustaka Lokal</h3>
+                        <p class="text-xs md:text-sm text-graytext">Unggah referensi PDF buku paket atau jurnal.</p>
                     </button>
                     <button onclick="switchView('pengaturan')" class="app-card app-card-hover p-6 md:p-8 text-left flex flex-col items-start bg-white group">
                         <div class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-navy/10 flex items-center justify-center text-navy text-xl md:text-2xl mb-4 md:mb-6 group-hover:bg-navy group-hover:text-white transition-colors">
@@ -490,7 +481,7 @@
                                 
                                 <div class="bg-lightbg rounded-xl p-4 md:p-5 border border-gray-200">
                                     <label class="form-label flex justify-between items-center mb-3">
-                                        <span class="text-navy font-bold flex items-center"><i class="fas fa-book text-orange mr-2"></i> Pustaka Rujukan (Lokal)</span>
+                                        <span class="text-navy font-bold flex items-center"><i class="fas fa-book text-orange mr-2"></i> Pustaka Rujukan</span>
                                     </label>
                                     <div class="flex gap-2 mb-2">
                                         <select id="buku-modul" class="form-input flex-1 text-sm cursor-pointer bg-white buku-dynamic-select">
@@ -548,10 +539,11 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <label class="form-label mt-2">Detail Prompt AI</label>
+                                    <label class="form-label mt-4">Rincian Pengalaman Pembelajaran (Kegiatan)</label>
                                     <select id="modul-detail" class="form-input text-sm cursor-pointer border-orange/50">
-                                        <option value="Sedang">Sedang (Standar)</option>
-                                        <option value="Sangat Detail">Sangat Detail</option>
+                                        <option value="Garis Besar">Garis Besar (Singkat & Padat)</option>
+                                        <option value="Standar" selected>Standar (Moderat)</option>
+                                        <option value="Sangat Rinci">Sangat Rinci (Elaborasi per-menit)</option>
                                     </select>
                                 </div>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm font-medium text-navy mt-4 bg-lightbg p-4 rounded-xl border border-gray-200">
@@ -592,7 +584,7 @@
                                 </div>
                             </div>
                             <div class="bg-lightbg rounded-xl p-4 md:p-5 border border-gray-200">
-                                <label class="form-label mb-3">Pustaka Rujukan (Buku Lokal)</label>
+                                <label class="form-label mb-3">Pustaka Rujukan (Buku Teks)</label>
                                 <select id="buku-atp" class="form-input buku-dynamic-select cursor-pointer mb-2"></select>
                                 <div class="bg-white border border-gray-200 p-4 rounded-xl mt-4 page-picker-container hidden">
                                     <label class="form-label text-xs !mb-2 flex justify-between items-center">
@@ -633,10 +625,10 @@
                                     <span class="text-[10px] bg-white px-2 py-1 rounded text-graytext">Opsional</span>
                                 </label>
                                 <input type="file" id="kaldik-prota" accept=".pdf" class="form-input !p-2 cursor-pointer bg-white">
-                                <p class="text-[10px] text-graytext mt-2">Unggah Kaldik PDF untuk dianalisa hari efektifnya oleh AI.</p>
+                                <p class="text-[10px] text-graytext mt-2">Unggah Kaldik PDF untuk dianalisa hari efektifnya.</p>
                             </div>
                             <div class="bg-lightbg rounded-xl p-4 md:p-5 border border-gray-200">
-                                <label class="form-label mb-3">Pustaka Rujukan (Buku Lokal)</label>
+                                <label class="form-label mb-3">Pustaka Rujukan (Buku Teks)</label>
                                 <select id="buku-prota" class="form-input buku-dynamic-select cursor-pointer mb-2"></select>
                                 <div class="bg-white border border-gray-200 p-4 rounded-xl mt-4 page-picker-container hidden">
                                     <label class="form-label text-xs !mb-2 flex justify-between items-center">
@@ -709,7 +701,6 @@
                     </div>
                 </div>
 
-                <!-- Panel Pratinjau -->
                 <div id="preview-panel" class="w-full lg:w-2/3 xl:flex-1 app-card flex flex-col relative overflow-hidden bg-gray-100">
                     <div class="flex justify-between items-center px-4 md:px-6 py-4 bg-white border-b border-gray-200 z-10 shrink-0 shadow-sm">
                         <div class="flex items-center space-x-2 md:space-x-4">
@@ -885,12 +876,12 @@
             </div>
         </div>
 
-        <!-- View: REFERENSI -->
+        <!-- View: REFERENSI (KEMBALI KE LOKAL) -->
         <div id="view-referensi" class="view-section flex-1 overflow-y-auto p-6 md:p-10 relative">
             <div class="max-w-6xl mx-auto space-y-8">
                 <div>
                     <h2 class="text-2xl md:text-3xl font-heading font-bold text-navy">Pustaka Referensi Lokal</h2>
-                    <p class="text-sm md:text-base text-graytext mt-2">Bank data PDF untuk rujukan AI, disimpan secara lokal di memori browser ini (IndexedDB).</p>
+                    <p class="text-sm md:text-base text-graytext mt-2">Bank data rujukan disimpan aman di penyimpanan lokal browser Anda.</p>
                 </div>
 
                 <div class="app-card p-6 md:p-8 bg-white border-t-8 border-t-orange shadow-md">
@@ -907,15 +898,14 @@
                             </div>
                             <div>
                                 <label class="form-label">Mata Pelajaran Buku</label>
-                                <select id="ref-mapel-file" class="form-input cursor-pointer mapel-dynamic-select" required>
-                                </select>
+                                <select id="ref-mapel-file" class="form-input cursor-pointer mapel-dynamic-select" required></select>
                             </div>
                             <div>
                                 <label class="form-label">Pilih PDF (Maks 25MB)</label>
                                 <input type="file" id="ref-file" accept=".pdf" class="form-input !p-2 cursor-pointer" required>
                             </div>
                         </div>
-                        <button type="submit" class="btn-primary mt-6 w-full md:w-auto"><i class="fas fa-upload mr-2"></i> Simpan ke Memori Browser</button>
+                        <button type="submit" class="btn-primary mt-6 w-full md:w-auto"><i class="fas fa-upload mr-2"></i> Simpan ke Memori</button>
                     </form>
 
                     <form id="form-link" class="tab-content hidden space-y-5 max-w-2xl">
@@ -926,21 +916,16 @@
                             </div>
                             <div>
                                 <label class="form-label">Mata Pelajaran Artikel</label>
-                                <select id="ref-mapel-link" class="form-input cursor-pointer mapel-dynamic-select" required>
-                                </select>
+                                <select id="ref-mapel-link" class="form-input cursor-pointer mapel-dynamic-select" required></select>
                             </div>
                             <div>
                                 <label class="form-label">URL Valid</label>
                                 <input type="url" id="ref-link" class="form-input" placeholder="https://..." required>
                             </div>
                         </div>
-                        <p class="text-[10px] md:text-xs text-orange font-medium mt-2"><i class="fas fa-exclamation-triangle mr-1"></i> Catatan: Referensi melalui tautan URL seringkali tidak akurat karena restriksi peramban (CORS).</p>
+                        <p class="text-[10px] md:text-xs text-orange font-medium mt-2"><i class="fas fa-exclamation-triangle mr-1"></i> Catatan: Tautan URL mungkin diblokir oleh CORS saat diekstrak AI.</p>
                         <button type="submit" class="btn-primary mt-6 w-full md:w-auto"><i class="fas fa-save mr-2"></i> Simpan Tautan</button>
                     </form>
-                </div>
-
-                <div id="ref-loading" class="hidden flex-col items-center py-10 text-graytext">
-                    <span class="loader border-gray-300 border-t-orange w-8 h-8 mb-2"></span><p class="text-sm font-bold">Memuat pustaka memori...</p>
                 </div>
 
                 <div id="ref-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-4"></div>
@@ -974,7 +959,6 @@
         <span id="toast-message" class="font-heading font-medium text-xs md:text-sm truncate overflow-hidden">Notifikasi siap.</span>
     </div>
 
-    <!-- Application Logic -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -982,7 +966,7 @@
 
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
-        // LocalForage for PDF Files ONLY
+        // Initialize LocalForage for PDFs to avoid Storage Billing
         const lf = localforage.createInstance({ name: "SpapPintar_DB", storeName: "pustaka_lokal" });
 
         let currentUser = null;
@@ -1012,21 +996,16 @@
 
         function toggleSidebar(show) {
             if (show) {
-                sidebar.classList.remove('-translate-x-full');
-                sidebarOverlay.classList.remove('hidden');
+                sidebar.classList.remove('-translate-x-full'); sidebarOverlay.classList.remove('hidden');
             } else {
-                sidebar.classList.add('-translate-x-full');
-                sidebarOverlay.classList.add('hidden');
+                sidebar.classList.add('-translate-x-full'); sidebarOverlay.classList.add('hidden');
             }
         }
         openSidebarBtn?.addEventListener('click', () => toggleSidebar(true));
         closeSidebarBtn?.addEventListener('click', () => toggleSidebar(false));
         sidebarOverlay?.addEventListener('click', () => toggleSidebar(false));
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', () => { if(window.innerWidth < 768) toggleSidebar(false); });
-        });
+        document.querySelectorAll('.nav-link').forEach(link => { link.addEventListener('click', () => { if(window.innerWidth < 768) toggleSidebar(false); }); });
 
-        // VARIABEL DINAMIS DARI CLOUD
         let globalMapels = ['IPAS', 'Matematika', 'Bahasa Indonesia', 'Pendidikan Pancasila'];
         let globalPendekatan = ['Saintifik', 'TPACK', 'Konstruktivisme', 'TaRL', 'CRT'];
         let globalModel = ['Problem Based Learning (PBL)', 'Project Based Learning (PjBL)', 'Discovery Learning', 'Inquiry Based Learning', 'Cooperative Learning'];
@@ -1045,8 +1024,7 @@
                     if(data.metode) globalMetode = data.metode;
                 }
             } catch(e) { console.error("Gagal muat variabel cloud:", e); }
-            renderDynamicSettings();
-            updateAllSelects();
+            renderDynamicSettings(); updateAllSelects();
         }
 
         async function saveDynamicLists() {
@@ -1066,11 +1044,8 @@
 
         function renderListUI(containerId, arrayData, removeFuncName) {
             const container = document.getElementById(containerId);
-            if (!container) return;
-            container.innerHTML = '';
-            arrayData.forEach((item, idx) => {
-                container.innerHTML += `<div class="flex items-center bg-white border border-gray-200 shadow-sm rounded-full px-3 py-1 text-xs md:text-sm text-navy font-semibold">${item} <button type="button" onclick="${removeFuncName}(${idx})" class="ml-2 text-red-400 hover:text-red-600"><i class="fas fa-times"></i></button></div>`;
-            });
+            if (!container) return; container.innerHTML = '';
+            arrayData.forEach((item, idx) => { container.innerHTML += `<div class="flex items-center bg-white border border-gray-200 shadow-sm rounded-full px-3 py-1 text-xs md:text-sm text-navy font-semibold">${item} <button type="button" onclick="${removeFuncName}(${idx})" class="ml-2 text-red-400 hover:text-red-600"><i class="fas fa-times"></i></button></div>`; });
         }
 
         window.removeMapel = async (idx) => { globalMapels.splice(idx, 1); renderDynamicSettings(); updateAllSelects(); await saveDynamicLists(); };
@@ -1081,52 +1056,34 @@
         const setupAddBtn = (btnId, inputId, arr) => {
             document.getElementById(btnId)?.addEventListener('click', async () => {
                 const val = document.getElementById(inputId).value.trim();
-                if (val && !arr.includes(val)) {
-                    arr.push(val);
-                    document.getElementById(inputId).value = '';
-                    renderDynamicSettings(); updateAllSelects(); await saveDynamicLists();
-                }
+                if (val && !arr.includes(val)) { arr.push(val); document.getElementById(inputId).value = ''; renderDynamicSettings(); updateAllSelects(); await saveDynamicLists(); }
             });
         };
-        setupAddBtn('btn-add-mapel', 'new-mapel', globalMapels);
-        setupAddBtn('btn-add-pendekatan', 'new-pendekatan', globalPendekatan);
-        setupAddBtn('btn-add-model', 'new-model', globalModel);
-        setupAddBtn('btn-add-metode', 'new-metode', globalMetode);
+        setupAddBtn('btn-add-mapel', 'new-mapel', globalMapels); setupAddBtn('btn-add-pendekatan', 'new-pendekatan', globalPendekatan); setupAddBtn('btn-add-model', 'new-model', globalModel); setupAddBtn('btn-add-metode', 'new-metode', globalMetode);
 
         function updateAllSelects() {
             const fillSelect = (selectorClass, arrayData) => {
                 document.querySelectorAll(selectorClass).forEach(sel => {
-                    const currentVal = sel.value;
-                    sel.innerHTML = '';
+                    const currentVal = sel.value; sel.innerHTML = '';
                     arrayData.forEach(m => { sel.innerHTML += `<option value="${m}">${m}</option>`; });
                     if(arrayData.includes(currentVal)) sel.value = currentVal;
                 });
             };
-            fillSelect('.mapel-dynamic-select', globalMapels);
-            fillSelect('.select-pendekatan', globalPendekatan);
-            fillSelect('.select-model', globalModel);
-            fillSelect('.select-metode', globalMetode);
-            updateBukuSelector();
+            fillSelect('.mapel-dynamic-select', globalMapels); fillSelect('.select-pendekatan', globalPendekatan); fillSelect('.select-model', globalModel); fillSelect('.select-metode', globalMetode); updateBukuSelector();
         }
 
-        const initAuth = async () => {
-            try { if (!auth.currentUser) await signInAnonymously(auth); } 
-            catch (error) { const as = document.getElementById('auth-status'); if (as) as.innerHTML = "⚠️ DB Offline"; }
-        };
+        const initAuth = async () => { try { if (!auth.currentUser) await signInAnonymously(auth); } catch (error) { const as = document.getElementById('auth-status'); if (as) as.innerHTML = "⚠️ DB Offline"; } };
         initAuth();
 
         window.showToast = (message, type = 'info') => {
-            const toast = document.getElementById('toast');
-            if (!toast) return;
-            setTxt('toast-message', message);
-            const ti = document.getElementById('toast-icon');
+            const toast = document.getElementById('toast'); if (!toast) return;
+            setTxt('toast-message', message); const ti = document.getElementById('toast-icon');
             if (ti) {
                 if(type === 'error') ti.innerHTML = '<i class="fas fa-exclamation-circle text-red-400"></i>';
                 else if(type === 'success') ti.innerHTML = '<i class="fas fa-check-circle text-orange"></i>';
                 else ti.innerHTML = '<i class="fas fa-info-circle text-blue-400"></i>';
             }
-            toast.classList.remove('translate-y-32', 'opacity-0');
-            setTimeout(() => { toast.classList.add('translate-y-32', 'opacity-0'); }, 4000);
+            toast.classList.remove('translate-y-32', 'opacity-0'); setTimeout(() => { toast.classList.add('translate-y-32', 'opacity-0'); }, 4000);
         };
 
         let cachedSettings = {
@@ -1142,19 +1099,13 @@
             try {
                 const docRef = doc(db, 'artifacts', appId, 'users', currentUser.username, 'pengaturan', 'profil');
                 const snap = await getDoc(docRef);
-                if (snap.exists()) { cachedSettings = snap.data(); } 
-                else { cachedSettings.guruName = currentUser.nama; cachedSettings.guruNIP = currentUser.nip || '-'; }
+                if (snap.exists()) { cachedSettings = snap.data(); } else { cachedSettings.guruName = currentUser.nama; cachedSettings.guruNIP = currentUser.nip || '-'; }
                 
-                document.getElementById('set-sekolah').value = cachedSettings.sekolahName;
-                document.getElementById('set-jenjang').value = cachedSettings.jenjang;
-                document.getElementById('set-kota').value = cachedSettings.kota;
-                document.getElementById('set-kepsek-name').value = cachedSettings.kepsekName;
-                document.getElementById('set-kepsek-nip').value = cachedSettings.kepsekNIP;
-                document.getElementById('set-guru-name').value = cachedSettings.guruName; 
-                document.getElementById('set-guru-nip').value = cachedSettings.guruNIP;
-                document.getElementById('set-jmlSiswa').value = cachedSettings.jmlSiswa;
-                document.getElementById('set-sarana').value = cachedSettings.sarana;
-                document.getElementById('set-kondisi').value = cachedSettings.kondisi;
+                document.getElementById('set-sekolah').value = cachedSettings.sekolahName; document.getElementById('set-jenjang').value = cachedSettings.jenjang;
+                document.getElementById('set-kota').value = cachedSettings.kota; document.getElementById('set-kepsek-name').value = cachedSettings.kepsekName;
+                document.getElementById('set-kepsek-nip').value = cachedSettings.kepsekNIP; document.getElementById('set-guru-name').value = cachedSettings.guruName; 
+                document.getElementById('set-guru-nip').value = cachedSettings.guruNIP; document.getElementById('set-jmlSiswa').value = cachedSettings.jmlSiswa;
+                document.getElementById('set-sarana').value = cachedSettings.sarana; document.getElementById('set-kondisi').value = cachedSettings.kondisi;
                 
                 setTimeout(() => {
                     const p = document.getElementById('set-pendekatan'); if(p) p.value = cachedSettings.pendekatan || globalPendekatan[0];
@@ -1165,128 +1116,74 @@
         }
 
         document.getElementById('settings-form')?.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if(!currentUser) return;
-            const btn = e.submitter; const ori = btn.innerHTML;
-            btn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> Menyimpan...`; btn.disabled = true;
-
+            e.preventDefault(); if(!currentUser) return;
+            const btn = e.submitter; const ori = btn.innerHTML; btn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> Menyimpan...`; btn.disabled = true;
             try {
                 cachedSettings = {
-                    sekolahName: document.getElementById('set-sekolah').value,
-                    jenjang: document.getElementById('set-jenjang').value,
-                    kota: document.getElementById('set-kota').value,
-                    kepsekName: document.getElementById('set-kepsek-name').value,
-                    kepsekNIP: document.getElementById('set-kepsek-nip').value,
-                    guruName: document.getElementById('set-guru-name').value,
-                    guruNIP: document.getElementById('set-guru-nip').value,
-                    jmlSiswa: document.getElementById('set-jmlSiswa').value,
-                    pendekatan: document.getElementById('set-pendekatan').value,
-                    model: document.getElementById('set-model').value,
-                    metode: document.getElementById('set-metode').value,
-                    sarana: document.getElementById('set-sarana').value,
+                    sekolahName: document.getElementById('set-sekolah').value, jenjang: document.getElementById('set-jenjang').value,
+                    kota: document.getElementById('set-kota').value, kepsekName: document.getElementById('set-kepsek-name').value,
+                    kepsekNIP: document.getElementById('set-kepsek-nip').value, guruName: document.getElementById('set-guru-name').value,
+                    guruNIP: document.getElementById('set-guru-nip').value, jmlSiswa: document.getElementById('set-jmlSiswa').value,
+                    pendekatan: document.getElementById('set-pendekatan').value, model: document.getElementById('set-model').value,
+                    metode: document.getElementById('set-metode').value, sarana: document.getElementById('set-sarana').value,
                     kondisi: document.getElementById('set-kondisi').value
                 };
                 const docRef = doc(db, 'artifacts', appId, 'users', currentUser.username, 'pengaturan', 'profil');
-                await setDoc(docRef, cachedSettings);
-                showToast('Pengaturan profil berhasil disimpan ke Cloud.', 'success');
-            } catch (err) { showToast('Gagal menyimpan profil.', 'error'); } 
-            finally { btn.innerHTML = ori; btn.disabled = false; }
+                await setDoc(docRef, cachedSettings); showToast('Pengaturan profil berhasil disimpan ke Cloud.', 'success');
+            } catch (err) { showToast('Gagal menyimpan profil.', 'error'); } finally { btn.innerHTML = ori; btn.disabled = false; }
         });
 
         const initUserSession = async () => {
             const saved = sessionStorage.getItem('current_teacher');
             if(saved) {
-                currentUser = JSON.parse(saved);
-                setTxt('dash-user', currentUser.nama);
-                setTxt('nav-user-name', currentUser.nama);
-                document.getElementById('login-screen').style.display = 'none';
-                document.getElementById('sidebar').classList.remove('-translate-x-full'); 
+                currentUser = JSON.parse(saved); setTxt('dash-user', currentUser.nama); setTxt('nav-user-name', currentUser.nama);
+                document.getElementById('login-screen').style.display = 'none'; document.getElementById('sidebar').classList.remove('-translate-x-full'); 
                 document.getElementById('main-content').classList.remove('hidden');
                 if(window.innerWidth < 768) { sidebar.classList.add('-translate-x-full'); }
-
-                await loadDynamicLists();
-                await loadSettingsUI();
-                await loadReferences();
-                switchView('dashboard');
+                await loadDynamicLists(); await loadSettingsUI(); await loadReferences(); switchView('dashboard');
             }
         };
 
         window.logout = () => { sessionStorage.removeItem('current_teacher'); location.reload(); };
 
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                const as = document.getElementById('auth-status');
-                if (as) { as.innerHTML = "✅ Sinkronisasi DB Siap"; as.classList.replace("text-graytext", "text-navy"); }
-                initUserSession();
-            }
-        });
+        onAuthStateChanged(auth, (user) => { if (user) { const as = document.getElementById('auth-status'); if (as) { as.innerHTML = "✅ Sinkronisasi DB Siap"; as.classList.replace("text-graytext", "text-navy"); } initUserSession(); } });
 
         document.getElementById('login-form')?.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const btn = document.getElementById('btn-login');
-            const unameInput = document.getElementById('login-username').value.trim().toLowerCase();
-            const pinInput = document.getElementById('login-pin').value.trim();
+            const btn = document.getElementById('btn-login'); const unameInput = document.getElementById('login-username').value.trim().toLowerCase(); const pinInput = document.getElementById('login-pin').value.trim();
             btn.disabled = true; btn.innerHTML = '<span class="loader border-white w-5 h-5 mr-2" style="border-width: 3px; border-top-color: transparent;"></span> Memeriksa...';
-            
             try {
                 if (!auth.currentUser) await signInAnonymously(auth);
-                const guruRef = collection(db, 'artifacts', appId, 'public', 'data', 'guru');
-                const snap = await getDocs(guruRef);
-                let matchedGuru = null;
-                snap.forEach(doc => {
-                    const data = doc.data();
-                    if ((data.username || "").toLowerCase() === unameInput && data.pin === pinInput) matchedGuru = { id: doc.id, ...data };
-                });
+                const guruRef = collection(db, 'artifacts', appId, 'public', 'data', 'guru'); const snap = await getDocs(guruRef);
+                let matchedGuru = null; snap.forEach(doc => { const data = doc.data(); if ((data.username || "").toLowerCase() === unameInput && data.pin === pinInput) matchedGuru = { id: doc.id, ...data }; });
                 
                 if (matchedGuru) {
                     currentUser = { username: matchedGuru.username, uid: matchedGuru.id, nama: matchedGuru.nama || matchedGuru.username, kelas: matchedGuru.kelas || "Kelas Default", nip: matchedGuru.nip || '-' };
-                    sessionStorage.setItem('current_teacher', JSON.stringify(currentUser));
-                    showToast(`Selamat datang, ${currentUser.nama}!`, 'success');
+                    sessionStorage.setItem('current_teacher', JSON.stringify(currentUser)); showToast(`Selamat datang, ${currentUser.nama}!`, 'success');
                     setTxt('dash-user', currentUser.nama); setTxt('nav-user-name', currentUser.nama);
 
-                    const loginScreen = document.getElementById('login-screen');
-                    loginScreen.classList.add('opacity-0');
+                    const loginScreen = document.getElementById('login-screen'); loginScreen.classList.add('opacity-0');
                     setTimeout(async () => {
-                        loginScreen.style.display = 'none';
-                        document.getElementById('main-content').classList.remove('hidden');
+                        loginScreen.style.display = 'none'; document.getElementById('main-content').classList.remove('hidden');
                         if(window.innerWidth >= 768) { sidebar.classList.remove('-translate-x-full'); }
-                        await loadDynamicLists(); await loadSettingsUI(); await loadReferences();
-                        switchView('dashboard');
+                        await loadDynamicLists(); await loadSettingsUI(); await loadReferences(); switchView('dashboard');
                     }, 500);
-                } else {
-                    showToast('Username atau PIN salah!', 'error');
-                    btn.disabled = false; btn.innerHTML = '<i class="fas fa-sign-in-alt mr-2"></i> Masuk Ruang Kerja';
-                }
-            } catch (error) {
-                console.error("Koneksi gagal:", error);
-                showToast('Gagal memverifikasi database. Pastikan koneksi dan Firebase Config benar.', 'error');
-                btn.disabled = false; btn.innerHTML = '<i class="fas fa-sign-in-alt mr-2"></i> Masuk Ruang Kerja';
-            }
+                } else { showToast('Username atau PIN salah!', 'error'); btn.disabled = false; btn.innerHTML = '<i class="fas fa-sign-in-alt mr-2"></i> Masuk Ruang Kerja'; }
+            } catch (error) { showToast('Gagal memverifikasi database.', 'error'); btn.disabled = false; btn.innerHTML = '<i class="fas fa-sign-in-alt mr-2"></i> Masuk Ruang Kerja'; }
         });
 
         window.switchView = (target) => {
-            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active')); document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
             document.getElementById(`view-${target}`).classList.add('active');
-            const targetLink = document.querySelector(`.nav-link[data-target="${target}"]`);
-            if(targetLink) targetLink.classList.add('active');
-            
-            let title = "Dasbor Utama";
-            if(target === 'generator') title = "Kreator AI Modul"; 
-            if(target === 'arsip') { title = "Arsip Dokumen"; loadArsip(); }
-            if(target === 'referensi') { title = "Pustaka Referensi"; loadReferences(); }
-            if(target === 'pengaturan') { title = "Pengaturan Profil"; loadSettingsUI(); }
-            setTxt('page-title', title);
+            const targetLink = document.querySelector(`.nav-link[data-target="${target}"]`); if(targetLink) targetLink.classList.add('active');
+            let title = "Dasbor Utama"; if(target === 'generator') title = "Kreator AI Modul"; if(target === 'arsip') { title = "Arsip Dokumen"; loadArsip(); } if(target === 'referensi') { title = "Pustaka Referensi"; loadReferences(); } if(target === 'pengaturan') { title = "Pengaturan Profil"; loadSettingsUI(); } setTxt('page-title', title);
         };
 
         document.getElementById('btn-toggle-layout')?.addEventListener('click', () => { document.getElementById('generator-layout').classList.toggle('preview-expanded'); });
 
         function applyZoom() {
             const wrapper = document.getElementById('pdf-wrapper');
-            if(wrapper) {
-                wrapper.style.transform = `scale(${currentZoom})`;
-                document.getElementById('zoom-level-text').innerText = Math.round(currentZoom * 100) + '%';
-            }
+            if(wrapper) { wrapper.style.transform = `scale(${currentZoom})`; document.getElementById('zoom-level-text').innerText = Math.round(currentZoom * 100) + '%'; }
         }
         document.getElementById('btn-zoom-in')?.addEventListener('click', () => { if(currentZoom < 2.5) { currentZoom += 0.1; applyZoom(); } });
         document.getElementById('btn-zoom-out')?.addEventListener('click', () => { if(currentZoom > 0.4) { currentZoom -= 0.1; applyZoom(); } });
@@ -1295,10 +1192,8 @@
             btn.addEventListener('click', (e) => {
                 document.querySelectorAll('.gen-tab-btn').forEach(b => { b.classList.remove('bg-white', 'shadow', 'text-navy'); b.classList.add('text-graytext', 'hover:bg-gray-200'); });
                 e.target.classList.remove('text-graytext', 'hover:bg-gray-200'); e.target.classList.add('bg-white', 'shadow', 'text-navy');
-                document.querySelectorAll('.gen-form').forEach(f => f.classList.add('hidden'));
-                document.getElementById(e.target.dataset.target).classList.remove('hidden');
-                document.getElementById('pdf-wrapper').classList.add('hidden');
-                document.getElementById('empty-state').classList.remove('hidden');
+                document.querySelectorAll('.gen-form').forEach(f => f.classList.add('hidden')); document.getElementById(e.target.dataset.target).classList.remove('hidden');
+                document.getElementById('pdf-wrapper').classList.add('hidden'); document.getElementById('empty-state').classList.remove('hidden');
                 document.getElementById('btn-download').style.display = 'none'; document.getElementById('btn-save-db').style.display = 'none'; document.getElementById('btn-word').style.display = 'none';
             });
         });
@@ -1306,13 +1201,7 @@
         document.getElementById('use-global-settings')?.addEventListener('change', (e) => {
             const container = document.getElementById('custom-class-settings');
             if(e.target.checked) container.classList.add('hidden');
-            else {
-                container.classList.remove('hidden');
-                document.getElementById('cust-jmlSiswa').value = cachedSettings.jmlSiswa;
-                document.getElementById('cust-pendekatan').value = cachedSettings.pendekatan || globalPendekatan[0];
-                document.getElementById('cust-model').value = cachedSettings.model || globalModel[0];
-                document.getElementById('cust-metode').value = cachedSettings.metode || globalMetode[0];
-            }
+            else { container.classList.remove('hidden'); document.getElementById('cust-jmlSiswa').value = cachedSettings.jmlSiswa; document.getElementById('cust-pendekatan').value = cachedSettings.pendekatan || globalPendekatan[0]; document.getElementById('cust-model').value = cachedSettings.model || globalModel[0]; document.getElementById('cust-metode').value = cachedSettings.metode || globalMetode[0]; }
         });
 
         document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -1320,162 +1209,100 @@
                 const targetForm = e.target.dataset.target;
                 document.querySelectorAll('.tab-btn').forEach(b => { b.classList.remove('active'); b.classList.add('inactive'); });
                 e.target.classList.remove('inactive', 'text-navy'); e.target.classList.add('active');
-                document.querySelectorAll('.tab-content').forEach(f => { f.classList.remove('block'); f.classList.add('hidden'); });
-                document.getElementById(targetForm).classList.remove('hidden'); document.getElementById(targetForm).classList.add('block');
+                document.querySelectorAll('.tab-content').forEach(f => { f.classList.remove('block'); f.classList.add('hidden'); }); document.getElementById(targetForm).classList.remove('hidden'); document.getElementById(targetForm).classList.add('block');
             });
         });
 
-
-        // PENYIMPANAN PUSTAKA REFERENSI LOKAL (IndexedDB via LocalForage)
         document.getElementById('form-file')?.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const name = document.getElementById('ref-name-file').value;
-            const mapel = document.getElementById('ref-mapel-file').value;
-            const fileInput = document.getElementById('ref-file');
-            const file = fileInput.files[0];
+            const name = document.getElementById('ref-name-file').value, mapel = document.getElementById('ref-mapel-file').value;
+            const fileInput = document.getElementById('ref-file'); const file = fileInput.files[0];
             if(!file) return;
-            
-            const btn = e.submitter; const oriText = btn.innerHTML;
-            btn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> Menyimpan...`; btn.disabled = true;
+            const btn = e.submitter; const oriText = btn.innerHTML; btn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> Menyimpan...`; btn.disabled = true;
 
             try {
                 let numPages = 0;
-                try {
-                    const arrayBuffer = await file.arrayBuffer();
-                    const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
-                    numPages = pdf.numPages;
-                } catch(err) { console.warn("Gagal ekstrak halaman", err); }
-
-                await lf.setItem('ref_' + Date.now(), { type: 'file', name: name, mapel: mapel, file: file, size: file.size, pages: numPages });
-                showToast(`Berkas disimpan secara lokal!`, 'success');
-                e.target.reset(); await loadReferences();
-            } catch(e) { console.error(e); showToast("Gagal menyimpan file ke memori", "error"); } 
-            finally { btn.innerHTML = oriText; btn.disabled = false; }
+                try { const arrayBuffer = await file.arrayBuffer(); const pdf = await pdfjsLib.getDocument(arrayBuffer).promise; numPages = pdf.numPages; } catch(err) { console.warn("Gagal ekstrak halaman", err); }
+                await lf.setItem('ref_' + Date.now(), { type: 'file', name: name, mapel: mapel, file: file, size: file.size, pages: numPages, timestamp: new Date().toISOString() });
+                showToast(`Berkas disimpan secara lokal!`, 'success'); e.target.reset(); await loadReferences();
+            } catch(e) { showToast("Gagal menyimpan file lokal", "error"); } finally { btn.innerHTML = oriText; btn.disabled = false; }
         });
 
         document.getElementById('form-link')?.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const name = document.getElementById('ref-name-link').value;
-            const mapel = document.getElementById('ref-mapel-link').value;
-            const url = document.getElementById('ref-link').value;
-            
-            const btn = e.submitter; const oriText = btn.innerHTML;
-            btn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> Menyimpan...`; btn.disabled = true;
-
+            const name = document.getElementById('ref-name-link').value, mapel = document.getElementById('ref-mapel-link').value, url = document.getElementById('ref-link').value;
+            const btn = e.submitter; const oriText = btn.innerHTML; btn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> Menyimpan...`; btn.disabled = true;
             try {
-                await lf.setItem('ref_' + Date.now(), { type: 'link', name: name, mapel: mapel, url: url });
-                showToast(`Tautan disimpan secara lokal!`, 'success');
-                e.target.reset(); await loadReferences();
-            } catch(e) { showToast("Gagal menyimpan tautan.", "error"); }
-            finally { btn.innerHTML = oriText; btn.disabled = false; }
+                await lf.setItem('ref_' + Date.now(), { type: 'link', name: name, mapel: mapel, url: url, timestamp: new Date().toISOString() });
+                showToast(`Tautan web disimpan secara lokal!`, 'success'); e.target.reset(); await loadReferences();
+            } catch(e) { showToast("Gagal menyimpan tautan lokal.", "error"); } finally { btn.innerHTML = oriText; btn.disabled = false; }
         });
 
         async function loadReferences() {
-            document.getElementById('ref-loading')?.classList.remove('hidden');
-            const listContainer = document.getElementById('ref-list');
-            listContainer.innerHTML = ''; let count = 0;
+            const listContainer = document.getElementById('ref-list'); listContainer.innerHTML = ''; 
+            let items = [];
+            await lf.iterate(function(value, key) { items.push({key, ...value}); });
+            items.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
             
-            try {
-                await lf.iterate(function(item, key) {
-                    count++;
-                    const div = document.createElement('div');
-                    div.className = "app-card p-5 flex justify-between items-center bg-white border-l-4 " + (item.type === 'file' ? "border-l-orange" : "border-l-navy");
-                    let icon = item.type === 'file' ? '<i class="fas fa-file-pdf"></i>' : '<i class="fas fa-link"></i>';
-                    
-                    let subtext = '';
-                    if (item.type === 'file') {
-                        const sizeMb = (item.size/1024/1024).toFixed(2);
-                        const pages = item.pages ? `${item.pages} Hal` : 'PDF Lokal';
-                        subtext = `<span class="text-orange font-bold mr-1">PDF Lokal</span> • ${pages} • ${sizeMb} MB`;
-                    } else {
-                        subtext = `<span class="text-blue-500 font-bold mr-1">URL Lokal</span>`;
-                    }
-
-                    div.innerHTML = `
-                        <div class="flex items-center space-x-3 w-full overflow-hidden">
-                            <div class="w-10 h-10 rounded-full bg-lightbg flex items-center justify-center text-lg text-graytext shadow-inner shrink-0">${icon}</div>
-                            <div class="truncate flex-1">
-                                <div class="flex items-center gap-2 mb-1"><span class="bg-lightbg text-navy text-[9px] px-2 py-0.5 rounded font-bold uppercase border border-gray-200">${item.mapel || 'Semua'}</span></div>
-                                <p class="font-heading font-bold text-navy truncate text-sm">${item.name}</p>
-                                <p class="text-[10px] text-graytext">${subtext}</p>
-                            </div>
-                            <button onclick="deleteRef('${key}')" class="text-gray-400 hover:text-orange transition ml-2 shrink-0"><i class="fas fa-trash"></i></button>
-                        </div>`;
-                    listContainer.appendChild(div);
-                });
-                
-                if(count === 0) listContainer.innerHTML = '<div class="col-span-full py-8 text-graytext text-center border-2 border-dashed border-gray-200 rounded-xl">Belum ada pustaka lokal. Data hanya tersimpan di browser ini.</div>';
-                setTxt('ref-badge', count.toString());
-                updateBukuSelector();
-            } catch(e) { console.error("Gagal muat pustaka lokal:", e); }
-            finally { document.getElementById('ref-loading')?.classList.add('hidden'); }
+            items.forEach(item => {
+                const div = document.createElement('div'); div.className = "app-card p-5 flex justify-between items-center bg-white border-l-4 " + (item.type === 'file' ? "border-l-orange" : "border-l-navy");
+                let icon = item.type === 'file' ? '<i class="fas fa-file-pdf"></i>' : '<i class="fas fa-link"></i>';
+                let subtext = item.type === 'file' ? `<span class="text-orange font-bold mr-1">PDF Lokal</span> • ${item.pages ? `${item.pages} Hal` : ''} • ${(item.size/1024/1024).toFixed(2)} MB` : `<span class="text-blue-500 font-bold mr-1">URL Lokal</span>`;
+                div.innerHTML = `
+                    <div class="flex items-center space-x-3 w-full overflow-hidden">
+                        <div class="w-10 h-10 rounded-full bg-lightbg flex items-center justify-center text-lg text-graytext shadow-inner shrink-0">${icon}</div>
+                        <div class="truncate flex-1">
+                            <div class="flex items-center gap-2 mb-1"><span class="bg-lightbg text-navy text-[9px] px-2 py-0.5 rounded font-bold uppercase border border-gray-200">${item.mapel || 'Semua'}</span></div>
+                            <p class="font-heading font-bold text-navy truncate text-sm">${item.name}</p>
+                            <p class="text-[10px] text-graytext">${subtext}</p>
+                        </div>
+                        <button onclick="deleteRef('${item.key}')" class="text-gray-400 hover:text-orange transition ml-2 shrink-0"><i class="fas fa-trash"></i></button>
+                    </div>`;
+                listContainer.appendChild(div);
+            });
+            if(items.length === 0) listContainer.innerHTML = '<div class="col-span-full py-8 text-graytext text-center border-2 border-dashed border-gray-200 rounded-xl">Belum ada pustaka lokal.</div>';
+            setTxt('ref-badge', items.length.toString()); updateBukuSelector(items);
         }
 
         window.deleteRef = async (key) => {
-            if(!confirm(`Yakin ingin menghapus referensi ini dari memori lokal?`)) return;
-            try {
-                await lf.removeItem(key);
-                showToast('Dihapus dari memori.', 'success');
-                await loadReferences();
-            } catch(e) { console.error(e); showToast('Gagal menghapus.', 'error'); }
+            if(!confirm(`Yakin ingin menghapus referensi ini dari penyimpanan browser?`)) return;
+            await lf.removeItem(key); showToast('Dihapus dari lokal.', 'success'); await loadReferences();
         };
 
-        window.closePdfModal = () => {
-            document.getElementById('pdf-modal').classList.add('hidden');
-            if(currentPdfObjectUrl) URL.revokeObjectURL(currentPdfObjectUrl);
-        };
+        window.closePdfModal = () => { document.getElementById('pdf-modal').classList.add('hidden'); if(currentPdfObjectUrl) URL.revokeObjectURL(currentPdfObjectUrl); };
 
-        async function updateBukuSelector() {
-            const selectors = document.querySelectorAll('.buku-dynamic-select');
-            if(!selectors.length) return;
+        function updateBukuSelector(items) {
+            const selectors = document.querySelectorAll('.buku-dynamic-select'); if(!selectors.length || !items) return;
             let optionsHtml = '<option value="">-- Tanpa Rujukan Pustaka --</option>';
-            
-            await lf.iterate(function(item, key) {
-                optionsHtml += `<option value="${key}">[${item.mapel || 'Semua'}] ${item.name}</option>`;
-            });
-
+            items.forEach(item => { optionsHtml += `<option value="${item.key}">[${item.mapel || 'Semua'}] ${item.name}</option>`; });
             selectors.forEach(selector => {
                 const currentVal = selector.value; selector.innerHTML = optionsHtml;
-                if(currentVal) selector.value = currentVal; // try to keep selection
+                if(currentVal && items.find(p => p.key === currentVal)) selector.value = currentVal;
                 const container = selector.closest('div.bg-lightbg');
                 if(container) {
                     const btn = container.querySelector('.btn-preview-buku'); const pk = container.querySelector('.page-picker-container');
-                    if(pk) {
-                       selector.addEventListener('change', () => {
-                           if(selector.value) { pk.classList.remove('hidden'); if(btn) btn.classList.remove('hidden'); }
-                           else { pk.classList.add('hidden'); if(btn) btn.classList.add('hidden'); }
-                       });
-                    }
+                    if(pk) { selector.addEventListener('change', () => { if(selector.value) { pk.classList.remove('hidden'); if(btn) btn.classList.remove('hidden'); } else { pk.classList.add('hidden'); if(btn) btn.classList.add('hidden'); } }); }
                 }
             });
         }
 
         document.querySelector('.btn-preview-buku')?.addEventListener('click', async () => {
-            const key = document.getElementById('buku-modul').value;
-            if(!key) return;
+            const key = document.getElementById('buku-modul').value; if(!key) return;
             const record = await lf.getItem(key);
             if(record) {
                 if (record.type === 'link') window.open(record.url, '_blank');
-                else { 
-                    currentPdfObjectUrl = URL.createObjectURL(record.file);
-                    document.getElementById('pdf-viewer-frame').src = currentPdfObjectUrl; 
-                    document.getElementById('pdf-modal').classList.remove('hidden'); 
-                }
+                else { currentPdfObjectUrl = URL.createObjectURL(record.file); document.getElementById('pdf-viewer-frame').src = currentPdfObjectUrl; document.getElementById('pdf-modal').classList.remove('hidden'); }
             }
         });
 
-        async function extractSpecificPages(fileOrBlob, pagesStr) {
+        async function extractSpecificPages(fileData, pagesStr) {
             try {
-                const arrayBuffer = await fileOrBlob.arrayBuffer();
+                const arrayBuffer = await fileData.arrayBuffer();
                 const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
-                
-                let pagesToExtract = [];
-                const parts = pagesStr.replace(/\s+/g,'').split(',');
+                let pagesToExtract = []; const parts = pagesStr.replace(/\s+/g,'').split(',');
                 for(let part of parts) {
-                    if(part.includes('-')) {
-                        const [start, end] = part.split('-').map(Number);
-                        if(start && end && start <= end) for(let i=start; i<=end; i++) pagesToExtract.push(i);
-                    } else { const num = Number(part); if(num) pagesToExtract.push(num); }
+                    if(part.includes('-')) { const [start, end] = part.split('-').map(Number); if(start && end && start <= end) for(let i=start; i<=end; i++) pagesToExtract.push(i); } 
+                    else { const num = Number(part); if(num) pagesToExtract.push(num); }
                 }
                 if(pagesToExtract.length === 0) pagesToExtract = [1];
                 if(pagesToExtract.length > 10) pagesToExtract = pagesToExtract.slice(0, 10); 
@@ -1483,111 +1310,73 @@
                 let text = ``;
                 for (let i of pagesToExtract) {
                     if(i > pdf.numPages) continue;
-                    const page = await pdf.getPage(i);
-                    const content = await page.getTextContent();
+                    const page = await pdf.getPage(i); const content = await page.getTextContent();
                     text += content.items.map(item => item.str).join(' ') + '\n';
                 }
                 return text;
-            } catch (e) {
-                console.error("PDF Extraction Error:", e);
-                throw new Error("Gagal membaca dokumen rujukan.");
-            }
+            } catch (e) { console.error("PDF Extraction Error:", e); throw new Error("Gagal mengekstrak PDF."); }
         }
 
         async function fetchGeminiAPI(prompt) {
-            const urlVercel = "/api/chat"; 
-            const payload = { pesan: prompt };
-            const backoffDelays = [1000, 2000, 4000, 8000];
+            const urlVercel = "/api/chat"; const payload = { pesan: prompt }; const backoffDelays = [1000, 2000, 4000, 8000];
             for (let i = 0; i < backoffDelays.length; i++) {
                 try {
                     const response = await fetch(urlVercel, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                     if (!response.ok) { const errDetails = await response.text(); throw new Error(`HTTP Error ${response.status}: ${errDetails}`); }
                     const result = await response.json();
-                    if (result.error) throw new Error(result.error.message || "Error dari Server Backend Vercel.");
-                    
-                    let responseText = "";
-                    if (typeof result === 'string') responseText = result;
-                    else if (result.candidates && result.candidates.length > 0) responseText = result.candidates[0].content.parts[0].text;
-                    else responseText = result.text || result.pesan || result.response || JSON.stringify(result);
+                    if (result.error) throw new Error(result.error.message || "Error dari Server.");
+                    let responseText = typeof result === 'string' ? result : (result.candidates && result.candidates.length > 0 ? result.candidates[0].content.parts[0].text : (result.text || result.pesan || result.response || JSON.stringify(result)));
                     return responseText;
-                } catch (error) {
-                    if (i === backoffDelays.length - 1) throw error;
-                    await new Promise(res => setTimeout(res, backoffDelays[i]));
-                }
+                } catch (error) { if (i === backoffDelays.length - 1) throw error; await new Promise(res => setTimeout(res, backoffDelays[i])); }
             }
         }
 
-        const formatDate = (dateStr) => {
-            if(!dateStr) return '';
-            return new Date(dateStr).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' });
-        };
-        
+        const formatDate = (dateStr) => { if(!dateStr) return ''; return new Date(dateStr).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' }); };
         const todayStr = new Date().toISOString().split('T')[0];
         document.getElementById('tglBuat').value = todayStr; document.getElementById('tglPelaksanaan').value = todayStr;
         document.getElementById('tgl-atp').value = todayStr; document.getElementById('tgl-prota').value = todayStr; document.getElementById('tgl-jurnal').value = todayStr;
 
         function startLoadingAI(title) {
-            document.getElementById('empty-state').classList.add('hidden');
-            document.getElementById('pdf-wrapper').classList.add('hidden');
-            document.getElementById('loading-state').classList.remove('hidden');
-            setTxt('loading-title', title);
-            currentZoom = 1; applyZoom();
+            document.getElementById('empty-state').classList.add('hidden'); document.getElementById('pdf-wrapper').classList.add('hidden'); document.getElementById('loading-state').classList.remove('hidden'); setTxt('loading-title', title); currentZoom = 1; applyZoom();
         }
 
         function showSuccess(html, isLandscape = false) {
-            document.getElementById('pdf-content').innerHTML = html;
-            document.getElementById('loading-state').classList.add('hidden');
-            const pdfWrapper = document.getElementById('pdf-wrapper');
-            pdfWrapper.classList.remove('hidden');
+            document.getElementById('pdf-content').innerHTML = html; document.getElementById('loading-state').classList.add('hidden');
+            const pdfWrapper = document.getElementById('pdf-wrapper'); pdfWrapper.classList.remove('hidden');
             if (isLandscape) pdfWrapper.classList.add('landscape-mode'); else pdfWrapper.classList.remove('landscape-mode');
-            
-            document.getElementById('btn-download').style.display = 'flex';
-            document.getElementById('btn-word').style.display = 'flex';
-            document.getElementById('btn-save-db').style.display = 'flex';
-            showToast('Dokumen AI berhasil disusun!', 'success');
-
-            document.getElementById('output-container').scrollTo(0, 0);
+            document.getElementById('btn-download').style.display = 'flex'; document.getElementById('btn-word').style.display = 'flex'; document.getElementById('btn-save-db').style.display = 'flex';
+            showToast('Dokumen AI berhasil disusun!', 'success'); document.getElementById('output-container').scrollTo(0, 0);
             if(window.innerWidth < 1024) document.getElementById('preview-panel').scrollIntoView({ behavior: 'smooth' });
         }
 
         function showError(e) { console.error(e); showToast(e.message || 'Gagal menyusun dokumen.', 'error'); document.getElementById('loading-state').classList.add('hidden'); document.getElementById('empty-state').classList.remove('hidden'); }
 
         document.getElementById('btn-auto-tp')?.addEventListener('click', async () => {
-            const mapel = document.getElementById('mapel-modul').value;
-            const kelas = document.getElementById('kelas-modul').value;
+            const mapel = document.getElementById('mapel-modul').value, kelas = document.getElementById('kelas-modul').value;
             if (!mapel || !kelas) return showToast('Pilih Mapel & Kelas dahulu!', 'error');
-            
-            const btnAuto = document.getElementById('btn-auto-tp');
-            btnAuto.innerHTML = `<i class="fas fa-spinner fa-spin mr-1"></i> Merumuskan...`; btnAuto.disabled = true;
+            const btnAuto = document.getElementById('btn-auto-tp'); btnAuto.innerHTML = `<i class="fas fa-spinner fa-spin mr-1"></i> Merumuskan...`; btnAuto.disabled = true;
 
-            const selectedKey = document.getElementById('buku-modul').value;
-            const hb = document.getElementById('hal-modul'); let pagesToExtract = hb ? hb.value : "1";
+            const selectedKey = document.getElementById('buku-modul').value; const hb = document.getElementById('hal-modul'); let pagesToExtract = hb ? hb.value : "1";
             let extractedContext = "";
-            
             try {
                 if(selectedKey) {
                     const record = await lf.getItem(selectedKey);
                     if(record) {
                         if (record.type === 'file') extractedContext = await extractSpecificPages(record.file, pagesToExtract);
-                        else if (record.type === 'link') extractedContext = `Berdasarkan referensi utama berjudul: ${record.name} pada halaman ${pagesToExtract}`;
+                        else if (record.type === 'link') extractedContext = `Referensi utama berjudul: ${record.name} hal ${pagesToExtract}`;
                     }
                 }
                 const materiInput = document.getElementById('materiPokok').value;
                 if(!extractedContext && !materiInput) { showToast('Wajib isi Materi Pokok secara manual jika tidak ada Referensi Buku!', 'error'); document.getElementById('materiPokok').focus(); btnAuto.innerHTML = `<i class="fas fa-magic mr-1"></i> Auto Rumuskan`; btnAuto.disabled = false; return; }
 
-                let prompt = `Anda adalah seorang ahli pendidikan di Indonesia pembuat kurikulum. Tugas Anda merumuskan "Materi Pokok" (1 kalimat pendek) dan "Tujuan Pembelajaran" (1 paragraf jelas dengan 2 poin) untuk mapel ${mapel} kelas ${kelas}. Berikan respons WAJIB dalam format JSON murni dengan kunci "materi_pokok" dan "tp". Jangan tambahkan pembuka markdown \`\`\`json.`;
-                if(extractedContext) prompt += `\nKonteks rujukan PDF: "${extractedContext.substring(0, 2000)}"`;
-                if(materiInput) prompt += `\nAcuan Materi Pokok: "${materiInput}"`;
+                let prompt = `Anda adalah ahli pendidikan di Indonesia. Tugas Anda merumuskan "Materi Pokok" (1 kalimat pendek) dan "Tujuan Pembelajaran" (1 paragraf jelas dengan 2 poin) untuk mapel ${mapel} kelas ${kelas}. Berikan respons format JSON murni TANPA \`\`\`json dengan kunci "materi_pokok" dan "tp".`;
+                if(extractedContext) prompt += ` Konteks: "${extractedContext.substring(0, 2000)}"`; if(materiInput) prompt += ` Acuan Materi: "${materiInput}"`;
 
                 let responseText = await fetchGeminiAPI(prompt);
-                try {
-                    const aiData = JSON.parse(responseText.replace(/```json/gi, '').replace(/```/g, '').trim());
-                    if(aiData.tp) document.getElementById('tp').value = aiData.tp;
-                    if(aiData.materi_pokok) document.getElementById('materiPokok').value = aiData.materi_pokok;
-                    showToast('Materi & TP berhasil dirumuskan cerdas!', 'success');
-                } catch (e) { showToast('Format balasan AI tidak sesuai, silakan ulangi.', 'error'); }
-            } catch(err) { showToast('Gagal terhubung ke backend.', 'error'); } 
-            finally { btnAuto.innerHTML = `<i class="fas fa-magic mr-1"></i> Auto Rumuskan`; btnAuto.disabled = false; }
+                const aiData = JSON.parse(responseText.replace(/```json/gi, '').replace(/```/g, '').trim());
+                if(aiData.tp) document.getElementById('tp').value = aiData.tp; if(aiData.materi_pokok) document.getElementById('materiPokok').value = aiData.materi_pokok;
+                showToast('Materi & TP berhasil dirumuskan cerdas!', 'success');
+            } catch(err) { showToast('Gagal merumuskan TP otomatis.', 'error'); } finally { btnAuto.innerHTML = `<i class="fas fa-magic mr-1"></i> Auto Rumuskan`; btnAuto.disabled = false; }
         });
 
         document.getElementById('form-modul')?.addEventListener('submit', async (e) => {
@@ -1597,28 +1386,15 @@
             startLoadingAI("Menyusun Modul Ajar AI...");
 
             try {
-                const mapel = document.getElementById('mapel-modul').value;
-                const kelas = document.getElementById('kelas-modul').value;
-                const semester = document.getElementById('semester-modul').value;
-                const materi = document.getElementById('materiPokok').value;
-                const tpVal = document.getElementById('tp').value;
-                const waktuTitimangsaFormatted = formatDate(document.getElementById('tglBuat').value);
-                const alokasi = document.getElementById('alokasiWaktu').value;
-                
+                const mapel = document.getElementById('mapel-modul').value, kelas = document.getElementById('kelas-modul').value, semester = document.getElementById('semester-modul').value;
+                const materi = document.getElementById('materiPokok').value, tpVal = document.getElementById('tp').value, waktuTitimangsaFormatted = formatDate(document.getElementById('tglBuat').value), alokasi = document.getElementById('alokasiWaktu').value;
                 const ug = document.getElementById('use-global-settings'); const useGlobal = ug ? ug.checked : true;
-                const setJml = useGlobal ? cachedSettings.jmlSiswa : document.getElementById('cust-jmlSiswa').value;
-                const setPendekatan = useGlobal ? cachedSettings.pendekatan : document.getElementById('cust-pendekatan').value;
-                const setModel = useGlobal ? cachedSettings.model : document.getElementById('cust-model').value;
-                const setMetode = useGlobal ? cachedSettings.metode : document.getElementById('cust-metode').value;
-                const setSarana = useGlobal ? cachedSettings.sarana : document.getElementById('cust-sarana').value;
-                const setKondisi = useGlobal ? cachedSettings.kondisi : document.getElementById('cust-kondisi').value;
+                const setJml = useGlobal ? cachedSettings.jmlSiswa : document.getElementById('cust-jmlSiswa').value, setPendekatan = useGlobal ? cachedSettings.pendekatan : document.getElementById('cust-pendekatan').value, setModel = useGlobal ? cachedSettings.model : document.getElementById('cust-model').value, setMetode = useGlobal ? cachedSettings.metode : document.getElementById('cust-metode').value, setSarana = useGlobal ? cachedSettings.sarana : document.getElementById('cust-sarana').value, setKondisi = useGlobal ? cachedSettings.kondisi : document.getElementById('cust-kondisi').value;
 
                 const detailLevel = document.getElementById('modul-detail').value;
-                const hasLkpd = document.getElementById('chk-lkpd').checked, hasBahan = document.getElementById('chk-bahan').checked;
-                const hasAsesmen = document.getElementById('chk-asesmen').checked, hasPengayaan = document.getElementById('chk-pengayaan').checked, hasJurnal = document.getElementById('chk-jurnal').checked;
+                const hasLkpd = document.getElementById('chk-lkpd').checked, hasBahan = document.getElementById('chk-bahan').checked, hasAsesmen = document.getElementById('chk-asesmen').checked, hasPengayaan = document.getElementById('chk-pengayaan').checked, hasJurnal = document.getElementById('chk-jurnal').checked;
 
-                const selectedKey = document.getElementById('buku-modul').value;
-                const hBuku = document.getElementById('hal-modul').value || "1";
+                const selectedKey = document.getElementById('buku-modul').value, hBuku = document.getElementById('hal-modul').value || "1";
                 let extractedText = ""; let sumberBelajarDeskripsi = "Buku Paket Siswa Standar";
 
                 if(selectedKey) {
@@ -1630,8 +1406,11 @@
                 }
                 
                 setTxt('loading-text', `Mengirim instruksi ke AI Vercel...`);
-                let prompt = `Anda adalah ahli pedagogik tingkat tinggi. Buatlah rincian rencana pembelajaran. Mata Pelajaran: ${mapel} Kelas: ${kelas} / Semester ${semester} Materi Pokok: ${materi} Tujuan Pembelajaran: ${tpVal} Pendekatan: ${setPendekatan} Model: ${setModel} Metode: ${setMetode} Kondisi: ${setKondisi} Detail Kegiatan: ${detailLevel}. ${extractedText ? `Konteks:\n${extractedText.substring(0, 2000)}\n` : ''} PADA KEGIATAN INTI, WAJIB MENCANTUMKAN NAMA TAHAPAN SINTAKS MODEL (tebalkan nama sintaks). Berikan respons format JSON murni TANPA markdown \`\`\`json. Kunci: karakteristik, dimensi_p5, pendahuluan (HTML <ul>), inti (HTML <ul>), penutup (HTML <ul>), asesmen_awal, asesmen_proses, asesmen_akhir.`;
-                if (hasLkpd) prompt += ` "lkpd": HTML instruksi tugas.,`; if (hasBahan) prompt += ` "bahan": HTML rangkuman.,`; if (hasAsesmen) prompt += ` "soal_sumatif": HTML list 3 soal evaluasi.,`; if (hasPengayaan) prompt += ` "pengayaan": Teks 1 kalimat ide., "remedial": Teks 1 kalimat ide.`;
+                let prompt = `Anda adalah ahli pedagogik tingkat tinggi. Buatlah rincian rencana pembelajaran. Mata Pelajaran: ${mapel} Kelas: ${kelas} / Semester ${semester} Materi Pokok: ${materi} Tujuan Pembelajaran: ${tpVal} Pendekatan: ${setPendekatan} Model: ${setModel} Metode: ${setMetode} Kondisi: ${setKondisi} 
+                Tingkat Detail Kegiatan: ${detailLevel} (Bila "Garis Besar" buat sangat ringkas namun esensial. Bila "Sangat Rinci" elaborasi percakapan guru, skenario utuh, pertanyaan pemantik dan alokasi durasi waktu yang sangat padat sehingga memakan beberapa halaman. Bila "Standar", berikan porsi moderat).
+                ${extractedText ? `Konteks:\n${extractedText.substring(0, 2000)}\n` : ''} 
+                PADA KEGIATAN INTI, WAJIB MENCANTUMKAN NAMA TAHAPAN SINTAKS MODEL (tebalkan nama sintaks). Berikan respons format JSON murni TANPA markdown \`\`\`json. Kunci: karakteristik, dimensi_p5, pendahuluan (HTML <ul>), inti (HTML <ul>), penutup (HTML <ul>), asesmen_awal, asesmen_proses, asesmen_akhir.`;
+                if (hasLkpd) prompt += ` "lkpd": HTML instruksi tugas.,`; if (hasBahan) prompt += ` "bahan": HTML rangkuman.,`; if (hasAsesmen) prompt += ` "soal_sumatif": HTML list 3 soal evaluasi.,`; if (hasPengayaan) prompt += ` "pengayaan": Teks ide., "remedial": Teks ide.`;
 
                 let responseText = await fetchGeminiAPI(prompt);
                 let dataAI = JSON.parse(responseText.replace(/```json/gi, '').replace(/```/g, '').trim());
@@ -1843,8 +1622,7 @@
                 } catch (e) { console.error("Gagal load arsip cloud:", e); }
                 
                 docs.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
-                if(loading) loading.classList.add('hidden');
-                container.classList.remove('hidden');
+                if(loading) loading.classList.add('hidden'); container.classList.remove('hidden');
 
                 let count = 0;
                 docs.forEach(doc => {
@@ -1861,16 +1639,12 @@
 
         window.deleteArsip = async (id) => {
             if(!confirm("Yakin hapus arsip dokumen ini secara permanen dari Cloud?")) return;
-            try {
-                const docRef = doc(db, 'artifacts', appId, 'users', currentUser.username, 'arsip_dokumen', id);
-                await deleteDoc(docRef); loadArsip(); showToast("Arsip berhasil dihapus dari Cloud", "success");
-            } catch(e) { showToast("Gagal menghapus arsip.", "error"); }
+            try { const docRef = doc(db, 'artifacts', appId, 'users', currentUser.username, 'arsip_dokumen', id); await deleteDoc(docRef); loadArsip(); showToast("Arsip berhasil dihapus dari Cloud", "success"); } catch(e) { showToast("Gagal menghapus arsip.", "error"); }
         };
 
         window.viewArsip = async (id) => {
             try {
-                const docRef = doc(db, 'artifacts', appId, 'users', currentUser.username, 'arsip_dokumen', id);
-                const docSnap = await getDoc(docRef);
+                const docRef = doc(db, 'artifacts', appId, 'users', currentUser.username, 'arsip_dokumen', id); const docSnap = await getDoc(docRef);
                 if(docSnap.exists()) {
                     const docData = docSnap.data(); document.getElementById('pdf-content').innerHTML = docData.content;
                     switchView('generator'); document.getElementById('empty-state').classList.add('hidden');
