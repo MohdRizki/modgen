@@ -579,9 +579,24 @@
                                     </select>
                                 </div>
                                 <div>
+                                    <label class="form-label">Minggu Efektif</label>
+                                    <input type="number" id="minggu-atp" class="form-input" placeholder="Contoh: 18" value="18" required>
+                                </div>
+                                <div>
+                                    <label class="form-label">JP / Minggu</label>
+                                    <input type="number" id="jp-minggu-atp" class="form-input" placeholder="Contoh: 4" value="4" required>
+                                </div>
+                                <div>
                                     <label class="form-label">Titimangsa TTD</label>
                                     <input type="date" id="tgl-atp" required class="form-input cursor-pointer">
                                 </div>
+                            </div>
+                            <div>
+                                <label class="form-label flex justify-between items-center">
+                                    <span>Capaian Pembelajaran (CP) Target</span>
+                                    <span class="text-[10px] text-orange bg-orange/10 px-2 py-1 rounded font-bold">Wajib Diisi</span>
+                                </label>
+                                <textarea id="cp-atp" required rows="4" class="form-input resize-none text-sm" placeholder="Tempel (Paste) deskripsi Capaian Pembelajaran (CP) resmi dari Kemdikbud di sini sebagai acuan utama AI..."></textarea>
                             </div>
                             <div class="bg-lightbg rounded-xl p-4 md:p-5 border border-gray-200">
                                 <label class="form-label mb-3">Pustaka Rujukan (Buku Teks)</label>
@@ -1438,6 +1453,7 @@
 
             try {
                 const mapel = document.getElementById('mapel-atp').value, kelas = document.getElementById('kelas-atp').value, semester = document.getElementById('semester-atp').value;
+                const minggu = document.getElementById('minggu-atp').value, jpMinggu = document.getElementById('jp-minggu-atp').value, cpText = document.getElementById('cp-atp').value;
                 const bKey = document.getElementById('buku-atp').value, hBuku = document.getElementById('hal-atp').value || "1-5";
                 
                 let extractedText = "";
@@ -1447,18 +1463,42 @@
                 }
 
                 setTxt('loading-text', `Menganalisis matriks Alur Tujuan Pembelajaran...`);
-                let prompt = `Buatlah Alur Tujuan Pembelajaran (ATP) Kurikulum Merdeka. Mapel: ${mapel}, Fase/Kelas: ${kelas} / Semester ${semester}. Referensi: ${extractedText ? extractedText.substring(0, 3000) : 'Gunakan standar Kemdikbud RI.'}. Berikan format JSON murni TANPA \`\`\`json: { "rasional": "paragraf rasional", "capaian": [ {"elemen": "contoh: Menyimak", "cp": "deskripsi"} ], "alur": [ { "elemen": "...", "tujuan": "...", "materi": "...", "jam": "6 JP", "profil_pancasila": "...", "glosarium": "kata & arti" } ] }`;
+                let prompt = `Buatlah Alur Tujuan Pembelajaran (ATP) Kurikulum Merdeka dengan ketentuan berikut:
+Konteks:
+- Mata Pelajaran: ${mapel}
+- Fase/Kelas: ${kelas}
+- Semester: ${semester}
+- Alokasi: ${minggu} minggu efektif
+- Waktu: ${jpMinggu} jam pelajaran per minggu
+- CP yang diturunkan: "${cpText}"
+- Referensi Tambahan: ${extractedText ? extractedText.substring(0, 2000) : 'Gunakan standar materi yang sesuai.'}
+
+Prinsip penyusunan ATP:
+1. Urutan TP harus menunjukkan gradasi dari konkret ke abstrak.
+2. Setiap TP harus terukur dan menggunakan kata kerja operasional (KKO).
+3. Cantumkan alokasi waktu per TP (akumulasi harus logis dengan total alokasi minggu x JP).
+4. Pastikan ada kesinambungan antar TP.
+
+Berikan format JSON murni TANPA markdown \`\`\`json: 
+{ 
+  "rasional": "Paragraf rasional / penjabaran ringkas arah pembelajaran", 
+  "alur": [ 
+    { "no": 1, "tujuan": "...", "materi": "...", "waktu": "...", "keterangan": "..." } 
+  ] 
+}`;
 
                 const response = await fetchGeminiAPI(prompt);
                 const dataAI = JSON.parse(response.replace(/```json/gi, '').replace(/```/g, '').trim());
                 const waktuTitimangsaFormatted = formatDate(document.getElementById('tgl-atp').value);
                 
-                let alurRows = ''; dataAI.alur.forEach(a => { alurRows += `<tr><td style="border:1px solid #000; padding:6px;">${a.elemen}</td><td style="border:1px solid #000; padding:6px;">${a.tujuan}</td><td style="border:1px solid #000; padding:6px;">${a.materi}</td><td style="border:1px solid #000; padding:6px; text-align:center;">${a.jam}</td><td style="border:1px solid #000; padding:6px;">${a.profil_pancasila}</td><td style="border:1px solid #000; padding:6px;">${a.glosarium}</td></tr>`; });
-                let cpRows = ''; dataAI.capaian.forEach(c => { cpRows += `<tr><td style="border:1px solid #000; padding:6px; font-weight:bold; width:25%;">${c.elemen}</td><td style="border:1px solid #000; padding:6px;">${c.cp}</td></tr>`; });
+                let alurRows = ''; 
+                dataAI.alur.forEach(a => { 
+                    alurRows += `<tr><td style="border:1px solid #000; padding:6px; text-align:center;">${a.no}</td><td style="border:1px solid #000; padding:6px;">${a.tujuan}</td><td style="border:1px solid #000; padding:6px;">${a.materi}</td><td style="border:1px solid #000; padding:6px; text-align:center;">${a.waktu}</td><td style="border:1px solid #000; padding:6px;">${a.keterangan}</td></tr>`; 
+                });
 
                 const ttdHtml = `<table style="width: 100%; border: none; margin-top: 50px; font-size: 11pt; page-break-inside: avoid;" class="avoid-break"><tr><td style="width: 50%; text-align: center; border: none; vertical-align: top;">Mengetahui,<br>Kepala Sekolah<br><br><br><br><br><b style="text-decoration: underline;">${cachedSettings.kepsekName}</b><br>NIP. ${cachedSettings.kepsekNIP !== '-' ? cachedSettings.kepsekNIP : '..........................'}</td><td style="width: 50%; text-align: center; border: none; vertical-align: top;">${cachedSettings.kota}, ${waktuTitimangsaFormatted}<br>Guru Kelas / Mata Pelajaran<br><br><br><br><br><b style="text-decoration: underline;">${cachedSettings.guruName}</b><br>NIP. ${cachedSettings.guruNIP !== '-' ? cachedSettings.guruNIP : '..........................'}</td></tr></table>`;
 
-                const html = `<div style="text-align: center; margin-bottom: 30px;"><h1 style="font-size: 16pt; margin: 0; font-weight: bold; text-transform: uppercase;">ALUR DAN TUJUAN PEMBELAJARAN (ATP)</h1><h2 style="font-size: 14pt; margin: 5px 0 0 0; font-weight: bold; text-transform: uppercase;">KURIKULUM MERDEKA</h2></div><table style="width: 100%; border: none; margin-bottom: 25px; font-size: 11pt;"><tr><td style="width: 25%; border: none; padding: 3px 0;">Nama Sekolah</td><td style="width: 75%; border: none; padding: 3px 0;">: ${cachedSettings.sekolahName}</td></tr><tr><td style="border: none; padding: 3px 0;">Nama Penyusun</td><td style="border: none; padding: 3px 0;">: ${cachedSettings.guruName}</td></tr><tr><td style="border: none; padding: 3px 0;">Mata Pelajaran</td><td style="border: none; padding: 3px 0;">: ${mapel}</td></tr><tr><td style="border: none; padding: 3px 0;">Fase / Kelas / Semester</td><td style="border: none; padding: 3px 0;">: ${kelas} / ${semester}</td></tr></table><h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px;">A. Rasional Mata Pelajaran</h3><p style="margin-bottom: 20px;">${dataAI.rasional}</p><h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px;">B. Capaian Pembelajaran</h3><table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;">${cpRows}</table><h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px;">C. Alur Tujuan Pembelajaran</h3><table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;"><tr><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Elemen</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Tujuan Pembelajaran</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Topik/Materi</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Waktu</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Profil Pelajar Pancasila</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5;">Glosarium</th></tr>${alurRows}</table>${ttdHtml}`;
+                const html = `<div style="text-align: center; margin-bottom: 30px;"><h1 style="font-size: 16pt; margin: 0; font-weight: bold; text-transform: uppercase;">ALUR DAN TUJUAN PEMBELAJARAN (ATP)</h1><h2 style="font-size: 14pt; margin: 5px 0 0 0; font-weight: bold; text-transform: uppercase;">KURIKULUM MERDEKA</h2></div><table style="width: 100%; border: none; margin-bottom: 25px; font-size: 11pt;"><tr><td style="width: 25%; border: none; padding: 3px 0;">Nama Sekolah</td><td style="width: 75%; border: none; padding: 3px 0;">: ${cachedSettings.sekolahName}</td></tr><tr><td style="border: none; padding: 3px 0;">Nama Penyusun</td><td style="border: none; padding: 3px 0;">: ${cachedSettings.guruName}</td></tr><tr><td style="border: none; padding: 3px 0;">Mata Pelajaran</td><td style="border: none; padding: 3px 0;">: ${mapel}</td></tr><tr><td style="border: none; padding: 3px 0;">Fase / Kelas / Semester</td><td style="border: none; padding: 3px 0;">: ${kelas} / ${semester}</td></tr><tr><td style="border: none; padding: 3px 0;">Alokasi Waktu</td><td style="border: none; padding: 3px 0;">: ${minggu} Minggu Efektif (${jpMinggu} JP/Minggu)</td></tr></table><h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px;">A. Capaian Pembelajaran (CP) Terlampir</h3><p style="margin-bottom: 20px; white-space: pre-wrap; font-style: italic;">"${cpText}"</p><h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px;">B. Rasional Mata Pelajaran & ATP</h3><p style="margin-bottom: 20px;">${dataAI.rasional}</p><h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px;">C. Matriks Alur Tujuan Pembelajaran</h3><table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;"><tr><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5; width:5%;">No</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5; width:35%;">Tujuan Pembelajaran</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5; width:30%;">Materi Pokok</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5; width:10%;">Alokasi Waktu</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5; width:20%;">Keterangan</th></tr>${alurRows}</table>${ttdHtml}`;
                 showSuccess(html, true);
             } catch(e) { showError(e); } finally { btnGen.disabled = false; btnGen.innerHTML = originalBtnHtml; }
         });
