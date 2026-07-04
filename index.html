@@ -143,9 +143,12 @@
         #output-container { 
             background-color: #e5e7eb; 
             overflow: auto; 
-            display: block; 
-            text-align: center; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
             padding: 2rem;
+            min-height: calc(100vh - 120px);
         }
         #pdf-wrapper {
             width: 210mm;
@@ -153,44 +156,48 @@
             height: max-content;
             margin: 0 auto;
             background: white;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
             padding: var(--margin-top) var(--margin-right) var(--margin-bottom) var(--margin-left);
             box-sizing: border-box;
-            display: inline-block; 
+            display: block; 
             text-align: left;
             transform-origin: top center;
             transition: transform 0.2s ease-out; 
+            border-top: 6px solid #0b1b42; /* Soft professional colored accent bar */
         }
         #pdf-content { 
             width: 100%;
             font-family: 'Times New Roman', Times, serif; 
-            font-size: 12pt; 
-            color: #000; 
-            line-height: 1.6;
+            font-size: 11pt; /* Professional body text font size */
+            color: #1a202c; 
+            line-height: 1.5;
             text-align: justify;
             orphans: 3;
             widows: 3;
         }
         #pdf-content h1 { 
             font-family: 'Times New Roman', Times, serif;
-            font-size: 14pt; text-align: center; margin-bottom: 15px; 
+            font-size: 13pt; text-align: center; margin-bottom: 12px; 
             text-transform: uppercase; font-weight: bold; 
             page-break-after: avoid;
             letter-spacing: 0.5px;
+            color: #0b1b42;
         }
         #pdf-content h2 { 
             font-family: 'Times New Roman', Times, serif;
-            font-size: 12pt; margin-top: 20px; margin-bottom: 10px; 
+            font-size: 11pt; margin-top: 15px; margin-bottom: 8px; 
             font-weight: bold; text-transform: uppercase; 
             page-break-after: avoid;
+            color: #0b1b42;
         }
         #pdf-content h3 {
             font-family: 'Times New Roman', Times, serif;
-            font-size: 12pt; font-weight: bold;
-            margin-top: 18px; margin-bottom: 10px;
-            border-bottom: 1.5px solid #333;
-            padding-bottom: 4px;
+            font-size: 11pt; font-weight: bold;
+            margin-top: 15px; margin-bottom: 8px;
+            border-bottom: 1.5px solid #0b1b42;
+            padding-bottom: 3px;
             page-break-after: avoid;
+            color: #0b1b42;
         }
         #pdf-content table { 
             width: 100%; border-collapse: collapse; 
@@ -202,53 +209,59 @@
             page-break-after: auto; 
         }
         #pdf-content th, #pdf-content td { 
-            border: 1px solid #000; 
-            padding: 6px 8px; 
+            border: 1px solid #94a3b8; /* cleaner softer border */
+            padding: 5px 7px; 
             vertical-align: top; 
-            font-size: 11pt;
+            font-size: 10pt; /* smaller, more professional content font size */
         }
         #pdf-content th { 
-            background-color: #e8e8e8; 
+            background-color: #0b1b42; /* Beautiful Navy Header */
+            color: #ffffff;
             text-align: center; 
             font-weight: bold; 
-            font-size: 11pt;
+            font-size: 10pt;
+        }
+        /* Zebra striping for table rows for dynamic visual variations */
+        #pdf-content tbody tr:nth-child(even) {
+            background-color: #f8fafc;
         }
         #pdf-content ul, #pdf-content ol {
             padding-left: 20px;
-            margin: 8px 0;
+            margin: 6px 0;
         }
         #pdf-content li {
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
         #pdf-content p {
-            margin: 6px 0;
+            margin: 5px 0;
         }
         /* Section label (A. IDENTIFIKASI, dst) */
         #pdf-content .section-label {
-            font-size: 12pt; font-weight: bold;
-            margin-top: 22px; margin-bottom: 12px;
-            border-bottom: 1.5px solid #333;
-            padding-bottom: 4px;
+            font-size: 11pt; font-weight: bold;
+            margin-top: 18px; margin-bottom: 10px;
+            border-left: 3.5px solid #f05a22; /* Vibrant accent color left border */
+            padding-left: 8px;
             page-break-after: avoid;
             text-transform: uppercase;
+            color: #0b1b42;
         }
         /* Identity table (no borders) */
         #pdf-content .tbl-identity td {
             border: none;
-            padding: 3px 0;
-            font-size: 11pt;
+            padding: 2px 0;
+            font-size: 10pt;
         }
         /* Signature block */
         #pdf-content .ttd-block {
             page-break-inside: avoid;
             break-inside: avoid;
-            margin-top: 50px;
+            margin-top: 40px;
         }
         #pdf-content .ttd-block td {
             border: none;
             text-align: center;
             vertical-align: top;
-            font-size: 11pt;
+            font-size: 10pt;
         }
         .page-break { 
             page-break-before: always; 
@@ -828,6 +841,7 @@
                             </div>
                             
                             <button type="button" id="btn-save-db" style="display: none;" class="btn-secondary text-xs md:text-sm !px-3 md:!px-4"><i class="fas fa-cloud-upload-alt sm:mr-2"></i><span class="hidden sm:inline"> Arsip</span></button>
+                            <button type="button" id="btn-gdocs" style="display: none;" class="btn-secondary !bg-blue-600 !text-white hover:!bg-blue-700 text-xs md:text-sm !px-3 md:!px-4" title="Kirim ke Google Docs"><i class="fab fa-google sm:mr-2"></i><span class="hidden sm:inline"> Docs</span></button>
                             <button type="button" id="btn-word" style="display: none;" class="btn-secondary !bg-indigo-600 !text-white hover:!bg-indigo-700 text-xs md:text-sm !px-3 md:!px-4" title="Ekspor ke MS Word"><i class="fas fa-file-word sm:mr-2"></i><span class="hidden sm:inline"> Word</span></button>
                             <button type="button" id="btn-print" style="display: none;" class="btn-secondary !bg-emerald-600 !text-white hover:!bg-emerald-700 text-xs md:text-sm !px-3 md:!px-4" title="Cetak PDF (Kualitas Tinggi)"><i class="fas fa-print sm:mr-2"></i><span class="hidden sm:inline"> Print</span></button>
                             <button type="button" id="btn-download" style="display: none;" class="btn-primary text-xs md:text-sm !px-3 md:!px-4" title="Download PDF Cepat"><i class="fas fa-file-pdf sm:mr-2"></i><span class="hidden sm:inline"> PDF</span></button>
@@ -900,6 +914,10 @@
                                 <div>
                                     <label class="form-label">NIP Guru</label>
                                     <input type="text" id="set-guru-nip" class="form-input" required>
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="form-label">Google Apps Script Web App URL (Integrasi Google Docs)</label>
+                                    <input type="url" id="set-gdocs-url" class="form-input text-navy border-blue-300" placeholder="https://script.google.com/macros/s/.../exec">
                                 </div>
                             </div>
                         </div>
@@ -1200,7 +1218,8 @@
             kepsekName: 'Yayan Iskandar, S.Pd', kepsekNIP: '196805182000121002',
             guruName: '', guruNIP: '-', jmlSiswa: 32, pendekatan: 'Saintifik', model: 'Problem Based Learning (PBL)',
             metode: 'Diskusi Kelompok', sarana: 'Pengaturan tempat duduk berkelompok, pemanfaatan proyektor.',
-            kondisi: 'Reguler/tipikal. Gaya belajar heterogen.'
+            kondisi: 'Reguler/tipikal. Gaya belajar heterogen.',
+            gdocsUrl: 'https://script.google.com/macros/s/AKfycbxSnGKx3SEBmbQ-mTTG0ejKt2L_KrxQCdqMoFLbeihbbyjCmHFyx0rPUaISYIcOHaGH/exec'
         };
 
         async function loadSettingsUI() {
@@ -1215,6 +1234,7 @@
                 document.getElementById('set-kepsek-nip').value = cachedSettings.kepsekNIP; document.getElementById('set-guru-name').value = cachedSettings.guruName; 
                 document.getElementById('set-guru-nip').value = cachedSettings.guruNIP; document.getElementById('set-jmlSiswa').value = cachedSettings.jmlSiswa;
                 document.getElementById('set-sarana').value = cachedSettings.sarana; document.getElementById('set-kondisi').value = cachedSettings.kondisi;
+                document.getElementById('set-gdocs-url').value = cachedSettings.gdocsUrl || '';
                 
                 setTimeout(() => {
                     const p = document.getElementById('set-pendekatan'); if(p) p.value = cachedSettings.pendekatan || globalPendekatan[0];
@@ -1235,7 +1255,8 @@
                     guruNIP: document.getElementById('set-guru-nip').value, jmlSiswa: document.getElementById('set-jmlSiswa').value,
                     pendekatan: document.getElementById('set-pendekatan').value, model: document.getElementById('set-model').value,
                     metode: document.getElementById('set-metode').value, sarana: document.getElementById('set-sarana').value,
-                    kondisi: document.getElementById('set-kondisi').value
+                    kondisi: document.getElementById('set-kondisi').value,
+                    gdocsUrl: document.getElementById('set-gdocs-url').value
                 };
                 const docRef = doc(db, 'artifacts', appId, 'users', currentUser.username, 'pengaturan', 'profil');
                 await setDoc(docRef, cachedSettings); showToast('Pengaturan profil berhasil disimpan ke Cloud.', 'success');
@@ -1288,7 +1309,7 @@
             let title = "Dasbor Utama"; if(target === 'generator') title = "Kreator AI Modul"; if(target === 'arsip') { title = "Arsip Dokumen"; loadArsip(); } if(target === 'referensi') { title = "Pustaka Referensi"; loadReferences(); } if(target === 'pengaturan') { title = "Pengaturan Profil"; loadSettingsUI(); } setTxt('page-title', title);
         };
 
-        document.getElementById('btn-toggle-layout')?.addEventListener('click', () => { document.getElementById('generator-layout').classList.toggle('preview-expanded'); });
+        document.getElementById('btn-toggle-layout')?.addEventListener('click', () => { document.getElementById('generator-layout').classList.toggle('preview-expanded'); setTimeout(autoFitZoom, 350); });
 
         function applyZoom() {
             const wrapper = document.getElementById('pdf-wrapper');
@@ -1303,7 +1324,7 @@
                 e.target.classList.remove('text-graytext', 'hover:bg-gray-200'); e.target.classList.add('bg-white', 'shadow', 'text-navy');
                 document.querySelectorAll('.gen-form').forEach(f => f.classList.add('hidden')); document.getElementById(e.target.dataset.target).classList.remove('hidden');
                 document.getElementById('pdf-wrapper').classList.add('hidden'); document.getElementById('empty-state').classList.remove('hidden');
-                document.getElementById('btn-download').style.display = 'none'; document.getElementById('btn-save-db').style.display = 'none'; document.getElementById('btn-word').style.display = 'none';
+                document.getElementById('btn-download').style.display = 'none'; document.getElementById('btn-save-db').style.display = 'none'; document.getElementById('btn-word').style.display = 'none'; document.getElementById('btn-gdocs').style.display = 'none';
             });
         });
 
@@ -1487,11 +1508,26 @@
             document.getElementById('empty-state').classList.add('hidden'); document.getElementById('pdf-wrapper').classList.add('hidden'); document.getElementById('loading-state').classList.remove('hidden'); setTxt('loading-title', title); currentZoom = 1; applyZoom();
         }
 
+        function autoFitZoom() {
+            const container = document.getElementById('output-container');
+            const wrapper = document.getElementById('pdf-wrapper');
+            if(!container || !wrapper || wrapper.classList.contains('hidden')) return;
+            const isLandscape = wrapper.classList.contains('landscape-mode');
+            const targetWidth = isLandscape ? 1122 : 794;
+            const containerWidth = container.clientWidth - 40;
+            if (containerWidth > 0) {
+                currentZoom = Math.min(1.2, containerWidth / targetWidth);
+                applyZoom();
+            }
+        }
+        window.addEventListener('resize', autoFitZoom);
+
         function showSuccess(html, isLandscape = false) {
             document.getElementById('pdf-content').innerHTML = html; document.getElementById('loading-state').classList.add('hidden');
             const pdfWrapper = document.getElementById('pdf-wrapper'); pdfWrapper.classList.remove('hidden');
             if (isLandscape) pdfWrapper.classList.add('landscape-mode'); else pdfWrapper.classList.remove('landscape-mode');
-            document.getElementById('btn-download').style.display = 'flex'; document.getElementById('btn-word').style.display = 'flex'; document.getElementById('btn-save-db').style.display = 'flex'; document.getElementById('btn-print').style.display = 'flex';
+            document.getElementById('btn-download').style.display = 'flex'; document.getElementById('btn-word').style.display = 'flex'; document.getElementById('btn-save-db').style.display = 'flex'; document.getElementById('btn-print').style.display = 'flex'; document.getElementById('btn-gdocs').style.display = 'flex';
+            autoFitZoom();
             showToast('Dokumen AI berhasil disusun!', 'success'); document.getElementById('output-container').scrollTo(0, 0);
             if(window.innerWidth < 1024) document.getElementById('preview-panel').scrollIntoView({ behavior: 'smooth' });
         }
@@ -2126,6 +2162,43 @@ NIP. ${cachedSettings.guruNIP !== '-' ? cachedSettings.guruNIP : '..............
                 wrapper.style.transform = oldTransform;
                 document.body.classList.remove('printing-landscape');
             }, 300);
+        });
+        document.getElementById('btn-gdocs')?.addEventListener('click', async () => {
+            const url = cachedSettings.gdocsUrl;
+            if(!url) {
+                showToast("Atur URL Google Script di Pengaturan dahulu!", "error");
+                switchView('pengaturan');
+                return;
+            }
+            const btn = document.getElementById('btn-gdocs');
+            const ori = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i> Mengirim...`;
+            
+            try {
+                let activeTab = document.querySelector('.gen-tab-btn.bg-white')?.dataset.target;
+                let title = "Dokumen Sekolah";
+                if(activeTab === 'form-modul') title = "Modul Ajar - " + document.getElementById('materiPokok').value;
+                if(activeTab === 'form-atp') title = "ATP - " + document.getElementById('mapel-atp').value;
+                if(activeTab === 'form-prota') title = "Prota Promes - " + document.getElementById('mapel-prota').value;
+                if(activeTab === 'form-jurnal') title = "Jurnal Harian - " + document.getElementById('materi-jurnal').value;
+                
+                const htmlContent = document.getElementById('pdf-content')?.innerHTML || '';
+                
+                await fetch(url, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title: title, html: htmlContent, email: currentUser?.username || 'guru' })
+                });
+                showToast("Berhasil terkirim! Cek Google Drive Anda.", "success");
+            } catch(e) {
+                console.error(e);
+                showToast("Gagal mengirim ke Google Docs.", "error");
+            } finally {
+                btn.innerHTML = ori;
+                btn.disabled = false;
+            }
         });
 
         async function loadArsip() {
