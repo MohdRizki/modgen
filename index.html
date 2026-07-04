@@ -51,7 +51,7 @@
             --margin-right: 15mm;
         }
 
-        html { font-size: 70%; }
+        html { font-size: 62.5%; }
 
         body {
             font-family: 'Inter', sans-serif;
@@ -166,16 +166,97 @@
             font-family: 'Times New Roman', Times, serif; 
             font-size: 12pt; 
             color: #000; 
-            line-height: 1.5;
+            line-height: 1.6;
             text-align: justify;
+            orphans: 3;
+            widows: 3;
         }
-        #pdf-content h1 { font-size: 14pt; text-align: center; margin-bottom: 15px; text-transform: uppercase; font-weight: bold; }
-        #pdf-content h2 { font-size: 12pt; margin-top: 20px; margin-bottom: 10px; font-weight: bold; text-transform: uppercase; }
-        #pdf-content table { width: 100%; border-collapse: collapse; margin-bottom: 15px; page-break-inside: auto; }
-        #pdf-content tr { page-break-inside: avoid; page-break-after: auto; }
-        #pdf-content th, #pdf-content td { border: 1px solid #000; padding: 6px 8px; vertical-align: top; }
-        #pdf-content th { background-color: #e5e5e5; text-align: center; font-weight: bold; }
-        .page-break { page-break-before: always; }
+        #pdf-content h1 { 
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 14pt; text-align: center; margin-bottom: 15px; 
+            text-transform: uppercase; font-weight: bold; 
+            page-break-after: avoid;
+            letter-spacing: 0.5px;
+        }
+        #pdf-content h2 { 
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 12pt; margin-top: 20px; margin-bottom: 10px; 
+            font-weight: bold; text-transform: uppercase; 
+            page-break-after: avoid;
+        }
+        #pdf-content h3 {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 12pt; font-weight: bold;
+            margin-top: 18px; margin-bottom: 10px;
+            border-bottom: 1.5px solid #333;
+            padding-bottom: 4px;
+            page-break-after: avoid;
+        }
+        #pdf-content table { 
+            width: 100%; border-collapse: collapse; 
+            margin-bottom: 15px; 
+            page-break-inside: auto; /* Allow tables to span pages */
+        }
+        #pdf-content tr { 
+            page-break-inside: avoid; 
+            page-break-after: auto; 
+        }
+        #pdf-content th, #pdf-content td { 
+            border: 1px solid #000; 
+            padding: 6px 8px; 
+            vertical-align: top; 
+            font-size: 11pt;
+        }
+        #pdf-content th { 
+            background-color: #e8e8e8; 
+            text-align: center; 
+            font-weight: bold; 
+            font-size: 11pt;
+        }
+        #pdf-content ul, #pdf-content ol {
+            padding-left: 20px;
+            margin: 8px 0;
+        }
+        #pdf-content li {
+            margin-bottom: 4px;
+        }
+        #pdf-content p {
+            margin: 6px 0;
+        }
+        /* Section label (A. IDENTIFIKASI, dst) */
+        #pdf-content .section-label {
+            font-size: 12pt; font-weight: bold;
+            margin-top: 22px; margin-bottom: 12px;
+            border-bottom: 1.5px solid #333;
+            padding-bottom: 4px;
+            page-break-after: avoid;
+            text-transform: uppercase;
+        }
+        /* Identity table (no borders) */
+        #pdf-content .tbl-identity td {
+            border: none;
+            padding: 3px 0;
+            font-size: 11pt;
+        }
+        /* Signature block */
+        #pdf-content .ttd-block {
+            page-break-inside: avoid;
+            break-inside: avoid;
+            margin-top: 50px;
+        }
+        #pdf-content .ttd-block td {
+            border: none;
+            text-align: center;
+            vertical-align: top;
+            font-size: 11pt;
+        }
+        .page-break { 
+            page-break-before: always; 
+            break-before: always;
+            height: 0;
+            margin: 0;
+            padding: 0;
+        }
         .avoid-break { page-break-inside: avoid; break-inside: avoid; }
         
         .landscape-mode {
@@ -184,8 +265,10 @@
         }
 
         @media print {
-            @page { size: A4; margin: 15mm; }
-            body { font-size: 13px !important; background: white !important; }
+            @page { size: A4 portrait; margin: 15mm; }
+            @page landscape { size: A4 landscape; margin: 15mm; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+            body { font-size: 12pt !important; background: white !important; margin: 0 !important; padding: 0 !important; }
             #pdf-wrapper { 
                 box-shadow: none !important; 
                 margin: 0 !important; 
@@ -193,14 +276,24 @@
                 width: 100% !important; 
                 min-height: auto !important; 
                 height: auto !important; 
-                transform: none !important; 
+                transform: none !important;
+                border-radius: 0 !important;
+                border: none !important;
             }
-            #pdf-content { font-size: 13px !important; height: auto !important; }
-            .avoid-break, tr, td, th { page-break-inside: avoid !important; break-inside: avoid !important; }
-            .page-break { page-break-before: always !important; break-before: always !important; }
-            #sidebar, header, #config-panel, .btn-primary, .btn-secondary, #empty-state, #loading-state, #toast { display: none !important; }
-            #preview-panel { width: 100% !important; background: white !important; border: none !important; padding: 0 !important; overflow: visible !important; }
+            #pdf-content { font-size: 12pt !important; height: auto !important; line-height: 1.6 !important; }
+            #pdf-content table { page-break-inside: auto !important; }
+            #pdf-content tr { page-break-inside: avoid !important; break-inside: avoid !important; }
+            #pdf-content th { background-color: #e8e8e8 !important; }
+            .avoid-break { page-break-inside: avoid !important; break-inside: avoid !important; }
+            .ttd-block { page-break-inside: avoid !important; break-inside: avoid !important; }
+            .page-break { page-break-before: always !important; break-before: always !important; height: 0 !important; }
+            #sidebar, header, #config-panel, .btn-primary, .btn-secondary, #empty-state, #loading-state, #toast, .bg-pattern-top, #mobile-overlay, #login-screen, #pdf-modal { display: none !important; }
+            #main-content { display: block !important; overflow: visible !important; height: auto !important; }
+            #view-generator { display: block !important; overflow: visible !important; height: auto !important; }
+            #generator-layout { display: block !important; overflow: visible !important; height: auto !important; padding: 0 !important; }
+            #preview-panel { width: 100% !important; background: white !important; border: none !important; padding: 0 !important; overflow: visible !important; box-shadow: none !important; border-radius: 0 !important; }
             #output-container { background: white !important; padding: 0 !important; overflow: visible !important; }
+            .landscape-mode { page: landscape; }
         }
 
         .loader { border: 3px solid #e2e8f0; border-top: 3px solid var(--primary); border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; display: inline-block; vertical-align: middle; }
@@ -736,7 +829,8 @@
                             
                             <button type="button" id="btn-save-db" style="display: none;" class="btn-secondary text-xs md:text-sm !px-3 md:!px-4"><i class="fas fa-cloud-upload-alt sm:mr-2"></i><span class="hidden sm:inline"> Arsip</span></button>
                             <button type="button" id="btn-word" style="display: none;" class="btn-secondary !bg-indigo-600 !text-white hover:!bg-indigo-700 text-xs md:text-sm !px-3 md:!px-4" title="Ekspor ke MS Word"><i class="fas fa-file-word sm:mr-2"></i><span class="hidden sm:inline"> Word</span></button>
-                            <button type="button" id="btn-download" style="display: none;" class="btn-primary text-xs md:text-sm !px-3 md:!px-4"><i class="fas fa-file-pdf sm:mr-2"></i><span class="hidden sm:inline"> PDF</span></button>
+                            <button type="button" id="btn-print" style="display: none;" class="btn-secondary !bg-emerald-600 !text-white hover:!bg-emerald-700 text-xs md:text-sm !px-3 md:!px-4" title="Cetak PDF (Kualitas Tinggi)"><i class="fas fa-print sm:mr-2"></i><span class="hidden sm:inline"> Print</span></button>
+                            <button type="button" id="btn-download" style="display: none;" class="btn-primary text-xs md:text-sm !px-3 md:!px-4" title="Download PDF Cepat"><i class="fas fa-file-pdf sm:mr-2"></i><span class="hidden sm:inline"> PDF</span></button>
                         </div>
                     </div>
 
@@ -1362,6 +1456,28 @@
             }
         }
 
+        /* --- Post-processing AI HTML untuk konsistensi --- */
+        function sanitizeAIHtml(html) {
+            if (!html || typeof html !== 'string') return html || '';
+            // Hapus markdown code fences yang kadang bocor
+            html = html.replace(/```html/gi, '').replace(/```/g, '');
+            // Hapus inline styles yang merusak (font-family, color, background dari AI)
+            html = html.replace(/style\s*=\s*"[^"]*font-family[^"]*"/gi, '');
+            // Hapus double/triple <br>
+            html = html.replace(/(<br\s*\/?\s*>){3,}/gi, '<br><br>');
+            // Wrap orphan text nodes (text not inside tags) - basic
+            html = html.replace(/^([^<]+)$/gm, (match) => {
+                const trimmed = match.trim();
+                if (trimmed && !trimmed.startsWith('<')) return `<p>${trimmed}</p>`;
+                return match;
+            });
+            // Ensure lists have consistent structure
+            html = html.replace(/<li>\s*<p>/gi, '<li>').replace(/<\/p>\s*<\/li>/gi, '</li>');
+            // Normalize spacing
+            html = html.replace(/\n{3,}/g, '\n\n');
+            return html.trim();
+        }
+
         const formatDate = (dateStr) => { if(!dateStr) return ''; return new Date(dateStr).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' }); };
         const todayStr = new Date().toISOString().split('T')[0];
         document.getElementById('tglBuat').value = todayStr; document.getElementById('tglPelaksanaan').value = todayStr;
@@ -1375,7 +1491,7 @@
             document.getElementById('pdf-content').innerHTML = html; document.getElementById('loading-state').classList.add('hidden');
             const pdfWrapper = document.getElementById('pdf-wrapper'); pdfWrapper.classList.remove('hidden');
             if (isLandscape) pdfWrapper.classList.add('landscape-mode'); else pdfWrapper.classList.remove('landscape-mode');
-            document.getElementById('btn-download').style.display = 'flex'; document.getElementById('btn-word').style.display = 'flex'; document.getElementById('btn-save-db').style.display = 'flex';
+            document.getElementById('btn-download').style.display = 'flex'; document.getElementById('btn-word').style.display = 'flex'; document.getElementById('btn-save-db').style.display = 'flex'; document.getElementById('btn-print').style.display = 'flex';
             showToast('Dokumen AI berhasil disusun!', 'success'); document.getElementById('output-container').scrollTo(0, 0);
             if(window.innerWidth < 1024) document.getElementById('preview-panel').scrollIntoView({ behavior: 'smooth' });
         }
@@ -1467,26 +1583,138 @@
                 }
                 
                 setTxt('loading-text', `Mengirim instruksi ke AI Vercel...`);
-                let prompt = `Anda adalah ahli pedagogik tingkat tinggi. Buatlah rincian rencana pembelajaran. Mata Pelajaran: ${mapel} Kelas: ${kelas} / Semester ${semester} Materi Pokok: ${materi} Tujuan Pembelajaran: ${tpVal} Pendekatan: ${setPendekatan} Model: ${setModel} Metode: ${setMetode} Kondisi: ${setKondisi} 
-                Tingkat Detail Kegiatan: ${detailLevel} (Bila "Garis Besar" buat sangat ringkas namun esensial. Bila "Sangat Rinci" elaborasi percakapan guru, skenario utuh, pertanyaan pemantik dan alokasi durasi waktu yang sangat padat sehingga memakan beberapa halaman. Bila "Standar", berikan porsi moderat).
-                ${extractedText ? `Konteks:\n${extractedText.substring(0, 2000)}\n` : ''} 
-                PADA KEGIATAN INTI, WAJIB MENCANTUMKAN NAMA TAHAPAN SINTAKS MODEL (tebalkan nama sintaks). Berikan respons format JSON murni TANPA markdown \`\`\`json. Kunci: karakteristik, dimensi_p5, pendahuluan (HTML <ul>), inti (HTML <ul>), penutup (HTML <ul>), asesmen_awal, asesmen_proses, asesmen_akhir.`;
-                if (hasLkpd) prompt += ` "lkpd": HTML instruksi tugas.,`; if (hasBahan) prompt += ` "bahan": HTML rangkuman.,`; if (hasAsesmen) prompt += ` "soal_sumatif": HTML list 3 soal evaluasi.,`; if (hasPengayaan) prompt += ` "pengayaan": Teks ide., "remedial": Teks ide.`;
+                let prompt = `Anda adalah ahli pedagogik tingkat tinggi Kurikulum Merdeka Indonesia. Buatlah rincian Modul Ajar/RPP dengan ketentuan:
+Mata Pelajaran: ${mapel}, Kelas: ${kelas}, Semester: ${semester}
+Materi Pokok: ${materi}
+Tujuan Pembelajaran: ${tpVal}
+Pendekatan: ${setPendekatan}, Model: ${setModel}, Metode: ${setMetode}
+Kondisi Kelas: ${setKondisi}
+Tingkat Detail Kegiatan: ${detailLevel} (Bila "Garis Besar": ringkas esensial. Bila "Sangat Rinci": elaborasi skenario utuh per-menit, percakapan guru-siswa, pertanyaan pemantik. Bila "Standar": porsi moderat).
+${extractedText ? `Konteks Rujukan:\n${extractedText.substring(0, 2000)}\n` : ''}
+
+ATURAN FORMAT WAJIB:
+1. "pendahuluan", "inti", "penutup": WAJIB berupa HTML <ol> (ordered list). Setiap <li> diawali estimasi durasi dalam tanda kurung, contoh: <li><b>(5 menit)</b> Guru menyapa dan mengecek kehadiran.</li>
+2. Pada "inti": WAJIB cantumkan nama SINTAKS MODEL (misal: <b>Sintaks 1 – Orientasi Masalah:</b>) sebelum uraian. JANGAN gunakan <p> untuk uraian kegiatan, gunakan <ol> saja.
+3. "karakteristik": 1 kalimat deskripsi karakteristik materi.
+4. "dimensi_p5": Sebutkan 2-3 dimensi Profil Pelajar Pancasila yang relevan (1 kalimat).
+5. "asesmen_awal", "asesmen_proses", "asesmen_akhir": Masing-masing 1-2 kalimat jelas.
+6. Berikan respons format JSON murni TANPA markdown \`\`\`json.
+
+Kunci JSON: { "karakteristik": "...", "dimensi_p5": "...", "pendahuluan": "<ol>...</ol>", "inti": "<ol>...</ol>", "penutup": "<ol>...</ol>", "asesmen_awal": "...", "asesmen_proses": "...", "asesmen_akhir": "..."`;
+                if (hasLkpd) prompt += `, "lkpd": "HTML <ol> instruksi tugas LKPD (3-5 langkah kerja)"`;
+                if (hasBahan) prompt += `, "bahan": "HTML rangkuman materi ajar (2-3 paragraf)"`;
+                if (hasAsesmen) prompt += `, "soal_sumatif": "HTML <ol> berisi 3 soal evaluasi akhir lengkap"`;
+                if (hasPengayaan) prompt += `, "pengayaan": "1 paragraf ide pengayaan", "remedial": "1 paragraf ide remedial"`;
+                prompt += ` }`;
 
                 let responseText = await fetchGeminiAPI(prompt);
                 let dataAI = JSON.parse(responseText.replace(/```json/gi, '').replace(/```/g, '').trim());
 
+                // Sanitize semua field HTML dari AI
+                dataAI.pendahuluan = sanitizeAIHtml(dataAI.pendahuluan);
+                dataAI.inti = sanitizeAIHtml(dataAI.inti);
+                dataAI.penutup = sanitizeAIHtml(dataAI.penutup);
+                if(dataAI.lkpd) dataAI.lkpd = sanitizeAIHtml(dataAI.lkpd);
+                if(dataAI.bahan) dataAI.bahan = sanitizeAIHtml(dataAI.bahan);
+                if(dataAI.soal_sumatif) dataAI.soal_sumatif = sanitizeAIHtml(dataAI.soal_sumatif);
+
                 let lampiranHTML = ``;
-                if(hasLkpd && dataAI.lkpd) lampiranHTML += `<div class="page-break"></div><h1 style="text-align: center; font-size: 14pt; margin-bottom: 20px; border-bottom: 2px solid #000; padding-bottom: 10px;">LAMPIRAN: LEMBAR KERJA PESERTA DIDIK (LKPD)</h1><p style="font-weight: bold;">Nama Kelompok: ................................</p><div style="margin-top: 15px;">${dataAI.lkpd}</div><div style="width: 100%; height: 300px; border: 2px dashed #000; margin-top: 20px; text-align: center; line-height: 300px; color: #666;" class="avoid-break">[ Area Ruang Kerja Kelompok ]</div>`;
-                if(hasBahan && dataAI.bahan) lampiranHTML += `<div class="page-break"></div><h1 style="text-align: center; font-size: 14pt; margin-bottom: 20px; border-bottom: 2px solid #000; padding-bottom: 10px;">LAMPIRAN: BAHAN AJAR GURU</h1><p style="font-weight: bold;">Rangkuman Materi: ${materi}</p><div style="text-align: justify; margin-top: 15px;">${dataAI.bahan}</div>`;
-                if(hasAsesmen && dataAI.soal_sumatif) lampiranHTML += `<div class="page-break"></div><h1 style="text-align: center; font-size: 14pt; margin-bottom: 20px; border-bottom: 2px solid #000; padding-bottom: 10px;">LAMPIRAN: INSTRUMEN ASESMEN</h1><p style="font-weight: bold;">1. Rubrik Penilaian Observasi</p><table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 11pt;"><tr><th style="border: 1px solid #000; padding: 6px 8px;">Kriteria</th><th style="border: 1px solid #000; padding: 6px 8px;">Sangat Baik (4)</th><th style="border: 1px solid #000; padding: 6px 8px;">Baik (3)</th><th style="border: 1px solid #000; padding: 6px 8px;">Cukup (2)</th></tr><tr><td style="border: 1px solid #000; padding: 6px 8px;">Kerjasama</td><td style="border: 1px solid #000; padding: 6px 8px;">Semua aktif merata</td><td style="border: 1px solid #000; padding: 6px 8px;">Sebagian besar aktif</td><td style="border: 1px solid #000; padding: 6px 8px;">Hanya 1-2 orang mendominasi</td></tr></table><p style="font-weight: bold; margin-top: 15px;">2. Soal Evaluasi Akhir</p><div style="margin-left: 10px; margin-top: 10px;">${dataAI.soal_sumatif}</div>`;
+                if(hasLkpd && dataAI.lkpd) lampiranHTML += `<div class="page-break"></div>
+<h1>LAMPIRAN: LEMBAR KERJA PESERTA DIDIK (LKPD)</h1>
+<table class="tbl-identity"><tr><td style="width:30%">Nama Kelompok</td><td>: ................................</td></tr><tr><td>Anggota</td><td>: 1. .................. 2. .................. 3. ..................</td></tr><tr><td>Kelas</td><td>: ${kelas}</td></tr></table>
+<h3>Petunjuk Kerja</h3>
+<div style="margin-top: 10px;">${dataAI.lkpd}</div>
+<div style="width: 100%; height: 250px; border: 2px dashed #555; margin-top: 25px; text-align: center; line-height: 250px; color: #999;" class="avoid-break">[ Area Ruang Kerja Kelompok ]</div>`;
+
+                if(hasBahan && dataAI.bahan) lampiranHTML += `<div class="page-break"></div>
+<h1>LAMPIRAN: BAHAN AJAR GURU</h1>
+<h3>Rangkuman Materi: ${materi}</h3>
+<div style="text-align: justify; margin-top: 10px;">${dataAI.bahan}</div>`;
+
+                if(hasAsesmen && dataAI.soal_sumatif) lampiranHTML += `<div class="page-break"></div>
+<h1>LAMPIRAN: INSTRUMEN ASESMEN</h1>
+<h3>1. Rubrik Penilaian Observasi</h3>
+<table>
+<tr><th>Kriteria</th><th>Sangat Baik (4)</th><th>Baik (3)</th><th>Cukup (2)</th><th>Perlu Bimbingan (1)</th></tr>
+<tr><td style="font-weight:bold">Kerjasama</td><td>Semua anggota aktif merata</td><td>Sebagian besar aktif</td><td>Hanya 1-2 orang mendominasi</td><td>Tidak ada kerjasama</td></tr>
+<tr><td style="font-weight:bold">Pemahaman</td><td>Dapat menjelaskan dengan contoh</td><td>Dapat menjelaskan tanpa contoh</td><td>Menjelaskan dengan bantuan</td><td>Belum memahami</td></tr>
+</table>
+<h3>2. Soal Evaluasi Akhir</h3>
+<div style="margin-left: 10px; margin-top: 10px;">${dataAI.soal_sumatif}</div>`;
+
                 if(hasPengayaan || hasJurnal) {
                     lampiranHTML += `<div class="page-break"></div>`;
-                    if(hasPengayaan) lampiranHTML += `<h1 style="text-align: center; font-size: 14pt; margin-bottom: 20px; border-bottom: 2px solid #000; padding-bottom: 10px;">LAMPIRAN: PENGAYAAN & REMEDIAL</h1><p><b>A. Pengayaan:</b></p><p style="margin-bottom:15px;">${dataAI.pengayaan || '-'}</p><p><b>B. Remedial:</b></p><p>${dataAI.remedial || '-'}</p>`;
-                    if(hasJurnal) lampiranHTML += `<h1 style="text-align: center; font-size: 14pt; margin-bottom: 20px; margin-top: 40px; border-bottom: 2px solid #000; padding-bottom: 10px;">LAMPIRAN: JURNAL REFLEKSI GURU</h1><p style="margin-bottom: 10px;">Hari/Tanggal Pelaksanaan : ............................................</p><table style="width: 100%; border-collapse: collapse; font-size: 11pt;"><tr><th style="border: 1px solid #000; padding: 6px; width: 5%;">No</th><th style="border: 1px solid #000; padding: 6px;">Pertanyaan Refleksi</th><th style="border: 1px solid #000; padding: 6px;">Catatan Lapangan</th></tr><tr><td style="border: 1px solid #000; padding: 6px; text-align:center;">1.</td><td style="border: 1px solid #000; padding: 6px;">Apakah pembelajaran berjalan efisien?</td><td style="border: 1px solid #000; padding: 6px; height: 50px;"></td></tr><tr><td style="border: 1px solid #000; padding: 6px; text-align:center;">2.</td><td style="border: 1px solid #000; padding: 6px;">Kesulitan apa yang dialami siswa?</td><td style="border: 1px solid #000; padding: 6px; height: 50px;"></td></tr><tr><td style="border: 1px solid #000; padding: 6px; text-align:center;">3.</td><td style="border: 1px solid #000; padding: 6px;">Solusi untuk pertemuan selanjutnya?</td><td style="border: 1px solid #000; padding: 6px; height: 50px;"></td></tr></table>`;
+                    if(hasPengayaan) lampiranHTML += `<h1>LAMPIRAN: PENGAYAAN & REMEDIAL</h1>
+<h3>A. Program Pengayaan</h3>
+<p style="margin-bottom:15px; text-align: justify;">${dataAI.pengayaan || 'Siswa yang telah mencapai ketuntasan diberikan tugas pengayaan berupa proyek mini atau eksplorasi materi lebih mendalam.'}</p>
+<h3>B. Program Remedial</h3>
+<p style="text-align: justify;">${dataAI.remedial || 'Siswa yang belum mencapai ketuntasan diberikan bimbingan individu/kelompok kecil dan mengerjakan ulang soal dengan variasi berbeda.'}</p>`;
+                    if(hasJurnal) lampiranHTML += `
+<h1 style="margin-top: 40px;">LAMPIRAN: JURNAL REFLEKSI GURU</h1>
+<table class="tbl-identity"><tr><td style="width:30%">Hari/Tanggal</td><td>: ............................................</td></tr><tr><td>Mata Pelajaran</td><td>: ${mapel}</td></tr></table>
+<table style="margin-top: 15px;">
+<tr><th style="width: 5%;">No</th><th>Pertanyaan Refleksi</th><th style="width: 40%;">Catatan Lapangan</th></tr>
+<tr><td style="text-align:center;">1.</td><td>Apakah tujuan pembelajaran tercapai? Bagaimana indikatornya?</td><td style="height: 55px;"></td></tr>
+<tr><td style="text-align:center;">2.</td><td>Kesulitan apa yang dialami peserta didik selama proses pembelajaran?</td><td style="height: 55px;"></td></tr>
+<tr><td style="text-align:center;">3.</td><td>Langkah perbaikan apa yang akan dilakukan pada pertemuan selanjutnya?</td><td style="height: 55px;"></td></tr>
+</table>`;
                 }
 
-                const identikHtml = `<div style="text-align: center; margin-bottom: 30px;"><h1 style="font-size: 16pt; margin: 0; font-weight: bold; text-transform: uppercase;">MODUL AJAR</h1><h2 style="font-size: 14pt; margin: 5px 0 0 0; font-weight: bold; text-transform: uppercase;">MATA PELAJARAN ${mapel}</h2></div><h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid black; padding-bottom: 3px;">A. IDENTIFIKASI</h3><table style="width: 100%; border: none; margin-bottom: 25px; font-size: 11pt;"><tr><td style="width: 30%; border: none; padding: 3px 0;">Penyusun</td><td style="width: 70%; border: none; padding: 3px 0;">: ${cachedSettings.guruName}</td></tr><tr><td style="border: none; padding: 3px 0;">Jenjang Sekolah</td><td style="border: none; padding: 3px 0;">: ${cachedSettings.jenjang}</td></tr><tr><td style="border: none; padding: 3px 0;">Fase / Kelas / Semester</td><td style="border: none; padding: 3px 0;">: ${kelas} / ${semester}</td></tr><tr><td style="border: none; padding: 3px 0;">Mata Pelajaran</td><td style="border: none; padding: 3px 0;">: ${mapel}</td></tr><tr><td style="border: none; padding: 3px 0;">Alokasi Waktu</td><td style="border: none; padding: 3px 0;">: ${alokasi}</td></tr><tr><td style="border: none; padding: 3px 0;">Nama Sekolah</td><td style="border: none; padding: 3px 0;">: ${cachedSettings.sekolahName}</td></tr></table><table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;"><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold; width: 30%;">Kesiapan Peserta Didik</td><td style="border: 1px solid #000; padding: 6px 8px;">${setKondisi}</td></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Karakteristik Materi</td><td style="border: 1px solid #000; padding: 6px 8px;">${dataAI.karakteristik || '-'}</td></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Dimensi Profil Pelajar Pancasila</td><td style="border: 1px solid #000; padding: 6px 8px;">${dataAI.dimensi_p5 || '-'}</td></tr></table><h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid black; padding-bottom: 3px;">B. DESAIN PEMBELAJARAN</h3><table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;"><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold; width: 30%;">Topik Pembelajaran</td><td style="border: 1px solid #000; padding: 6px 8px;">${materi}</td></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Target Peserta Didik</td><td style="border: 1px solid #000; padding: 6px 8px;">Reguler/Tipikal (Estimasi: ${setJml} Siswa)</td></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Tujuan Pembelajaran (TP)</td><td style="border: 1px solid #000; padding: 6px 8px; white-space: pre-wrap;">${tpVal}</td></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Pendekatan & Model</td><td style="border: 1px solid #000; padding: 6px 8px;">Pendekatan: ${setPendekatan}<br>Model: ${setModel}<br>Metode: ${setMetode}</td></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Fasilitas & Lingkungan</td><td style="border: 1px solid #000; padding: 6px 8px;">${setSarana} <br><br><b>Rujukan:</b> ${sumberBelajarDeskripsi}</td></tr></table><h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid black; padding-bottom: 3px;">C. PENGALAMAN BELAJAR (KEGIATAN)</h3><table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;"><tr><th style="border: 1px solid #000; padding: 6px 8px; text-align: center; width: 20%;">Tahap Pembelajaran</th><th style="border: 1px solid #000; padding: 6px 8px; text-align: center; width: 15%;">Waktu</th><th style="border: 1px solid #000; padding: 6px 8px; text-align: center;">Rincian Langkah Kegiatan</th></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold; text-align: center; vertical-align:top;">Pendahuluan</td><td style="border: 1px solid #000; padding: 6px 8px; text-align: center; vertical-align:top;">15 Menit</td><td style="border: 1px solid #000; padding: 6px 8px;">${dataAI.pendahuluan}</td></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold; text-align: center; vertical-align:top;">Kegiatan Inti</td><td style="border: 1px solid #000; padding: 6px 8px; text-align: center; vertical-align:top;">[Menyesuaikan]</td><td style="border: 1px solid #000; padding: 6px 8px;">${dataAI.inti}</td></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold; text-align: center; vertical-align:top;">Penutup</td><td style="border: 1px solid #000; padding: 6px 8px; text-align: center; vertical-align:top;">15 Menit</td><td style="border: 1px solid #000; padding: 6px 8px;">${dataAI.penutup}</td></tr></table><h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px; border-bottom: 1px solid black; padding-bottom: 3px;">D. ASESMEN PEMBELAJARAN</h3><table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;"><tr><th style="border: 1px solid #000; padding: 6px 8px; text-align: center;">Jenis Asesmen</th><th style="border: 1px solid #000; padding: 6px 8px; text-align: center;">Instrumen dan Pelaksanaan</th></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Awal (Diagnostik)</td><td style="border: 1px solid #000; padding: 6px 8px;">${dataAI.asesmen_awal || '-'}</td></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Proses (Formatif)</td><td style="border: 1px solid #000; padding: 6px 8px;">${dataAI.asesmen_proses || '-'}</td></tr><tr class="avoid-break"><td style="border: 1px solid #000; padding: 6px 8px; font-weight: bold;">Akhir (Sumatif)</td><td style="border: 1px solid #000; padding: 6px 8px;">${dataAI.asesmen_akhir || '-'}</td></tr></table><table style="width: 100%; border: none; margin-top: 50px; font-size: 11pt; page-break-inside: avoid;" class="avoid-break"><tr><td style="width: 50%; text-align: center; border: none; vertical-align: top;">Mengetahui,<br>Kepala Sekolah<br><br><br><br><br><b style="text-decoration: underline;">${cachedSettings.kepsekName}</b><br>NIP. ${cachedSettings.kepsekNIP !== '-' ? cachedSettings.kepsekNIP : '..........................'}</td><td style="width: 50%; text-align: center; border: none; vertical-align: top;">${cachedSettings.kota}, ${waktuTitimangsaFormatted}<br>Guru Kelas / Mata Pelajaran<br><br><br><br><br><b style="text-decoration: underline;">${cachedSettings.guruName}</b><br>NIP. ${cachedSettings.guruNIP !== '-' ? cachedSettings.guruNIP : '..........................'}</td></tr></table>${lampiranHTML}`;
+                const identikHtml = `
+<div style="text-align: center; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 3px double #000;">
+<h1 style="font-size: 16pt; margin: 0; letter-spacing: 1px;">MODUL AJAR</h1>
+<h2 style="font-size: 13pt; margin: 8px 0 0 0; font-weight: normal; text-transform: uppercase;">MATA PELAJARAN ${mapel}</h2>
+<p style="font-size: 10pt; margin-top: 5px; color: #555;">Kurikulum Merdeka — Tahun Pelajaran ${new Date().getFullYear()}/${new Date().getFullYear()+1}</p>
+</div>
+
+<h3 class="section-label">A. IDENTIFIKASI</h3>
+<table class="tbl-identity" style="margin-bottom: 20px;">
+<tr><td style="width: 30%;">Penyusun</td><td>: ${cachedSettings.guruName}</td></tr>
+<tr><td>Jenjang Sekolah</td><td>: ${cachedSettings.jenjang}</td></tr>
+<tr><td>Fase / Kelas / Semester</td><td>: ${kelas} / ${semester}</td></tr>
+<tr><td>Mata Pelajaran</td><td>: ${mapel}</td></tr>
+<tr><td>Alokasi Waktu</td><td>: ${alokasi}</td></tr>
+<tr><td>Nama Sekolah</td><td>: ${cachedSettings.sekolahName}</td></tr>
+</table>
+
+<table style="margin-bottom: 25px;">
+<tr><td style="font-weight: bold; width: 30%;">Kesiapan Peserta Didik</td><td>${setKondisi}</td></tr>
+<tr><td style="font-weight: bold;">Karakteristik Materi</td><td>${dataAI.karakteristik || '-'}</td></tr>
+<tr><td style="font-weight: bold;">Dimensi Profil Pelajar Pancasila</td><td>${dataAI.dimensi_p5 || '-'}</td></tr>
+</table>
+
+<h3 class="section-label">B. DESAIN PEMBELAJARAN</h3>
+<table style="margin-bottom: 25px;">
+<tr><td style="font-weight: bold; width: 30%;">Topik Pembelajaran</td><td>${materi}</td></tr>
+<tr><td style="font-weight: bold;">Target Peserta Didik</td><td>Reguler/Tipikal (Estimasi: ${setJml} Siswa)</td></tr>
+<tr><td style="font-weight: bold;">Tujuan Pembelajaran (TP)</td><td style="white-space: pre-wrap;">${tpVal}</td></tr>
+<tr><td style="font-weight: bold;">Pendekatan & Model</td><td>Pendekatan: ${setPendekatan}<br>Model: ${setModel}<br>Metode: ${setMetode}</td></tr>
+<tr><td style="font-weight: bold;">Fasilitas & Lingkungan</td><td>${setSarana}<br><br><b>Rujukan:</b> ${sumberBelajarDeskripsi}</td></tr>
+</table>
+
+<h3 class="section-label">C. PENGALAMAN BELAJAR (KEGIATAN)</h3>
+<table style="margin-bottom: 25px;">
+<tr><th style="width: 20%;">Tahap Pembelajaran</th><th style="width: 12%;">Waktu</th><th>Rincian Langkah Kegiatan</th></tr>
+<tr><td style="font-weight: bold; text-align: center; vertical-align:top;">Pendahuluan</td><td style="text-align: center; vertical-align:top;">15 Menit</td><td>${dataAI.pendahuluan}</td></tr>
+<tr><td style="font-weight: bold; text-align: center; vertical-align:top;">Kegiatan Inti</td><td style="text-align: center; vertical-align:top;">[Menyesuaikan]</td><td>${dataAI.inti}</td></tr>
+<tr><td style="font-weight: bold; text-align: center; vertical-align:top;">Penutup</td><td style="text-align: center; vertical-align:top;">15 Menit</td><td>${dataAI.penutup}</td></tr>
+</table>
+
+<h3 class="section-label">D. ASESMEN PEMBELAJARAN</h3>
+<table style="margin-bottom: 25px;">
+<tr><th style="width: 25%;">Jenis Asesmen</th><th>Instrumen dan Pelaksanaan</th></tr>
+<tr><td style="font-weight: bold;">Awal (Diagnostik)</td><td>${dataAI.asesmen_awal || '-'}</td></tr>
+<tr><td style="font-weight: bold;">Proses (Formatif)</td><td>${dataAI.asesmen_proses || '-'}</td></tr>
+<tr><td style="font-weight: bold;">Akhir (Sumatif)</td><td>${dataAI.asesmen_akhir || '-'}</td></tr>
+</table>
+
+<table class="ttd-block" style="width: 100%;">
+<tr>
+<td style="width: 50%;">Mengetahui,<br>Kepala Sekolah<br><br><br><br><br><b style="text-decoration: underline;">${cachedSettings.kepsekName}</b><br>NIP. ${cachedSettings.kepsekNIP !== '-' ? cachedSettings.kepsekNIP : '..........................'}</td>
+<td style="width: 50%;">${cachedSettings.kota}, ${waktuTitimangsaFormatted}<br>Guru Kelas / Mata Pelajaran<br><br><br><br><br><b style="text-decoration: underline;">${cachedSettings.guruName}</b><br>NIP. ${cachedSettings.guruNIP !== '-' ? cachedSettings.guruNIP : '..........................'}</td>
+</tr>
+</table>
+${lampiranHTML}`;
                 showSuccess(identikHtml, false);
             } catch(e) { showError(e); } finally { btnGen.disabled = false; btnGen.innerHTML = originalBtnHtml; }
         });
@@ -1508,7 +1736,6 @@
                     if(record && record.type === 'file') { setTxt('loading-text', `Membaca materi rujukan...`); extractedText = await extractSpecificPages(record.file, hBuku); }
                 }
 
-                setTxt('loading-text', `Menganalisis matriks Alur Tujuan Pembelajaran...`);
                 let prompt = `Buatlah Alur Tujuan Pembelajaran (ATP) Kurikulum Merdeka dengan ketentuan berikut:
 Konteks:
 - Mata Pelajaran: ${mapel}
@@ -1525,7 +1752,7 @@ Prinsip penyusunan ATP:
 3. Cantumkan alokasi waktu per TP (akumulasi harus logis dengan total alokasi minggu x JP).
 4. Pastikan ada kesinambungan antar TP.
 
-Berikan format JSON murni TANPA markdown \`\`\`json: 
+Berikan format JSON murni TANPA markdown dan TANPA tag html apapun: 
 { 
   "rasional": "Paragraf rasional / penjabaran ringkas arah pembelajaran", 
   "alur": [ 
@@ -1539,12 +1766,61 @@ Berikan format JSON murni TANPA markdown \`\`\`json:
                 
                 let alurRows = ''; 
                 dataAI.alur.forEach(a => { 
-                    alurRows += `<tr><td style="border:1px solid #000; padding:6px; text-align:center;">${a.no}</td><td style="border:1px solid #000; padding:6px;">${a.tujuan}</td><td style="border:1px solid #000; padding:6px;">${a.materi}</td><td style="border:1px solid #000; padding:6px; text-align:center;">${a.waktu}</td><td style="border:1px solid #000; padding:6px;">${a.keterangan}</td></tr>`; 
+                    alurRows += `<tr><td style="text-align:center; border:1px solid #000; padding:6px;">${a.no}</td><td style="border:1px solid #000; padding:6px;">${sanitizeAIHtml(a.tujuan)}</td><td style="border:1px solid #000; padding:6px;">${sanitizeAIHtml(a.materi)}</td><td style="text-align:center; border:1px solid #000; padding:6px;">${sanitizeAIHtml(a.waktu)}</td><td style="border:1px solid #000; padding:6px;">${sanitizeAIHtml(a.keterangan)}</td></tr>`; 
                 });
 
-                const ttdHtml = `<table style="width: 100%; border: none; margin-top: 50px; font-size: 11pt; page-break-inside: avoid;" class="avoid-break"><tr><td style="width: 50%; text-align: center; border: none; vertical-align: top;">Mengetahui,<br>Kepala Sekolah<br><br><br><br><br><b style="text-decoration: underline;">${cachedSettings.kepsekName}</b><br>NIP. ${cachedSettings.kepsekNIP !== '-' ? cachedSettings.kepsekNIP : '..........................'}</td><td style="width: 50%; text-align: center; border: none; vertical-align: top;">${cachedSettings.kota}, ${waktuTitimangsaFormatted}<br>Guru Kelas / Mata Pelajaran<br><br><br><br><br><b style="text-decoration: underline;">${cachedSettings.guruName}</b><br>NIP. ${cachedSettings.guruNIP !== '-' ? cachedSettings.guruNIP : '..........................'}</td></tr></table>`;
+                const html = `<div style="text-align: center; margin-bottom: 30px;">
+<h1 style="font-size: 16pt; margin: 0; font-weight: bold; text-transform: uppercase;">ALUR DAN TUJUAN PEMBELAJARAN (ATP)</h1>
+<h2 style="font-size: 14pt; margin: 5px 0 0 0; font-weight: bold; text-transform: uppercase;">KURIKULUM MERDEKA</h2>
+</div>
 
-                const html = `<div style="text-align: center; margin-bottom: 30px;"><h1 style="font-size: 16pt; margin: 0; font-weight: bold; text-transform: uppercase;">ALUR DAN TUJUAN PEMBELAJARAN (ATP)</h1><h2 style="font-size: 14pt; margin: 5px 0 0 0; font-weight: bold; text-transform: uppercase;">KURIKULUM MERDEKA</h2></div><table style="width: 100%; border: none; margin-bottom: 25px; font-size: 11pt;"><tr><td style="width: 25%; border: none; padding: 3px 0;">Nama Sekolah</td><td style="width: 75%; border: none; padding: 3px 0;">: ${cachedSettings.sekolahName}</td></tr><tr><td style="border: none; padding: 3px 0;">Nama Penyusun</td><td style="border: none; padding: 3px 0;">: ${cachedSettings.guruName}</td></tr><tr><td style="border: none; padding: 3px 0;">Mata Pelajaran</td><td style="border: none; padding: 3px 0;">: ${mapel}</td></tr><tr><td style="border: none; padding: 3px 0;">Fase / Kelas / Semester</td><td style="border: none; padding: 3px 0;">: ${kelas} / ${semester}</td></tr><tr><td style="border: none; padding: 3px 0;">Alokasi Waktu</td><td style="border: none; padding: 3px 0;">: ${minggu} Minggu Efektif (${jpMinggu} JP/Minggu)</td></tr></table><h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px;">A. Capaian Pembelajaran (CP) Terlampir</h3><p style="margin-bottom: 20px; white-space: pre-wrap; font-style: italic;">"${cpText}"</p><h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px;">B. Rasional Mata Pelajaran & ATP</h3><p style="margin-bottom: 20px;">${dataAI.rasional}</p><h3 style="font-size: 12pt; font-weight: bold; margin-bottom: 10px;">C. Matriks Alur Tujuan Pembelajaran</h3><table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;"><tr><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5; width:5%;">No</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5; width:35%;">Tujuan Pembelajaran</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5; width:30%;">Materi Pokok</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5; width:10%;">Alokasi Waktu</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5; width:20%;">Keterangan</th></tr>${alurRows}</table>${ttdHtml}`;
+<div class="section-label">A. IDENTIFIKASI SATUAN PENDIDIKAN</div>
+<table class="tbl-identity">
+<tr><td style="width: 30%;">Nama Sekolah</td><td style="width: 70%;">: ${cachedSettings.sekolahName}</td></tr>
+<tr><td>Nama Penyusun</td><td>: ${cachedSettings.guruName}</td></tr>
+<tr><td>Mata Pelajaran</td><td>: ${mapel}</td></tr>
+<tr><td>Fase / Kelas / Semester</td><td>: ${kelas} / ${semester}</td></tr>
+<tr><td>Alokasi Waktu</td><td>: ${minggu} Minggu Efektif (${jpMinggu} JP/Minggu)</td></tr>
+</table>
+
+<div class="section-label">B. CAPAIAN PEMBELAJARAN (CP)</div>
+<p style="margin-bottom: 20px; text-align: justify; font-style: italic;">"${cpText}"</p>
+
+<div class="section-label">C. RASIONAL MATA PELAJARAN</div>
+<p style="margin-bottom: 20px; text-align: justify;">${sanitizeAIHtml(dataAI.rasional)}</p>
+
+<div class="section-label">D. MATRIKS ALUR TUJUAN PEMBELAJARAN</div>
+<table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;">
+<thead>
+<tr>
+<th style="border: 1px solid #000; padding: 8px; background:#f3f4f6; width:5%;">No</th>
+<th style="border: 1px solid #000; padding: 8px; background:#f3f4f6; width:35%;">Tujuan Pembelajaran</th>
+<th style="border: 1px solid #000; padding: 8px; background:#f3f4f6; width:30%;">Materi Pokok</th>
+<th style="border: 1px solid #000; padding: 8px; background:#f3f4f6; width:10%;">Alokasi Waktu</th>
+<th style="border: 1px solid #000; padding: 8px; background:#f3f4f6; width:20%;">Keterangan</th>
+</tr>
+</thead>
+<tbody>
+${alurRows}
+</tbody>
+</table>
+
+<table class="ttd-block avoid-break">
+<tr>
+<td style="width: 50%; text-align: center; vertical-align: top;">
+Mengetahui,<br>Kepala Sekolah
+<br><br><br><br><br>
+<b style="text-decoration: underline;">${cachedSettings.kepsekName}</b><br>
+NIP. ${cachedSettings.kepsekNIP !== '-' ? cachedSettings.kepsekNIP : '..........................'}
+</td>
+<td style="width: 50%; text-align: center; vertical-align: top;">
+${cachedSettings.kota}, ${waktuTitimangsaFormatted}<br>Guru Kelas / Mata Pelajaran
+<br><br><br><br><br>
+<b style="text-decoration: underline;">${cachedSettings.guruName}</b><br>
+NIP. ${cachedSettings.guruNIP !== '-' ? cachedSettings.guruNIP : '..........................'}
+</td>
+</tr>
+</table>`;
                 showSuccess(html, true);
             } catch(e) { showError(e); } finally { btnGen.disabled = false; btnGen.innerHTML = originalBtnHtml; }
         });
@@ -1570,13 +1846,16 @@ Berikan format JSON murni TANPA markdown \`\`\`json:
 
                 setTxt('loading-text', `Mengalkulasi matriks mingguan semester...`);
                 let prompt = `Buatlah Program Tahunan (Prota) & Program Semester (Promes) berbasis analisis per minggu. Mapel: ${mapel}, Kelas: ${kelas}, Tahun: ${tahun}. Materi: ${extractedText ? extractedText.substring(0, 2000) : 'Standar Kemdikbud'}. ${kaldikText ? `Kondisi Kaldik: ${kaldikText.substring(0,1000)}` : ''} 
-                ATURAN PROMES: Setiap bulan memiliki tepat 5 minggu (array 5 elemen). Isi elemen string jumlah jam ("4 JP"), atau "Libur", "Sumatif", "PTS", "PAS", atau string kosong "" jika materi tidak diajarkan. Berikan format JSON murni TANPA \`\`\`json: { "prota": [ {"no": 1, "tujuan": "Tujuan 1", "materi": "Materi A", "waktu": "12 JP"} ], "promes_ganjil": [ { "materi": "Materi A", "waktu": "12 JP", "juli": ["", "", "4 JP", "4 JP", "4 JP"], "agustus": ["Libur", "Sumatif", "", "", ""], "september": ["", "", "", "", ""], "oktober": ["", "", "", "", ""], "november": ["", "", "", "", ""], "desember": ["", "", "", "PAS", "Libur"] } ], "promes_genap": [ { "materi": "Materi B", "waktu": "12 JP", "januari": ["Libur", "4 JP", "4 JP", "4 JP", ""], "februari": ["Sumatif", "", "", "", ""], "maret": ["", "", "PTS", "", ""], "april": ["", "", "", "", "Libur"], "mei": ["", "", "", "", ""], "juni": ["", "", "PAS", "Libur", "Libur"] } ] }`;
+                ATURAN PROMES: Setiap bulan memiliki tepat 5 minggu (array 5 elemen). Isi elemen string jumlah jam ("4 JP"), atau "Libur", "Sumatif", "PTS", "PAS", atau string kosong "" jika materi tidak diajarkan. Berikan format JSON murni TANPA markdown dan TANPA tag html apapun: { "prota": [ {"no": 1, "tujuan": "Tujuan 1", "materi": "Materi A", "waktu": "12 JP"} ], "promes_ganjil": [ { "materi": "Materi A", "waktu": "12 JP", "juli": ["", "", "4 JP", "4 JP", "4 JP"], "agustus": ["Libur", "Sumatif", "", "", ""], "september": ["", "", "", "", ""], "oktober": ["", "", "", "", ""], "november": ["", "", "", "", ""], "desember": ["", "", "", "PAS", "Libur"] } ], "promes_genap": [ { "materi": "Materi B", "waktu": "12 JP", "januari": ["Libur", "4 JP", "4 JP", "4 JP", ""], "februari": ["Sumatif", "", "", "", ""], "maret": ["", "", "PTS", "", ""], "april": ["", "", "", "", "Libur"], "mei": ["", "", "", "", ""], "juni": ["", "", "PAS", "Libur", "Libur"] } ] }`;
 
                 const response = await fetchGeminiAPI(prompt);
                 const dataAI = JSON.parse(response.replace(/```json/gi, '').replace(/```/g, '').trim());
                 const waktuTitimangsaFormatted = formatDate(document.getElementById('tgl-prota').value);
                 
-                let protaRows = ''; dataAI.prota.forEach(p => { protaRows += `<tr><td style="border:1px solid #000; padding:6px; text-align:center;">${p.no}</td><td style="border:1px solid #000; padding:6px;">${p.tujuan}</td><td style="border:1px solid #000; padding:6px;">${p.materi}</td><td style="border:1px solid #000; padding:6px; text-align:center;">${p.waktu}</td></tr>`; });
+                let protaRows = ''; 
+                dataAI.prota.forEach(p => { 
+                    protaRows += `<tr><td style="text-align:center; border:1px solid #000; padding:6px;">${p.no}</td><td style="border:1px solid #000; padding:6px;">${sanitizeAIHtml(p.tujuan)}</td><td style="border:1px solid #000; padding:6px;">${sanitizeAIHtml(p.materi)}</td><td style="text-align:center; border:1px solid #000; padding:6px;">${sanitizeAIHtml(p.waktu)}</td></tr>`; 
+                });
 
                 const renderPromesWeeks = (p, bulanArray) => {
                     let html = '';
@@ -1587,21 +1866,125 @@ Berikan format JSON murni TANPA markdown \`\`\`json:
                             if(lw.includes('libur') || lw.includes('cuti')) bg = "background-color: #fca5a5;";
                             else if(lw.includes('sumatif') || lw.includes('pts') || lw.includes('pas') || lw.includes('asesmen')) bg = "background-color: #fef08a;";
                             else if(w !== "") bg = "background-color: #bbf7d0;";
-                            html += `<td style="border:1px solid #000; padding:2px; text-align:center; font-size:8pt; ${bg}">${w}</td>`;
+                            html += `<td style="border:1px solid #000; padding:2px; text-align:center; font-size:8pt; ${bg}">${sanitizeAIHtml(w)}</td>`;
                         });
                     });
                     return html;
                 };
 
-                let promesGanjil = ''; dataAI.promes_ganjil.forEach(p => { promesGanjil += `<tr><td style="border:1px solid #000; padding:6px;">${p.materi}</td><td style="border:1px solid #000; padding:6px; text-align:center;">${p.waktu}</td>`; promesGanjil += renderPromesWeeks(p, ['juli', 'agustus', 'september', 'oktober', 'november', 'desember']); promesGanjil += `</tr>`; });
-                let promesGenap = ''; dataAI.promes_genap.forEach(p => { promesGenap += `<tr><td style="border:1px solid #000; padding:6px;">${p.materi}</td><td style="border:1px solid #000; padding:6px; text-align:center;">${p.waktu}</td>`; promesGenap += renderPromesWeeks(p, ['januari', 'februari', 'maret', 'april', 'mei', 'juni']); promesGenap += `</tr>`; });
+                let promesGanjil = ''; 
+                dataAI.promes_ganjil.forEach(p => { 
+                    promesGanjil += `<tr><td style="border:1px solid #000; padding:6px;">${sanitizeAIHtml(p.materi)}</td><td style="border:1px solid #000; padding:6px; text-align:center;">${sanitizeAIHtml(p.waktu)}</td>`; 
+                    promesGanjil += renderPromesWeeks(p, ['juli', 'agustus', 'september', 'oktober', 'november', 'desember']); 
+                    promesGanjil += `</tr>`; 
+                });
+                
+                let promesGenap = ''; 
+                dataAI.promes_genap.forEach(p => { 
+                    promesGenap += `<tr><td style="border:1px solid #000; padding:6px;">${sanitizeAIHtml(p.materi)}</td><td style="border:1px solid #000; padding:6px; text-align:center;">${sanitizeAIHtml(p.waktu)}</td>`; 
+                    promesGenap += renderPromesWeeks(p, ['januari', 'februari', 'maret', 'april', 'mei', 'juni']); 
+                    promesGenap += `</tr>`; 
+                });
 
-                const ttdHtml = `<table style="width: 100%; border: none; margin-top: 40px; font-size: 11pt; page-break-inside: avoid;" class="avoid-break"><tr><td style="width: 50%; text-align: center; border: none; vertical-align: top;">Mengetahui,<br>Kepala Sekolah<br><br><br><br><br><b style="text-decoration: underline;">${cachedSettings.kepsekName}</b><br>NIP. ${cachedSettings.kepsekNIP !== '-' ? cachedSettings.kepsekNIP : '..........................'}</td><td style="width: 50%; text-align: center; border: none; vertical-align: top;">${cachedSettings.kota}, ${waktuTitimangsaFormatted}<br>Guru Kelas / Mata Pelajaran<br><br><br><br><br><b style="text-decoration: underline;">${cachedSettings.guruName}</b><br>NIP. ${cachedSettings.guruNIP !== '-' ? cachedSettings.guruNIP : '..........................'}</td></tr></table>`;
-                const thMinggu = `<th>1</th><th>2</th><th>3</th><th>4</th><th>5</th>`;
-                const thGanjil = `<th colspan="5">Jul</th><th colspan="5">Ags</th><th colspan="5">Sep</th><th colspan="5">Okt</th><th colspan="5">Nov</th><th colspan="5">Des</th>`;
-                const thGenap = `<th colspan="5">Jan</th><th colspan="5">Feb</th><th colspan="5">Mar</th><th colspan="5">Apr</th><th colspan="5">Mei</th><th colspan="5">Jun</th>`;
+                const thMinggu = `<th style="border:1px solid #000;">1</th><th style="border:1px solid #000;">2</th><th style="border:1px solid #000;">3</th><th style="border:1px solid #000;">4</th><th style="border:1px solid #000;">5</th>`;
+                const thGanjil = `<th colspan="5" style="border:1px solid #000;">Jul</th><th colspan="5" style="border:1px solid #000;">Ags</th><th colspan="5" style="border:1px solid #000;">Sep</th><th colspan="5" style="border:1px solid #000;">Okt</th><th colspan="5" style="border:1px solid #000;">Nov</th><th colspan="5" style="border:1px solid #000;">Des</th>`;
+                const thGenap = `<th colspan="5" style="border:1px solid #000;">Jan</th><th colspan="5" style="border:1px solid #000;">Feb</th><th colspan="5" style="border:1px solid #000;">Mar</th><th colspan="5" style="border:1px solid #000;">Apr</th><th colspan="5" style="border:1px solid #000;">Mei</th><th colspan="5" style="border:1px solid #000;">Jun</th>`;
 
-                const html = `<h1 style="font-size: 14pt; font-weight: bold; text-align:center; text-transform:uppercase;">PROGRAM TAHUNAN</h1><table style="width: 100%; border: none; margin-bottom: 20px; font-size: 11pt;"><tr><td style="width: 25%; padding: 3px 0;">Satuan Pendidikan</td><td style="width: 75%; padding: 3px 0;">: ${cachedSettings.sekolahName}</td></tr><tr><td style="padding: 3px 0;">Mata Pelajaran</td><td style="padding: 3px 0;">: ${mapel}</td></tr><tr><td style="padding: 3px 0;">Kelas</td><td style="padding: 3px 0;">: ${kelas}</td></tr><tr><td style="padding: 3px 0;">Tahun Pelajaran</td><td style="padding: 3px 0;">: ${tahun}</td></tr></table><table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;"><tr><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5; width:5%;">No</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5; width:45%;">Tujuan Pembelajaran</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5; width:35%;">Materi</th><th style="border: 1px solid #000; padding: 6px; background:#e5e5e5; width:15%;">Waktu</th></tr>${protaRows}</table><div class="page-break"></div><h1 style="font-size: 14pt; font-weight: bold; text-align:center; text-transform:uppercase;">PROGRAM SEMESTER (GANJIL)</h1><table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 9pt;"><tr><th rowspan="2" style="border: 1px solid #000; padding: 4px; background:#e5e5e5; width: 25%;">Materi Pokok</th><th rowspan="2" style="border: 1px solid #000; padding: 4px; background:#e5e5e5; width: 5%;">AW</th>${thGanjil}</tr><tr style="background:#f3f4f6; font-size: 8pt;">${thMinggu.repeat(6)}</tr>${promesGanjil}</table><div style="font-size:9pt; margin-top:5px; margin-bottom: 15px;"><b>Keterangan:</b> <span style="background:#bbf7d0; padding:2px 5px; border:1px solid #000;">x JP</span> = Pembelajaran Efektif, <span style="background:#fef08a; padding:2px 5px; border:1px solid #000;">Asesmen/PTS/PAS</span> = Penilaian, <span style="background:#fca5a5; padding:2px 5px; border:1px solid #000;">Libur</span> = Hari Libur Nasional / Kalender Pendidikan</div><div class="page-break"></div><h1 style="font-size: 14pt; font-weight: bold; text-align:center; text-transform:uppercase;">PROGRAM SEMESTER (GENAP)</h1><table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 9pt;"><tr><th rowspan="2" style="border: 1px solid #000; padding: 4px; background:#e5e5e5; width: 25%;">Materi Pokok</th><th rowspan="2" style="border: 1px solid #000; padding: 4px; background:#e5e5e5; width: 5%;">AW</th>${thGenap}</tr><tr style="background:#f3f4f6; font-size: 8pt;">${thMinggu.repeat(6)}</tr>${promesGenap}</table>${ttdHtml}`;
+                const html = `<div style="text-align: center; margin-bottom: 30px;">
+<h1 style="font-size: 16pt; margin: 0; font-weight: bold; text-transform: uppercase;">PROGRAM TAHUNAN</h1>
+<h2 style="font-size: 14pt; margin: 5px 0 0 0; font-weight: bold; text-transform: uppercase;">TAHUN PELAJARAN ${tahun}</h2>
+</div>
+
+<div class="section-label">IDENTIFIKASI SATUAN PENDIDIKAN</div>
+<table class="tbl-identity">
+<tr><td style="width: 30%;">Satuan Pendidikan</td><td style="width: 70%;">: ${cachedSettings.sekolahName}</td></tr>
+<tr><td>Mata Pelajaran</td><td>: ${mapel}</td></tr>
+<tr><td>Fase / Kelas</td><td>: ${kelas}</td></tr>
+</table>
+
+<table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;">
+<thead>
+<tr>
+<th style="border: 1px solid #000; padding: 8px; background:#f3f4f6; width:5%;">No</th>
+<th style="border: 1px solid #000; padding: 8px; background:#f3f4f6; width:45%;">Tujuan Pembelajaran</th>
+<th style="border: 1px solid #000; padding: 8px; background:#f3f4f6; width:35%;">Materi</th>
+<th style="border: 1px solid #000; padding: 8px; background:#f3f4f6; width:15%;">Waktu</th>
+</tr>
+</thead>
+<tbody>
+${protaRows}
+</tbody>
+</table>
+
+<div class="page-break"></div>
+
+<div style="text-align: center; margin-bottom: 30px;">
+<h1 style="font-size: 16pt; margin: 0; font-weight: bold; text-transform: uppercase;">PROGRAM SEMESTER (GANJIL)</h1>
+<h2 style="font-size: 14pt; margin: 5px 0 0 0; font-weight: bold; text-transform: uppercase;">TAHUN PELAJARAN ${tahun}</h2>
+</div>
+<table class="tbl-identity">
+<tr><td style="width: 30%;">Satuan Pendidikan</td><td style="width: 70%;">: ${cachedSettings.sekolahName}</td></tr>
+<tr><td>Mata Pelajaran</td><td>: ${mapel}</td></tr>
+<tr><td>Fase / Kelas</td><td>: ${kelas}</td></tr>
+</table>
+
+<table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 9pt;">
+<thead>
+<tr>
+<th rowspan="2" style="border: 1px solid #000; padding: 8px; background:#f3f4f6; width: 25%;">Materi Pokok</th>
+<th rowspan="2" style="border: 1px solid #000; padding: 8px; background:#f3f4f6; width: 5%;">AW</th>
+${thGanjil}
+</tr>
+<tr style="background:#f3f4f6; font-size: 8pt;">${thMinggu.repeat(6)}</tr>
+</thead>
+<tbody>
+${promesGanjil}
+</tbody>
+</table>
+<div style="font-size:9pt; margin-top:5px; margin-bottom: 15px;"><b>Keterangan:</b> <span style="background:#bbf7d0; padding:2px 5px; border:1px solid #000;">x JP</span> = Pembelajaran Efektif, <span style="background:#fef08a; padding:2px 5px; border:1px solid #000;">Asesmen/PTS/PAS</span> = Penilaian, <span style="background:#fca5a5; padding:2px 5px; border:1px solid #000;">Libur</span> = Hari Libur Nasional / Kalender Pendidikan</div>
+
+<div class="page-break"></div>
+
+<div style="text-align: center; margin-bottom: 30px;">
+<h1 style="font-size: 16pt; margin: 0; font-weight: bold; text-transform: uppercase;">PROGRAM SEMESTER (GENAP)</h1>
+<h2 style="font-size: 14pt; margin: 5px 0 0 0; font-weight: bold; text-transform: uppercase;">TAHUN PELAJARAN ${tahun}</h2>
+</div>
+<table class="tbl-identity">
+<tr><td style="width: 30%;">Satuan Pendidikan</td><td style="width: 70%;">: ${cachedSettings.sekolahName}</td></tr>
+<tr><td>Mata Pelajaran</td><td>: ${mapel}</td></tr>
+<tr><td>Fase / Kelas</td><td>: ${kelas}</td></tr>
+</table>
+
+<table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 9pt;">
+<thead>
+<tr>
+<th rowspan="2" style="border: 1px solid #000; padding: 8px; background:#f3f4f6; width: 25%;">Materi Pokok</th>
+<th rowspan="2" style="border: 1px solid #000; padding: 8px; background:#f3f4f6; width: 5%;">AW</th>
+${thGenap}
+</tr>
+<tr style="background:#f3f4f6; font-size: 8pt;">${thMinggu.repeat(6)}</tr>
+</thead>
+<tbody>
+${promesGenap}
+</tbody>
+</table>
+
+<table class="ttd-block avoid-break">
+<tr>
+<td style="width: 50%; text-align: center; vertical-align: top;">
+Mengetahui,<br>Kepala Sekolah
+<br><br><br><br><br>
+<b style="text-decoration: underline;">${cachedSettings.kepsekName}</b><br>
+NIP. ${cachedSettings.kepsekNIP !== '-' ? cachedSettings.kepsekNIP : '..........................'}
+</td>
+<td style="width: 50%; text-align: center; vertical-align: top;">
+${cachedSettings.kota}, ${waktuTitimangsaFormatted}<br>Guru Kelas / Mata Pelajaran
+<br><br><br><br><br>
+<b style="text-decoration: underline;">${cachedSettings.guruName}</b><br>
+NIP. ${cachedSettings.guruNIP !== '-' ? cachedSettings.guruNIP : '..........................'}
+</td>
+</tr>
+</table>`;
                 showSuccess(html, true);
             } catch(e) { showError(e); } finally { btnGen.disabled = false; btnGen.innerHTML = originalBtnHtml; }
         });
@@ -1617,26 +2000,58 @@ Berikan format JSON murni TANPA markdown \`\`\`json:
                 const tgl = formatDate(document.getElementById('tgl-jurnal').value), jam = document.getElementById('jam-jurnal').value, materi = document.getElementById('materi-jurnal').value;
                 const absS = document.getElementById('absen-s').value || "0", absI = document.getElementById('absen-i').value || "0", absA = document.getElementById('absen-a').value || "0", namaAbsen = document.getElementById('nama-absen-jurnal').value || "-";
 
-                let prompt = `Buatlah uraian Jurnal Mengajar Harian Guru untuk satu pertemuan. Mapel: ${mapel}, Kelas: ${kelas}, Materi Pokok: ${materi}, Model Pembelajaran: ${cachedSettings.model}. Berikan format JSON murni TANPA \`\`\`json: { "uraian_kegiatan": "1 paragraf deskripsi kegiatan inti berdasarkan model", "penilaian": "Bentuk instrumen asesmen harian", "hambatan": "Kemungkinan hambatan teknis/kondisi siswa (1 kalimat)", "tindak_lanjut": "Solusi tindak lanjut (1 kalimat)" }`;
+                let prompt = `Buatlah uraian Jurnal Mengajar Harian Guru untuk satu pertemuan. Mapel: ${mapel}, Kelas: ${kelas}, Materi Pokok: ${materi}, Model Pembelajaran: ${cachedSettings.model}. Berikan format JSON murni TANPA markdown dan TANPA tag html apapun: { "uraian_kegiatan": "1 paragraf deskripsi kegiatan inti berdasarkan model", "penilaian": "Bentuk instrumen asesmen harian", "hambatan": "Kemungkinan hambatan teknis/kondisi siswa (1 kalimat)", "tindak_lanjut": "Solusi tindak lanjut (1 kalimat)" }`;
 
                 const response = await fetchGeminiAPI(prompt);
                 const dataAI = JSON.parse(response.replace(/```json/gi, '').replace(/```/g, '').trim());
                 
-                const ttdHtml = `<table style="width: 100%; border: none; margin-top: 50px; font-size: 11pt; page-break-inside: avoid;" class="avoid-break"><tr><td style="width: 50%; text-align: center; border: none; vertical-align: top;">Mengetahui,<br>Kepala Sekolah<br><br><br><br><br><b style="text-decoration: underline;">${cachedSettings.kepsekName}</b><br>NIP. ${cachedSettings.kepsekNIP !== '-' ? cachedSettings.kepsekNIP : '..........................'}</td><td style="width: 50%; text-align: center; border: none; vertical-align: top;">${cachedSettings.kota}, ${tgl}<br>Guru Kelas / Mata Pelajaran<br><br><br><br><br><b style="text-decoration: underline;">${cachedSettings.guruName}</b><br>NIP. ${cachedSettings.guruNIP !== '-' ? cachedSettings.guruNIP : '..........................'}</td></tr></table>`;
-
                 const html = `
-                <div style="text-align: center; margin-bottom: 30px;"><h1 style="font-size: 16pt; margin: 0; font-weight: bold; text-transform: uppercase;">AGENDA DAN JURNAL MENGAJAR HARIAN GURU</h1><h2 style="font-size: 12pt; margin: 5px 0 0 0; text-transform: uppercase;">SEMESTER ${semester} TAHUN PELAJARAN MASA KINI</h2></div>
-                <table style="width: 100%; border: none; margin-bottom: 25px; font-size: 11pt;"><tr><td style="width: 25%; padding: 3px 0;">Sekolah</td><td style="width: 30%; padding: 3px 0;">: ${cachedSettings.sekolahName}</td><td style="width: 20%; padding: 3px 0;">Fase / Kelas</td><td style="width: 25%; padding: 3px 0;">: ${kelas}</td></tr><tr><td style="padding: 3px 0;">Mata Pelajaran</td><td style="padding: 3px 0;">: ${mapel}</td><td style="padding: 3px 0;">Tanggal</td><td style="padding: 3px 0;">: ${tgl}</td></tr></table>
-                <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;">
-                    <tr><th style="border: 1px solid #000; padding: 8px; width: 25%; background:#e5e5e5; text-align:left;">Komponen Jurnal</th><th style="border: 1px solid #000; padding: 8px; width: 75%; background:#e5e5e5; text-align:left;">Uraian Pelaksanaan</th></tr>
-                    <tr><td style="border: 1px solid #000; padding: 8px; font-weight: bold; vertical-align: top;">Jam Pelajaran Ke</td><td style="border: 1px solid #000; padding: 8px;">${jam}</td></tr>
-                    <tr><td style="border: 1px solid #000; padding: 8px; font-weight: bold; vertical-align: top;">Materi Pembelajaran</td><td style="border: 1px solid #000; padding: 8px;">${materi}</td></tr>
-                    <tr><td style="border: 1px solid #000; padding: 8px; font-weight: bold; vertical-align: top;">Uraian Kegiatan (Inti)</td><td style="border: 1px solid #000; padding: 8px; text-align: justify;">${dataAI.uraian_kegiatan}</td></tr>
-                    <tr><td style="border: 1px solid #000; padding: 8px; font-weight: bold; vertical-align: top;">Bentuk Penilaian Formatif</td><td style="border: 1px solid #000; padding: 8px;">${dataAI.penilaian}</td></tr>
-                    <tr><td style="border: 1px solid #000; padding: 8px; font-weight: bold; vertical-align: top;">Kehadiran Peserta Didik</td><td style="border: 1px solid #000; padding: 8px;">Sakit: ${absS} orang<br>Izin: ${absI} orang<br>Alpa: ${absA} orang<br>Catatan Nama: ${namaAbsen}</td></tr>
-                    <tr><td style="border: 1px solid #000; padding: 8px; font-weight: bold; vertical-align: top;">Hambatan / Catatan Khusus</td><td style="border: 1px solid #000; padding: 8px;">${dataAI.hambatan}</td></tr>
-                    <tr><td style="border: 1px solid #000; padding: 8px; font-weight: bold; vertical-align: top;">Tindak Lanjut Perbaikan</td><td style="border: 1px solid #000; padding: 8px;">${dataAI.tindak_lanjut}</td></tr>
-                </table>${ttdHtml}`;
+                <div style="text-align: center; margin-bottom: 30px;">
+<h1 style="font-size: 16pt; margin: 0; font-weight: bold; text-transform: uppercase;">AGENDA DAN JURNAL MENGAJAR HARIAN GURU</h1>
+<h2 style="font-size: 12pt; margin: 5px 0 0 0; text-transform: uppercase;">SEMESTER ${semester} TAHUN PELAJARAN ${cachedSettings.tahunPelajaran || 'MASA KINI'}</h2>
+</div>
+
+<div class="section-label">IDENTIFIKASI SATUAN PENDIDIKAN</div>
+<table class="tbl-identity">
+<tr><td style="width: 20%;">Sekolah</td><td style="width: 30%;">: ${cachedSettings.sekolahName}</td><td style="width: 20%;">Fase / Kelas</td><td style="width: 30%;">: ${kelas}</td></tr>
+<tr><td>Mata Pelajaran</td><td>: ${mapel}</td><td>Tanggal</td><td>: ${tgl}</td></tr>
+</table>
+
+<div class="section-label">URAIAN PELAKSANAAN PEMBELAJARAN</div>
+<table style="width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 11pt;">
+<thead>
+<tr>
+<th style="border: 1px solid #000; padding: 8px; width: 25%; background:#f3f4f6; text-align:left;">Komponen Jurnal</th>
+<th style="border: 1px solid #000; padding: 8px; width: 75%; background:#f3f4f6; text-align:left;">Uraian Pelaksanaan</th>
+</tr>
+</thead>
+<tbody>
+<tr><td style="border: 1px solid #000; padding: 8px; font-weight: bold; vertical-align: top;">Jam Pelajaran Ke</td><td style="border: 1px solid #000; padding: 8px;">${jam}</td></tr>
+<tr><td style="border: 1px solid #000; padding: 8px; font-weight: bold; vertical-align: top;">Materi Pembelajaran</td><td style="border: 1px solid #000; padding: 8px;">${materi}</td></tr>
+<tr><td style="border: 1px solid #000; padding: 8px; font-weight: bold; vertical-align: top;">Uraian Kegiatan (Inti)</td><td style="border: 1px solid #000; padding: 8px; text-align: justify;">${sanitizeAIHtml(dataAI.uraian_kegiatan)}</td></tr>
+<tr><td style="border: 1px solid #000; padding: 8px; font-weight: bold; vertical-align: top;">Bentuk Penilaian Formatif</td><td style="border: 1px solid #000; padding: 8px;">${sanitizeAIHtml(dataAI.penilaian)}</td></tr>
+<tr><td style="border: 1px solid #000; padding: 8px; font-weight: bold; vertical-align: top;">Kehadiran Peserta Didik</td><td style="border: 1px solid #000; padding: 8px;">Sakit: ${absS} orang<br>Izin: ${absI} orang<br>Alpa: ${absA} orang<br>Catatan Nama: ${namaAbsen}</td></tr>
+<tr><td style="border: 1px solid #000; padding: 8px; font-weight: bold; vertical-align: top;">Hambatan / Catatan Khusus</td><td style="border: 1px solid #000; padding: 8px;">${sanitizeAIHtml(dataAI.hambatan)}</td></tr>
+<tr><td style="border: 1px solid #000; padding: 8px; font-weight: bold; vertical-align: top;">Tindak Lanjut Perbaikan</td><td style="border: 1px solid #000; padding: 8px;">${sanitizeAIHtml(dataAI.tindak_lanjut)}</td></tr>
+</tbody>
+</table>
+
+<table class="ttd-block avoid-break">
+<tr>
+<td style="width: 50%; text-align: center; vertical-align: top;">
+Mengetahui,<br>Kepala Sekolah
+<br><br><br><br><br>
+<b style="text-decoration: underline;">${cachedSettings.kepsekName}</b><br>
+NIP. ${cachedSettings.kepsekNIP !== '-' ? cachedSettings.kepsekNIP : '..........................'}
+</td>
+<td style="width: 50%; text-align: center; vertical-align: top;">
+${cachedSettings.kota}, ${tgl}<br>Guru Kelas / Mata Pelajaran
+<br><br><br><br><br>
+<b style="text-decoration: underline;">${cachedSettings.guruName}</b><br>
+NIP. ${cachedSettings.guruNIP !== '-' ? cachedSettings.guruNIP : '..........................'}
+</td>
+</tr>
+</table>`;
                 showSuccess(html, false);
             } catch(e) { showError(e); } finally { btnGen.disabled = false; btnGen.innerHTML = originalBtnHtml; }
         });
@@ -1672,7 +2087,7 @@ Berikan format JSON murni TANPA markdown \`\`\`json:
             if (activeTab === 'form-jurnal') { pre = "Jurnal_Harian_"; orientation = 'portrait'; }
             let mapelName = "Dokumen"; try { mapelName = document.querySelector(`#${activeTab} .mapel-dynamic-select`).value; } catch(e){}
             
-            html2pdf().set({ margin: 15, filename: `${pre}${mapelName}.pdf`, image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2, useCORS: true }, jsPDF: { unit: 'mm', format: 'a4', orientation: orientation }, pagebreak: { mode: ['avoid-all', 'css', 'legacy'] } }).from(el).save().then(() => { wrapper.style.transform = oldTransform; });
+            html2pdf().set({ margin: [15, 15, 15, 15], filename: `${pre}${mapelName}.pdf`, image: { type: 'png', quality: 1 }, html2canvas: { scale: 3, useCORS: true, letterRendering: true, logging: false, scrollX: 0, scrollY: 0, windowWidth: orientation === 'landscape' ? 1122 : 794 }, jsPDF: { unit: 'mm', format: 'a4', orientation: orientation, compress: true }, pagebreak: { mode: ['css', 'legacy'], avoid: ['.avoid-break', '.ttd-block'] } }).from(el).save().then(() => { wrapper.style.transform = oldTransform; });
         });
 
         document.getElementById('btn-word')?.addEventListener('click', () => {
@@ -1692,6 +2107,25 @@ Berikan format JSON murni TANPA markdown \`\`\`json:
             const blob = new Blob(['\ufeff', header + htmlContent + footer], { type: 'application/msword' });
             const url = URL.createObjectURL(blob); const link = document.createElement('a');
             link.href = url; link.download = `${pre}${mapelName}.doc`; document.body.appendChild(link); link.click(); document.body.removeChild(link); URL.revokeObjectURL(url);
+        });
+
+        /* --- Print PDF (Kualitas Tinggi via browser print dialog) --- */
+        document.getElementById('btn-print')?.addEventListener('click', () => {
+            const wrapper = document.getElementById('pdf-wrapper');
+            const oldTransform = wrapper.style.transform;
+            wrapper.style.transform = 'scale(1)';
+            
+            // Jika landscape mode, tambahkan class khusus untuk @page landscape
+            const isLandscape = wrapper.classList.contains('landscape-mode');
+            if (isLandscape) {
+                document.body.classList.add('printing-landscape');
+            }
+            
+            setTimeout(() => {
+                window.print();
+                wrapper.style.transform = oldTransform;
+                document.body.classList.remove('printing-landscape');
+            }, 300);
         });
 
         async function loadArsip() {
@@ -1737,7 +2171,7 @@ Berikan format JSON murni TANPA markdown \`\`\`json:
                     const pdfWrapper = document.getElementById('pdf-wrapper'); pdfWrapper.classList.remove('hidden');
                     if(docData.jenis === 'ATP' || docData.jenis === 'PROMES') pdfWrapper.classList.add('landscape-mode'); else pdfWrapper.classList.remove('landscape-mode');
                     currentZoom = 1; applyZoom(); 
-                    document.getElementById('btn-download').style.display = 'flex'; document.getElementById('btn-word').style.display = 'flex'; document.getElementById('btn-save-db').style.display = 'none';
+                    document.getElementById('btn-download').style.display = 'flex'; document.getElementById('btn-word').style.display = 'flex'; document.getElementById('btn-print').style.display = 'flex'; document.getElementById('btn-save-db').style.display = 'none';
                     if(window.innerWidth < 1024) document.getElementById('preview-panel').scrollIntoView({ behavior: 'smooth' });
                 }
             } catch (e) { showToast("Gagal memuat dokumen dari Cloud.", "error"); }
