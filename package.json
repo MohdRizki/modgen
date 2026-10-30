@@ -1,11 +1,11 @@
 {
-"name": "spap-modulgen",
-"version": "1.0.0",
-"description": "Aplikasi Sistem Perangkat Ajar Pintar",
-"dependencies": {
-"@google/generative-ai": "^0.2.0"
-},
-"engines": {
-"node": "20.x"
-}
+  "name": "spap-modulgen",
+  "version": "1.0.0",
+  "description": "Aplikasi Sistem Perangkat Ajar Pintar",
+  "dependencies": {
+    "@google/generative-ai": "^0.2.0"
+  },
+  "engines": {
+    "node": "26.x"
+  }
 }
