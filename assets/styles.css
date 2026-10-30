@@ -161,12 +161,19 @@
             color: #0b1b42;
         }
         #pdf-content table { 
-            width: 100%; border-collapse: collapse; 
+            width: 100% !important; 
+            max-width: 100% !important;
+            border-collapse: collapse; 
             margin-bottom: 15px; 
             page-break-inside: auto; /* Allow tables to span pages */
+            box-sizing: border-box;
+        }
+        #pdf-content thead {
+            display: table-header-group;
         }
         #pdf-content tr { 
-            page-break-inside: avoid; 
+            page-break-inside: avoid !important; 
+            break-inside: avoid !important;
             page-break-after: auto; 
         }
         #pdf-content th, #pdf-content td { 
@@ -174,6 +181,8 @@
             padding: 5px 7px; 
             vertical-align: top; 
             font-size: 10pt; /* smaller, more professional content font size */
+            box-sizing: border-box;
+            word-break: break-word;
         }
         #pdf-content th { 
             background-color: #0b1b42; /* Beautiful Navy Header */
@@ -224,50 +233,98 @@
             vertical-align: top;
             font-size: 10pt;
         }
-        .page-break { 
-            page-break-before: always; 
-            break-before: always;
-            height: 0;
-            margin: 0;
-            padding: 0;
+        .page-break, .html2pdf__page-break { 
+            page-break-before: always !important; 
+            break-before: always !important;
+            height: 1px !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            display: block !important;
+            clear: both !important;
         }
-        .avoid-break { page-break-inside: avoid; break-inside: avoid; }
+        .avoid-break { 
+            page-break-inside: avoid !important; 
+            break-inside: avoid !important; 
+        }
         
         .landscape-mode {
             width: 297mm !important;
             min-height: 210mm !important;
+            padding: 12mm 15mm 12mm 15mm !important;
         }
 
         @media print {
-            @page { size: A4 portrait; margin: 15mm; }
-            @page landscape { size: A4 landscape; margin: 15mm; }
             * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
-            body { font-size: 12pt !important; background: white !important; margin: 0 !important; padding: 0 !important; }
+            html, body { 
+                font-size: 11pt !important; 
+                background: white !important; 
+                margin: 0 !important; 
+                padding: 0 !important; 
+                overflow: visible !important;
+                height: auto !important;
+                min-height: auto !important;
+                display: block !important;
+                width: 100% !important;
+            }
             #pdf-wrapper { 
                 box-shadow: none !important; 
                 margin: 0 !important; 
                 padding: 0 !important; 
                 width: 100% !important; 
+                max-width: 100% !important;
                 min-height: auto !important; 
                 height: auto !important; 
                 transform: none !important;
                 border-radius: 0 !important;
                 border: none !important;
+                border-top: none !important;
             }
-            #pdf-content { font-size: 12pt !important; height: auto !important; line-height: 1.6 !important; }
-            #pdf-content table { page-break-inside: auto !important; }
-            #pdf-content tr { page-break-inside: avoid !important; break-inside: avoid !important; }
-            #pdf-content th { background-color: #e8e8e8 !important; }
-            .avoid-break { page-break-inside: avoid !important; break-inside: avoid !important; }
-            .ttd-block { page-break-inside: avoid !important; break-inside: avoid !important; }
-            .page-break { page-break-before: always !important; break-before: always !important; height: 0 !important; }
+            #pdf-content { 
+                font-size: 11pt !important; 
+                height: auto !important; 
+                line-height: 1.5 !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            #pdf-content table { 
+                page-break-inside: auto !important; 
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+            #pdf-content thead {
+                display: table-header-group !important;
+            }
+            #pdf-content tr { 
+                page-break-inside: avoid !important; 
+                break-inside: avoid !important; 
+            }
+            #pdf-content th { 
+                background-color: #f1f5f9 !important; 
+                color: #0b1b42 !important;
+            }
+            .avoid-break { 
+                page-break-inside: avoid !important; 
+                break-inside: avoid !important; 
+            }
+            .ttd-block { 
+                page-break-inside: avoid !important; 
+                break-inside: avoid !important; 
+                margin-top: 30px !important;
+            }
+            .page-break, .html2pdf__page-break { 
+                page-break-before: always !important; 
+                break-before: always !important; 
+                height: 1px !important; 
+                display: block !important;
+                clear: both !important;
+            }
             #sidebar, header, #config-panel, .btn-primary, .btn-secondary, #empty-state, #loading-state, #toast, .bg-pattern-top, #mobile-overlay, #login-screen, #pdf-modal { display: none !important; }
-            #main-content { display: block !important; overflow: visible !important; height: auto !important; }
-            #view-generator { display: block !important; overflow: visible !important; height: auto !important; }
-            #generator-layout { display: block !important; overflow: visible !important; height: auto !important; padding: 0 !important; }
-            #preview-panel { width: 100% !important; background: white !important; border: none !important; padding: 0 !important; overflow: visible !important; box-shadow: none !important; border-radius: 0 !important; }
-            #output-container { background: white !important; padding: 0 !important; overflow: visible !important; }
-            .landscape-mode { page: landscape; }
+            #main-content { display: block !important; overflow: visible !important; height: auto !important; padding: 0 !important; margin: 0 !important; }
+            #view-generator { display: block !important; overflow: visible !important; height: auto !important; padding: 0 !important; margin: 0 !important; }
+            #generator-layout { display: block !important; overflow: visible !important; height: auto !important; padding: 0 !important; margin: 0 !important; }
+            #preview-panel { width: 100% !important; background: white !important; border: none !important; padding: 0 !important; margin: 0 !important; overflow: visible !important; box-shadow: none !important; border-radius: 0 !important; }
+            #output-container { background: white !important; padding: 0 !important; margin: 0 !important; overflow: visible !important; display: block !important; min-height: auto !important; }
         }
 
         .loader { border: 3px solid #e2e8f0; border-top: 3px solid var(--primary); border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; display: inline-block; vertical-align: middle; }

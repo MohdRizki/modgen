@@ -559,19 +559,19 @@ Kunci JSON: { "karakteristik": "...", "dimensi_p5": "...", "pendahuluan": "<ol>.
                 if(dataAI.soal_sumatif) dataAI.soal_sumatif = sanitizeAIHtml(dataAI.soal_sumatif);
 
                 let lampiranHTML = ``;
-                if(hasLkpd && dataAI.lkpd) lampiranHTML += `<div class="page-break"></div>
+                if(hasLkpd && dataAI.lkpd) lampiranHTML += `<div class="page-break html2pdf__page-break"></div>
 <h1>LAMPIRAN: LEMBAR KERJA PESERTA DIDIK (LKPD)</h1>
 <table class="tbl-identity"><tr><td style="width:30%">Nama Kelompok</td><td>: ................................</td></tr><tr><td>Anggota</td><td>: 1. .................. 2. .................. 3. ..................</td></tr><tr><td>Kelas</td><td>: ${kelas}</td></tr></table>
 <h3>Petunjuk Kerja</h3>
 <div style="margin-top: 10px;">${dataAI.lkpd}</div>
 <div style="width: 100%; height: 250px; border: 2px dashed #555; margin-top: 25px; text-align: center; line-height: 250px; color: #999;" class="avoid-break">[ Area Ruang Kerja Kelompok ]</div>`;
 
-                if(hasBahan && dataAI.bahan) lampiranHTML += `<div class="page-break"></div>
+                if(hasBahan && dataAI.bahan) lampiranHTML += `<div class="page-break html2pdf__page-break"></div>
 <h1>LAMPIRAN: BAHAN AJAR GURU</h1>
 <h3>Rangkuman Materi: ${materi}</h3>
 <div style="text-align: justify; margin-top: 10px;">${dataAI.bahan}</div>`;
 
-                if(hasAsesmen && dataAI.soal_sumatif) lampiranHTML += `<div class="page-break"></div>
+                if(hasAsesmen && dataAI.soal_sumatif) lampiranHTML += `<div class="page-break html2pdf__page-break"></div>
 <h1>LAMPIRAN: INSTRUMEN ASESMEN</h1>
 <h3>1. Rubrik Penilaian Observasi</h3>
 <table>
@@ -583,7 +583,7 @@ Kunci JSON: { "karakteristik": "...", "dimensi_p5": "...", "pendahuluan": "<ol>.
 <div style="margin-left: 10px; margin-top: 10px;">${dataAI.soal_sumatif}</div>`;
 
                 if(hasPengayaan || hasJurnal) {
-                    lampiranHTML += `<div class="page-break"></div>`;
+                    lampiranHTML += `<div class="page-break html2pdf__page-break"></div>`;
                     if(hasPengayaan) lampiranHTML += `<h1>LAMPIRAN: PENGAYAAN & REMEDIAL</h1>
 <h3>A. Program Pengayaan</h3>
 <p style="margin-bottom:15px; text-align: justify;">${dataAI.pengayaan || 'Siswa yang telah mencapai ketuntasan diberikan tugas pengayaan berupa proyek mini atau eksplorasi materi lebih mendalam.'}</p>
@@ -856,7 +856,7 @@ ${protaRows}
 </tbody>
 </table>
 
-<div class="page-break"></div>
+<div class="page-break html2pdf__page-break"></div>
 
 <div style="text-align: center; margin-bottom: 30px;">
 <h1 style="font-size: 16pt; margin: 0; font-weight: bold; text-transform: uppercase;">PROGRAM SEMESTER (GANJIL)</h1>
@@ -883,7 +883,7 @@ ${promesGanjil}
 </table>
 <div style="font-size:9pt; margin-top:5px; margin-bottom: 15px;"><b>Keterangan:</b> <span style="background:#bbf7d0; padding:2px 5px; border:1px solid #000;">x JP</span> = Pembelajaran Efektif, <span style="background:#fef08a; padding:2px 5px; border:1px solid #000;">Asesmen/PTS/PAS</span> = Penilaian, <span style="background:#fca5a5; padding:2px 5px; border:1px solid #000;">Libur</span> = Hari Libur Nasional / Kalender Pendidikan</div>
 
-<div class="page-break"></div>
+<div class="page-break html2pdf__page-break"></div>
 
 <div style="text-align: center; margin-bottom: 30px;">
 <h1 style="font-size: 16pt; margin: 0; font-weight: bold; text-transform: uppercase;">PROGRAM SEMESTER (GENAP)</h1>
@@ -1016,34 +1016,115 @@ NIP. ${cachedSettings.guruNIP !== '-' ? cachedSettings.guruNIP : '..............
             finally { if(btn) { btn.innerHTML = ori; btn.disabled = false; } }
         });
 
-        document.getElementById('btn-download')?.addEventListener('click', () => {
-            const el = document.getElementById('pdf-content'); const wrapper = document.getElementById('pdf-wrapper');
-            const oldTransform = wrapper.style.transform; wrapper.style.transform = 'scale(1)';
+        document.getElementById('btn-download')?.addEventListener('click', async () => {
+            const el = document.getElementById('pdf-content'); 
+            const wrapper = document.getElementById('pdf-wrapper');
+            const outputContainer = document.getElementById('output-container');
+            if (!el || !wrapper) return;
+
+            const btn = document.getElementById('btn-download');
+            const oriBtnHtml = btn ? btn.innerHTML : '';
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = `<i class="fas fa-spinner fa-spin mr-1"></i> Menyimpan...`;
+            }
+
+            // Simpan status zoom dan scroll posisi pratinjau
+            const oldTransform = wrapper.style.transform;
+            const oldTransition = wrapper.style.transition;
+            const oldScrollTop = outputContainer ? outputContainer.scrollTop : 0;
+            const oldScrollLeft = outputContainer ? outputContainer.scrollLeft : 0;
+
+            // Matikan transisi dan reset transform serta scroll agar tidak bergeser saat di-capture
+            wrapper.style.transition = 'none';
+            wrapper.style.transform = 'none';
+            if (outputContainer) {
+                outputContainer.scrollTop = 0;
+                outputContainer.scrollLeft = 0;
+            }
+
+            const isLandscape = wrapper.classList.contains('landscape-mode');
+            const orientation = isLandscape ? 'landscape' : 'portrait';
 
             let activeTab = document.querySelector('.gen-tab-btn.bg-white')?.dataset.target;
-            let pre = "Modul_Ajar_"; let orientation = 'portrait';
-            if (activeTab === 'form-atp') { pre = "ATP_"; orientation = 'landscape'; }
-            if (activeTab === 'form-prota') { pre = "Prota_Promes_"; orientation = 'landscape'; }
-            if (activeTab === 'form-jurnal') { pre = "Jurnal_Harian_"; orientation = 'portrait'; }
-            let mapelName = "Dokumen"; try { mapelName = document.querySelector(`#${activeTab} .mapel-dynamic-select`).value; } catch(e){}
-            
-            html2pdf().set({ margin: [15, 15, 15, 15], filename: `${pre}${mapelName}.pdf`, image: { type: 'png', quality: 1 }, html2canvas: { scale: 3, useCORS: true, letterRendering: true, logging: false, scrollX: 0, scrollY: 0, windowWidth: orientation === 'landscape' ? 1122 : 794 }, jsPDF: { unit: 'mm', format: 'a4', orientation: orientation, compress: true }, pagebreak: { mode: ['css', 'legacy'], avoid: ['.avoid-break', '.ttd-block'] } }).from(el).save().then(() => { wrapper.style.transform = oldTransform; });
+            let pre = isLandscape ? "Dokumen_Landscape_" : "Modul_Ajar_";
+            if (activeTab === 'form-modul') pre = "Modul_Ajar_";
+            else if (activeTab === 'form-atp' || isLandscape) pre = "ATP_";
+            if (activeTab === 'form-prota') pre = "Prota_Promes_";
+            if (activeTab === 'form-jurnal') pre = "Jurnal_Harian_";
+
+            let mapelName = "Dokumen";
+            try { 
+                const sel = document.querySelector(`#${activeTab} .mapel-dynamic-select`);
+                if (sel && sel.value) mapelName = sel.value;
+            } catch(e){}
+
+            // Beri jeda agar DOM browser me-render reset skala
+            await new Promise(r => setTimeout(r, 120));
+
+            const opt = {
+                margin: isLandscape ? [12, 15, 12, 15] : [15, 15, 15, 15], // mm: [atas, kiri, bawah, kanan]
+                filename: `${pre}${mapelName}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: {
+                    scale: 2,
+                    useCORS: true,
+                    letterRendering: true,
+                    logging: false,
+                    scrollY: 0,
+                    scrollX: 0
+                },
+                jsPDF: {
+                    unit: 'mm',
+                    format: 'a4',
+                    orientation: orientation,
+                    compress: true
+                },
+                pagebreak: {
+                    mode: ['avoid-all', 'css', 'legacy'],
+                    before: ['.page-break', '.html2pdf__page-break'],
+                    avoid: ['tr', '.avoid-break', '.ttd-block', 'h1', 'h2', 'h3', '.section-label']
+                }
+            };
+
+            try {
+                await html2pdf().set(opt).from(el).save();
+                showToast("PDF berhasil diunduh!", "success");
+            } catch (err) {
+                console.error("Gagal cetak PDF:", err);
+                showToast("Gagal mengunduh PDF.", "error");
+            } finally {
+                wrapper.style.transform = oldTransform;
+                wrapper.style.transition = oldTransition;
+                if (outputContainer) {
+                    outputContainer.scrollTop = oldScrollTop;
+                    outputContainer.scrollLeft = oldScrollLeft;
+                }
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = oriBtnHtml;
+                }
+            }
         });
 
         document.getElementById('btn-word')?.addEventListener('click', () => {
             const el = document.getElementById('pdf-content');
+            const wrapper = document.getElementById('pdf-wrapper');
+            const isLandscape = wrapper ? wrapper.classList.contains('landscape-mode') : false;
+
             let activeTab = document.querySelector('.gen-tab-btn.bg-white')?.dataset.target;
-            let pre = "Modul_Ajar_"; let isLandscape = false;
-            if (activeTab === 'form-atp') { pre = "ATP_"; isLandscape = true; }
-            if (activeTab === 'form-prota') { pre = "Prota_Promes_"; isLandscape = true; }
-            if (activeTab === 'form-jurnal') { pre = "Jurnal_Harian_"; isLandscape = false; }
+            let pre = isLandscape ? "Dokumen_Landscape_" : "Modul_Ajar_";
+            if (activeTab === 'form-modul') pre = "Modul_Ajar_";
+            if (activeTab === 'form-atp' || isLandscape) pre = "ATP_";
+            if (activeTab === 'form-prota') pre = "Prota_Promes_";
+            if (activeTab === 'form-jurnal') pre = "Jurnal_Harian_";
             let mapelName = "Dokumen"; try { mapelName = document.querySelector(`#${activeTab} .mapel-dynamic-select`).value; } catch(e){}
 
             const pageConfig = isLandscape ? `size: 29.7cm 21cm; mso-page-orientation: landscape;` : `size: 21cm 29.7cm;`;
             const header = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>${pre}${mapelName}</title><style>@page Section1 { ${pageConfig} margin: 1.5cm; mso-header-margin: 35.4pt; mso-footer-margin: 35.4pt; mso-paper-source: 0; } div.Section1 { page: Section1; } body { font-family: "Times New Roman"; font-size: 12pt; text-align: justify; line-height: 1.5; } p { margin: 0 0 12pt 0; } table { border-collapse: collapse; width: 100%; } th, td { border: 1px solid black; padding: 6px 8px; vertical-align: top; } th { background-color: #e5e5e5; text-align: center; font-weight: bold; } .text-center { text-align: center; } .font-bold { font-weight: bold; }</style></head><body><div class="Section1">`;
             const footer = "</div></body></html>";
             
-            let htmlContent = el.innerHTML.replace(/<div class="page-break"><\/div>/g, "<br clear=all style='mso-special-character:line-break;page-break-before:always'>");
+            let htmlContent = el.innerHTML.replace(/<div class="[^"]*page-break[^"]*"><\/div>/g, "<br clear=all style='mso-special-character:line-break;page-break-before:always'>");
             const blob = new Blob(['\ufeff', header + htmlContent + footer], { type: 'application/msword' });
             const url = URL.createObjectURL(blob); const link = document.createElement('a');
             link.href = url; link.download = `${pre}${mapelName}.doc`; document.body.appendChild(link); link.click(); document.body.removeChild(link); URL.revokeObjectURL(url);
@@ -1052,20 +1133,38 @@ NIP. ${cachedSettings.guruNIP !== '-' ? cachedSettings.guruNIP : '..............
         /* --- Print PDF (Kualitas Tinggi via browser print dialog) --- */
         document.getElementById('btn-print')?.addEventListener('click', () => {
             const wrapper = document.getElementById('pdf-wrapper');
+            if (!wrapper) return;
             const oldTransform = wrapper.style.transform;
-            wrapper.style.transform = 'scale(1)';
+            const oldTransition = wrapper.style.transition;
+            wrapper.style.transition = 'none';
+            wrapper.style.transform = 'none';
             
-            // Jika landscape mode, tambahkan class khusus untuk @page landscape
             const isLandscape = wrapper.classList.contains('landscape-mode');
+            
+            // Injeksi tag @page dinamis agar dialog print browser langsung mengatur orientasi dan margin presisi
+            let printStyle = document.getElementById('dynamic-print-style');
+            if (!printStyle) {
+                printStyle = document.createElement('style');
+                printStyle.id = 'dynamic-print-style';
+                document.head.appendChild(printStyle);
+            }
+            
+            printStyle.innerHTML = isLandscape 
+                ? `@page { size: A4 landscape; margin: 12mm 15mm 12mm 15mm; }` 
+                : `@page { size: A4 portrait; margin: 15mm 15mm 15mm 15mm; }`;
+            
             if (isLandscape) {
                 document.body.classList.add('printing-landscape');
+            } else {
+                document.body.classList.remove('printing-landscape');
             }
             
             setTimeout(() => {
                 window.print();
                 wrapper.style.transform = oldTransform;
+                wrapper.style.transition = oldTransition;
                 document.body.classList.remove('printing-landscape');
-            }, 300);
+            }, 250);
         });
         document.getElementById('btn-gdocs')?.addEventListener('click', async () => {
             const url = cachedSettings.gdocsUrl;
